@@ -4,7 +4,7 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solace.psg.sempv2.interfaces.*;
+import picocli.CommandLine;
 
 
 /**
@@ -17,19 +17,19 @@ public class ClientCliApp
 
 	public static void main( String[] args )
     {
-		if (args.length < 2)
+		/*if (args.length < 2)
 		{
 			logger.error("Arguments must contain username and password passed: app.jar <uysername> <password>");
 			System.exit(-1);
-		}
+		}*/
 
         try
 		{
-			ServiceFacade sf = new ServiceFacade(args[0], args[1]);
+        	CommandLine.run(new SolCommand(), args);
 		}
 		catch (Exception e)
 		{
-			logger.error("ClietApp exception occured: {}", e.getMessage()); 
+			logger.error("Client CLI App exception occured: {}, {}", e.getMessage(), e.getCause()); 
 		}
     }
 }
