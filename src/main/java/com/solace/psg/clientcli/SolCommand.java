@@ -28,9 +28,10 @@ public class SolCommand implements Runnable
 	public void helpCommand() {
 	    System.out.println("Usage sol: sol command [parameters] \n");  
 	    System.out.println("To login to Solace Cloud Console Account:");
-	    System.out.println(" sol login [-u, -username=<username>] [-p, -password=<password>]  \n");
+	    System.out.println(" sol login [-u, -username=<username>] [-p, -password=<password>] [-n] \n");
 	    System.out.println("To display the current Client CLI version:");
 	    System.out.println(" sol version \n");
+	    System.out.println(" Type sol <command> -h or -help for detailed help on the command usage. \n");
 	}
 
 	public void run()
