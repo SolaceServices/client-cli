@@ -127,7 +127,7 @@ public class SolRolesCommand implements Runnable
 			System.out.print("     ");
 			for (Permission perm : perms)
 			{
-				System.out.print("[" + perm.getName() + "]   "); 
+				System.out.print("[" + perm.getName() + "] "); 
 			}
 		}
 	}

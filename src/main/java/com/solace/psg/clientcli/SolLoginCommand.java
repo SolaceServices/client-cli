@@ -108,13 +108,13 @@ public class SolLoginCommand implements Runnable
 		}
 		catch (ApiException e)
 		{
-			System.out.println("Error occured while running login command: " + e.getResponseBody());
-			logger.error("Error occured while running login command: {}", e.getResponseBody());
+			System.out.println("Error occurred while running login command: " + e.getResponseBody());
+			logger.error("Error occurred while running login command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occured while running login command: " + e.getMessage());
-			logger.error("Error occured while running login command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occurred while running login command: " + e.getMessage());
+			logger.error("Error occurred while running login command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 }

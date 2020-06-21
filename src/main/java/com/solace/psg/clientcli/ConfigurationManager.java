@@ -277,38 +277,38 @@ public class ConfigurationManager
 	}
 	
 	/**
-	 * Sets current VPN name.
+	 * Sets current VPN/service name.
 	 * @param name name
 	 */
-	public void seCurrentVpnName(String name)
+	public void setCurrentServiceName(String name)
 	{
-		props.setProperty("currentVpnName", name);
+		props.setProperty("currentServiceName", name);
 	}
 
 	/**
-	 * Gets current VPN name.
+	 * Gets current VPN/service name.
 	 * @return name
 	 */
-	public String geCurrentVpnName()
+	public String getCurrentServiceName()
 	{
-		return props.getProperty("currentVpnName");
+		return props.getProperty("currentServiceName");
 	}
 
 	/**
 	 * Sets current VPN name.
 	 * @param id id
 	 */
-	public void seCurrentVpnId(String id)
+	public void setCurrentServiceId(String id)
 	{
-		props.setProperty("currentVpnId", id);
+		props.setProperty("currentServiceId", id);
 	}
 
 	/**
-	 * Gets current VPN id.
+	 * Gets current service id.
 	 * @return id
 	 */
-	public String geCurrentVpnId()
+	public String getCurrentServiceId()
 	{
-		return props.getProperty("currentVpnId");
+		return props.getProperty("currentServiceId");
 	}	
 }
