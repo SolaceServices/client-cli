@@ -220,7 +220,7 @@ public class ConfigurationManager
 		String password = props.getProperty("cloudPassword");
 		
 		if (password != null && password.startsWith(ENC))
-			password = decryptPassword(password.substring(1));
+			password = decryptPassword(password.substring(ENC.length()-1));
 		
 		return password;
 	}
@@ -231,7 +231,11 @@ public class ConfigurationManager
 	 */
 	public void setCloudAccountPassword(String password) throws Exception
 	{
-		String encPass = ENC + encryptPassword(password);
+		String encPass = null;
+		if (encryptDetails)
+			encPass = ENC + encryptPassword(password);
+		else
+			encPass = password;
 				
 		props.setProperty("cloudPassword", encPass);
 	}
@@ -246,7 +250,7 @@ public class ConfigurationManager
 		String token = props.getProperty("cloudToken");
 		
 		if (token != null && token.startsWith(ENC))
-			token = decryptPassword(token.substring(1));
+			token = decryptPassword(token.substring(ENC.length()-1));
 		
 		return token;
 	}
@@ -257,7 +261,11 @@ public class ConfigurationManager
 	 */
 	public void setCloudAccountToken(String token) throws Exception
 	{
-		String encPass = ENC + encryptPassword(token);
+		String encPass = null;
+		if (encryptDetails)
+			encPass = ENC + encryptPassword(token);
+		else
+			encPass = token;
 				
 		props.setProperty("cloudToken", encPass);
 	}

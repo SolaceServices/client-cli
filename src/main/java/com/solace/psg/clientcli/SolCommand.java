@@ -58,5 +58,4 @@ public class SolCommand implements Runnable
 	{
 		System.out.println("For detailed usage run with 'help' parameter.");
 	}
-
 }
