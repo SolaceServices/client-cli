@@ -19,27 +19,20 @@
  */
 package com.solace.psg.clientcli;
 
-import picocli.CommandLine.Command;
-
 /**
- * Command class to display version.
- * 
+ * Class to hold global constants.
  * @author VictorTsonkov
  *
  */
-@Command(name = "version",description = "Displays the library version.")
-public class SolVersionCommand implements Runnable 
+public class ClientCliGlobals
 {
+	public final static String VERSION = "0.0.1";
 
 	/**
-	 * Initialises a new instance of the class.
+	 * This class should not be instantiated.
 	 */
-	public SolVersionCommand()
+	private ClientCliGlobals()
 	{
 	}
 
-	public void run()
-	{
-		System.out.println("Solace Client CLI version: " + ClientCliGlobals.VERSION);
-	}
 }

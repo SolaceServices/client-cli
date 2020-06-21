@@ -19,6 +19,10 @@
  */
 package com.solace.psg.clientcli;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,24 +33,15 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * Command class to handle login.
+ * Command class to handle service lists.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "login",description = "Login to a solace cloud account.")
-public class SolLoginCommand implements Runnable 
+@Command(name = "details",description = "Lists service details.")
+public class SolServiceDetailsCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolLoginCommand.class);
-
-	@Option(names = {"-u", "-username"})
-	private String username;
-	
-	@Option(names = {"-p", "-password"})	
-	private String password;
-	
-	@Option(names = {"-n"})
-	private boolean show;
+	private static final Logger logger = LogManager.getLogger(SolServiceDetailsCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -55,7 +50,7 @@ public class SolLoginCommand implements Runnable
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolLoginCommand()
+	public SolServiceDetailsCommand()
 	{
 	}
 
@@ -70,6 +65,7 @@ public class SolLoginCommand implements Runnable
 	    System.out.println(" -n        - does not print in command line the token generated for the Solace Cloud Console Account");
 	    System.out.println(" Example command: sol login -u=John.Smith@example.com -p=hotshot -n");
 	}
+	
 	
 	/**
 	 * Runs the command.
@@ -86,31 +82,15 @@ public class SolLoginCommand implements Runnable
 		
 		try
 		{
-			ConfigurationManager config = ConfigurationManager.getInstance();
-			ServiceFacade sf = new ServiceFacade(username, password);
-			
-			String token = sf.getCurrentAccessToken();
-			
-			if (!show)
-				System.out.println("The following login token was generated: \n " + token);
-			
-			if (token != null)
-			{
-				config.setCloudAccountUsername(username);
-				config.setCloudAccountPassword(password);
-				config.setCloudAccountToken(token);
+			System.out.println("Listing services:");		
 				
-				// store the input data into the configuration file.
-				config.store();
-				
-				System.out.println("Login to Solace Cloud Console successful.");
-			}
+			
 		}
-		catch (ApiException e)
+		/*catch (ApiException e)
 		{
 			System.out.println("Error occured while running login command: " + e.getResponseBody());
 			logger.error("Error occured while running login command: {}", e.getResponseBody());
-		}
+		}*/
 		catch (Exception e)
 		{
 			System.out.println("Error occured while running login command: " + e.getMessage());
