@@ -37,7 +37,8 @@ import picocli.CommandLine.Option;
 @Command(name = "service", description = "Handles service operations.", subcommands = {
 	      SolServiceDetailsCommand.class,
 	      SolServiceListCommand.class,
-	      SolServiceSetCommand.class	      
+	      SolServiceSetCommand.class,
+	      SolServicePurgeCommand.class
 })
 public class SolServiceCommand implements Runnable 
 {
@@ -62,6 +63,7 @@ public class SolServiceCommand implements Runnable
 	    System.out.println(" sol service: ");
 	    System.out.println(" list - lists all services for a Solace Cloud Console Account");
 	    System.out.println(" details - lists all service details for a service");
+	    System.out.println(" purge - Purges a queue");
 	    System.out.println(" set - sets a service as the default service context by service name or service ID");
 
 	    System.out.println(" Example command: sol service list");

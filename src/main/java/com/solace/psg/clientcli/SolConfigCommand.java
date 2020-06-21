@@ -32,13 +32,13 @@ import picocli.CommandLine.Option;
  * @author VictorTsonkov
  *
  */
-@Command(name = "config",description = "Config settings.")
+@Command(name = "config", description = "Config settings.")
 public class SolConfigCommand implements Runnable 
 {
 	private static final Logger logger = LogManager.getLogger(SolConfigCommand.class);
 
-	@Option(names = {"-e", "-encrypt"}, defaultValue = "true")
-	private Boolean encrypt;
+	@Option(names = {"-d", "-decrypted"} )
+	private Boolean decrypt;
 	
 	
 	@Option(names = {"-h", "-help"})
@@ -57,9 +57,9 @@ public class SolConfigCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol config [-e, -encrypt] \n");
+	    System.out.println(" sol config [-d, -decrypted] \n");
 
-	    System.out.println(" Example command: sol config -e");
+	    System.out.println(" Example command: sol config -d");
 	}
 	
 	/**
@@ -79,8 +79,7 @@ public class SolConfigCommand implements Runnable
 		{
 			ConfigurationManager config = ConfigurationManager.getInstance();
 			
-
-			config.setEncryptDetails(encrypt);
+			config.setEncryptDetails(decrypt);
 
 			// store the input data into the configuration file.
 			config.store();
@@ -89,8 +88,8 @@ public class SolConfigCommand implements Runnable
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occurred while running login command: " + e.getMessage());
-			logger.error("Error occurred while running login command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occurred while running config command: " + e.getMessage());
+			logger.error("Error occurred while running config command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 }
