@@ -31,7 +31,8 @@ import picocli.CommandLine.Command;
 			      SolServiceCommand.class,
 			      SolUserCommand.class,
 			      SolRolesCommand.class,
-			      SolVersionCommand.class
+			      SolVersionCommand.class,
+			      SolConfigCommand.class			      
 })
 public class SolCommand implements Runnable 
 {

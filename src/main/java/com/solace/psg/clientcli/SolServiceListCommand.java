@@ -90,7 +90,7 @@ public class SolServiceListCommand implements Runnable
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
 			{
-				System.out.println("Token is not set. Try login first.");	
+				System.out.println("Token is not set. Try to login first.");	
 				return;
 			}
 			

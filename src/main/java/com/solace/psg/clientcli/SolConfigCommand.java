@@ -22,26 +22,24 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * Command class to handle service operations.
+ * Command class to handle login.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "service", description = "Handles service operations.", subcommands = {
-	      SolServiceDetailsCommand.class,
-	      SolServiceListCommand.class,
-	      SolServiceSetCommand.class	      
-})
-public class SolServiceCommand implements Runnable 
+@Command(name = "config",description = "Config settings.")
+public class SolConfigCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolConfigCommand.class);
+
+	@Option(names = {"-e", "-encrypt"}, defaultValue = "true")
+	private Boolean encrypt;
+	
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -50,7 +48,7 @@ public class SolServiceCommand implements Runnable
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceCommand()
+	public SolConfigCommand()
 	{
 	}
 
@@ -59,12 +57,9 @@ public class SolServiceCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service: ");
-	    System.out.println(" list - lists all services for a Solace Cloud Console Account");
-	    System.out.println(" details - lists all service details for a service");
-	    System.out.println(" set - sets a service as the default service context by service name or service ID");
+	    System.out.println(" sol config [-e, -encrypt] \n");
 
-	    System.out.println(" Example command: sol service list");
+	    System.out.println(" Example command: sol config -e");
 	}
 	
 	/**
@@ -72,7 +67,7 @@ public class SolServiceCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running service command.");
+		logger.debug("Running config command.");
 		
 		if (help)
 		{
@@ -82,15 +77,16 @@ public class SolServiceCommand implements Runnable
 		
 		try
 		{
-				
-			System.out.println("Missing parameters for command. Try invokig command with -h for list of parameters.");
+			ConfigurationManager config = ConfigurationManager.getInstance();
 			
+
+			config.setEncryptDetails(encrypt);
+
+			// store the input data into the configuration file.
+			config.store();
+			
+			System.out.println("Config values saved.");
 		}
-		/*catch (ApiException e)
-		{
-			System.out.println("Error occurred while running login command: " + e.getResponseBody());
-			logger.error("Error occurred while running login command: {}", e.getResponseBody());
-		}*/
 		catch (Exception e)
 		{
 			System.out.println("Error occurred while running login command: " + e.getMessage());

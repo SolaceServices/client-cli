@@ -91,6 +91,11 @@ public class SolServiceDetailsCommand implements Runnable
 		{
 			System.out.println("Listing service details:");
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
+			if (token == null || token.isEmpty() )
+			{
+				System.out.println("Token is not set. Try to login first.");	
+				return;
+			}
 			
 			ServiceFacade sf = new ServiceFacade(token);
 			ServiceDetails sd = null;

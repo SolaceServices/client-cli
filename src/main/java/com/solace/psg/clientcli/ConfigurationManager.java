@@ -49,6 +49,8 @@ public class ConfigurationManager
 	private String filename;
 	
 	private Properties props = new Properties();
+	
+	private boolean encryptDetails = true;
 
 	private static ConfigurationManager instance = new ConfigurationManager();
 	
@@ -107,7 +109,9 @@ public class ConfigurationManager
 			{
 				input = new FileInputStream(propsFile);
 				
-				props.load(input);			
+				props.load(input);		
+				
+				encryptDetails = getEncryptDetails();
 			}
 		}
 		catch(Exception ex)
@@ -311,4 +315,22 @@ public class ConfigurationManager
 	{
 		return props.getProperty("currentServiceId");
 	}	
+	
+	/**
+	 * Get encrypt details.
+	 * @return
+	 */
+	public Boolean getEncryptDetails()
+	{
+		return Boolean.valueOf(props.getProperty("encryptDetails"));
+	}
+
+	/**
+	 * Mock Stream dataFusion service.
+	 * @return
+	 */
+	public void setEncryptDetails(boolean value)
+	{
+		props.setProperty("encryptDetails", Boolean.toString(value));
+	}
 }
