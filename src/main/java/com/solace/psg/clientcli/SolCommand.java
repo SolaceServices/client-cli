@@ -27,12 +27,14 @@ import picocli.CommandLine.Command;
  *
  */
 @Command(subcommands = {
-			      SolLoginCommand.class,
-			      SolServiceCommand.class,
-			      SolUserCommand.class,
-			      SolRolesCommand.class,
-			      SolVersionCommand.class,
-			      SolConfigCommand.class			      
+		SolConfigCommand.class,	
+		SolDcCommand.class,
+		SolLoginCommand.class,
+		SolRolesCommand.class,
+		SolServiceCommand.class,
+		SolUserCommand.class,
+		SolVersionCommand.class
+			      		      
 })
 public class SolCommand implements Runnable 
 {

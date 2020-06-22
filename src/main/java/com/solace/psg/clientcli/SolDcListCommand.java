@@ -23,14 +23,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
-import org.apache.commons.lang.StringUtils;
+
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.maven.shared.utils.StringUtils;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
-import com.solace.psg.sempv2.admin.model.User;
+import com.solace.psg.sempv2.admin.model.DataCenter;
+
 import com.solace.psg.sempv2.apiclient.ApiException;
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
 import com.solace.psg.tablereporter.Block;
@@ -41,15 +43,15 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * Command class to handle user lists.
+ * Command class to handle DC lists.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "list",description = "Lists user details.")
-public class SolUserListCommand implements Runnable 
+@Command(name = "list",description = "Lists dc details.")
+public class SolDcListCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolUserListCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolDcListCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -58,7 +60,7 @@ public class SolUserListCommand implements Runnable
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolUserListCommand()
+	public SolDcListCommand()
 	{
 	}
 
@@ -67,10 +69,10 @@ public class SolUserListCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol user list \n");
-	    System.out.println(" list - lists all services for Solace Cloud Console Account");
+	    System.out.println(" sol dc list \n");
+	    System.out.println(" list - lists all data centers for Solace Cloud Console Account");
 
-	    System.out.println(" Example command: sol service list");
+	    System.out.println(" Example command: sol dc list");
 	}
 	
 	/**
@@ -78,7 +80,7 @@ public class SolUserListCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running user list command.");
+		logger.debug("Running DC list command.");
 		
 		if (help)
 		{
@@ -88,7 +90,7 @@ public class SolUserListCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Listing users:");	
+			System.out.println("Listing Data centers:");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
@@ -98,38 +100,38 @@ public class SolUserListCommand implements Runnable
 			}
 			
 			ServiceFacade sf = new ServiceFacade(token);	
-			List<User> users = sf.getAllUsers();
+			List<DataCenter> dcs = sf.getDataCenters();
 			
-			printResults(users, "");		
+			printResults(dcs, "");		
 		}
 		catch (ApiException e)
 		{
-			System.out.println("Error occured while running list command: " + e.getResponseBody());
-			logger.error("Error occured while running list command: {}", e.getResponseBody());
+			System.out.println("Error occurred while running list command: " + e.getResponseBody());
+			logger.error("Error occurred while running list command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occured while running list command: " + e.getMessage());
-			logger.error("Error occured while running list command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occurred while running list command: " + e.getMessage());
+			logger.error("Error occurred while running list command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 	
-	private void printResults(List<User> users, String message) throws IOException
+	private void printResults(List<DataCenter> dcs, String message) throws IOException
 	{
 		System.out.println(message);
-		logger.debug("Printing user list");
+		logger.debug("Printing DC list");
 		
-		List<String> headersList = Arrays.asList("User ID", "First Name", "Last Name", "Email", "Company", "Organization ID", "User state");
+		List<String> headersList = Arrays.asList("Provider", "Display name", "Certificate ID", "Continent", "Access type", "Cloud type", "Private", "Available", "Admin state", "Latitude ", "Longtitude");
 
-		List<List<String>> rowsList = new ArrayList<List<String>>(users.size());
+		List<List<String>> rowsList = new ArrayList<List<String>>(dcs.size());
 
-		for (User user : users)
+		for (DataCenter dc : dcs)
 		{
-			rowsList.add(Arrays.asList(user.getUserId(), StringUtils.abbreviate(user.getFirstName(), 14), StringUtils.abbreviate(user.getLastName(), 14), StringUtils.abbreviate(user.getEmail(), 38), StringUtils.abbreviate(Objects.toString(user.getCompany(), ""),  23), Objects.toString(user.getOrganizationId(), ""), user.getState()));
+			rowsList.add(Arrays.asList(dc.getProvider(), StringUtils.abbreviate(dc.getDisplayName().replace("\t", " "), 30), dc.getServerCertificateId(), dc.getContinent(), dc.getAccessType(), dc.getCloudType(), ""+ dc.getIsPrivate(), ""+ dc.getAvailable(), dc.getAdminState(), dc.getLat(), dc.getLng() ));
 		}
 		
-		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_CENTER, Block.DATA_CENTER);
-		List<Integer> colWidthsListEdited = Arrays.asList(14, 15, 15, 40, 25, 15, 12);
+		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_CENTER, Block.DATA_CENTER, Block.DATA_MIDDLE_RIGHT, Block.DATA_MIDDLE_RIGHT);
+		List<Integer> colWidthsListEdited = Arrays.asList(12, 35, 14, 14, 11, 11, 9, 10, 14, 10, 11);
 		int width = Board.getRecommendedWidth(colWidthsListEdited, true);
 				
 		Board board = new Board(width);	

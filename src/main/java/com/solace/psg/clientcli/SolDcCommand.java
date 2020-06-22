@@ -22,24 +22,22 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * Command class to handle user operations.
+ * Command class to handle dc operations.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "user", description = "Handles user operations.", subcommands = {
-	      SolUserListCommand.class
+@Command(name = "dc", description = "Handles data center operations.", subcommands = {
+	      SolDcListCommand.class
 })
-public class SolUserCommand implements Runnable 
+public class SolDcCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolUserCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolDcCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -47,7 +45,7 @@ public class SolUserCommand implements Runnable
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolUserCommand()
+	public SolDcCommand()
 	{
 	}
 
@@ -56,9 +54,9 @@ public class SolUserCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol user: \n");
-	    System.out.println(" list - lists all users for Solace Cloud Console Account");
-	    System.out.println(" Example command: sol user list");
+	    System.out.println(" sol dc: \n");
+	    System.out.println(" list - lists all data centers for Solace Cloud Console Account");
+	    System.out.println(" Example command: sol dc list");
 	}
 	
 	/**
