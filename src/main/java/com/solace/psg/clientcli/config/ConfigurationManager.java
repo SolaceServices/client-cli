@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.solace.psg.clientcli;
+package com.solace.psg.clientcli.config;
 
 /**
  * Copyright 2020 Solace Systems, Inc. All rights reserved.
@@ -151,14 +151,14 @@ public class ConfigurationManager
 		finally
 		{
 			if (output != null)
-				try
-				{
-					output.close();
-				}
-				catch (IOException e)
-				{
-					logger.error("Error while trying to close config file: {} ", e.getMessage());
-				}
+			try
+			{
+				output.close();
+			}
+			catch (IOException e)
+			{
+				logger.error("Error while trying to close config file: {} ", e.getMessage());
+			}
 		}
     }			
 	
@@ -220,7 +220,7 @@ public class ConfigurationManager
 		String password = props.getProperty("cloudPassword");
 		
 		if (password != null && password.startsWith(ENC))
-			password = decryptPassword(password.substring(ENC.length()-1));
+			password = decryptPassword(password.substring(ENC.length()));
 		
 		return password;
 	}
@@ -250,7 +250,7 @@ public class ConfigurationManager
 		String token = props.getProperty("cloudToken");
 		
 		if (token != null && token.startsWith(ENC))
-			token = decryptPassword(token.substring(ENC.length()-1));
+			token = decryptPassword(token.substring(ENC.length()));
 		
 		return token;
 	}

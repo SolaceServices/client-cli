@@ -22,6 +22,7 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.solace.psg.clientcli.config.ConfigurationManager;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;

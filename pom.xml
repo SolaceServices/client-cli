@@ -12,7 +12,12 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven-compiler-source>1.7</maven-compiler-source>
+    <maven-compiler-target>1.7</maven-compiler-target>
+    <maven-compiler-plugin-version>3.8.0</maven-compiler-plugin-version>
+	<property></property>
   </properties>
+
 
   <dependencies>
   
@@ -31,9 +36,14 @@
 	<dependency>
 	    <groupId>info.picocli</groupId>
 	    <artifactId>picocli</artifactId>
-	    <version>3.9.6</version>
+	    <version>4.3.2</version>
 	</dependency>
-    
+	<dependency>
+	  <groupId>info.picocli</groupId>
+	  <artifactId>picocli-codegen</artifactId>
+	  <version>4.3.2</version>
+	  <scope>provided</scope>
+	</dependency>    
     <!-- Jackson YAML -->
 	<dependency>
 	  <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -68,7 +78,7 @@
   
   <build>
     <plugins>
-     <plugin>
+       <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
           <executions>
               <execution>
@@ -82,21 +92,49 @@
               </execution>
           </executions>
       </plugin>    
-	  <plugin>
-	      <!-- Build an executable JAR -->
-	      <groupId>org.apache.maven.plugins</groupId>
-	      <artifactId>maven-jar-plugin</artifactId>
-	      <version>3.1.0</version>
-	      <configuration>
-	        <archive>
-	          <manifest>
-	            <addClasspath>true</addClasspath>
-	            <mainClass>com.solace.psg.clientcli.ClientCliApp</mainClass>
-	            <classpathPrefix>lib</classpathPrefix>
-	          </manifest>
-	        </archive>
-	      </configuration>
-	  </plugin>
-      </plugins>
+		<plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-compiler-plugin</artifactId>
+		    <version>${maven-compiler-plugin-version}</version>
+		    <configuration>
+				<source>${maven-compiler-source}</source> 
+				<target>${maven-compiler-target}</target>
+		    </configuration>
+		</plugin>
+
+	    <plugin>
+		      <!-- Build an executable JAR -->
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-jar-plugin</artifactId>
+		      <version>3.1.0</version>
+		      <configuration>
+		        <archive>
+		          <manifest>
+		            <addClasspath>true</addClasspath>
+		            <mainClass>com.solace.psg.clientcli.ClientCliApp</mainClass>
+		            <classpathPrefix>lib</classpathPrefix>
+		          </manifest>
+		        </archive>
+		      </configuration>
+		</plugin>
+	   <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-compiler-plugin</artifactId>
+	    <!-- annotationProcessorPaths requires maven-compiler-plugin version 3.5 or higher -->
+	    <version>${maven-compiler-plugin-version}</version>
+	    <configuration>
+	      <annotationProcessorPaths>
+	        <path>
+	          <groupId>info.picocli</groupId>
+	          <artifactId>picocli-codegen</artifactId>
+	          <version>4.3.2</version>
+	        </path>
+	      </annotationProcessorPaths>
+	      <compilerArgs>
+	        <arg>-Aproject=${project.groupId}/${project.artifactId}</arg>
+	      </compilerArgs>
+	    </configuration>
+	  </plugin>	  
+    </plugins>
   </build>  
 </project>

@@ -17,7 +17,7 @@
  * an agreement signed between you and Solace.
  * 
  */
-package com.solace.psg.clientcli;
+package com.solace.psg.clientcli.sempv1;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -33,6 +33,7 @@ import org.apache.logging.log4j.Logger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv1.sempinterface.AdminCommands;
 import com.solace.psg.sempv1.sempinterface.HttpSempSession;
 import com.solace.psg.sempv1.sempinterface.SempSession;
@@ -43,6 +44,7 @@ import com.solace.psg.sempv2.interfaces.ServiceFacade;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 /**
  * Command class to handle service lists.
@@ -58,9 +60,10 @@ public class SolServicePurgeCommand implements Runnable
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
-	@Option(names = {"-queue"}, required = true)
-	private String queueName;	
-
+	@Parameters(index = "0", description = "The queue name.")
+	private String queueName;
+	
+	
 	@Option(names = {"-serviceName"})
 	private String serviceName;	
 	
@@ -76,10 +79,10 @@ public class SolServicePurgeCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service purge [-queueName=<name>] [-serviceName=<name>] \n");
+	    System.out.println(" sol service purge <queueName> [-serviceName=<name>] \n");
 	    System.out.println(" -serviceName - the name of the service.");
-	    System.out.println(" -queueName - the name of the queue to be purged.");
-	    System.out.println(" Example command: sol service purge -queueName=testQueue");
+	    System.out.println(" <queueName> - the name of the queue to be purged.");
+	    System.out.println(" Example command: sol service purge testQueue");
 	}
 	
 	/**

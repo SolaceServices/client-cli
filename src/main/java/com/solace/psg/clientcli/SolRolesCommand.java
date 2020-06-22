@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.Permission;
 import com.solace.psg.sempv2.admin.model.Role;
 import com.solace.psg.sempv2.admin.model.User;
