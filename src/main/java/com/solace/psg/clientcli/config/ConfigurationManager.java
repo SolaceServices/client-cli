@@ -341,4 +341,24 @@ public class ConfigurationManager
 	{
 		props.setProperty("encryptDetails", Boolean.toString(value));
 	}
+	
+	/**
+	 * Sets prompt to confirm.
+	 * @param name name
+	 */
+	public void setPromptToConfirm(boolean value)
+	{
+		props.setProperty("promptToConfirm", Boolean.toString(value));
+	}
+
+	/**
+	 * Gets prompt to confirm.
+	 * @return name
+	 */
+	public Boolean getPromptToConfirm()
+	{
+		return Boolean.valueOf(props.getProperty("promptToConfirm"));
+	}
+	
+	
 }

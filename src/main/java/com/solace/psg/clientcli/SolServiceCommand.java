@@ -36,10 +36,11 @@ import picocli.CommandLine.Option;
  *
  */
 @Command(name = "service", description = "Handles service operations.", subcommands = {
-	      SolServiceDetailsCommand.class,
-	      SolServiceListCommand.class,
-	      SolServiceSetCommand.class,
-	      SolServicePurgeCommand.class
+		SolServiceDeleteCommand.class,
+		SolServiceDetailsCommand.class,
+	    SolServiceListCommand.class,
+	    SolServicePurgeCommand.class,
+	    SolServiceSetCommand.class	      
 })
 public class SolServiceCommand implements Runnable 
 {
