@@ -49,7 +49,7 @@ public class SolServiceDetailsCommand implements Runnable
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
-	@ArgGroup(exclusive = true, multiplicity = "1")
+	@ArgGroup(exclusive = true, multiplicity = "0..1")
     Exclusive exclusive;
 
     static class Exclusive {
@@ -103,11 +103,11 @@ public class SolServiceDetailsCommand implements Runnable
 			String ctxServiceId = ConfigurationManager.getInstance().getCurrentServiceId();
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
-			if (exclusive.serviceId != null)
+			if (exclusive != null && exclusive.serviceId != null)
 			{
 				sd = sf.getServiceDetails(exclusive.serviceId);			
 			}
-			else if (exclusive.serviceName != null)
+			else if (exclusive != null && exclusive.serviceName != null)
 			{
 				sd = sf.getServiceDetailsByName(exclusive.serviceName);
 			}

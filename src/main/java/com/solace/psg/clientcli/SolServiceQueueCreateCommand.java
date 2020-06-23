@@ -110,11 +110,11 @@ public class SolServiceQueueCreateCommand implements Runnable
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
 			ServiceDetails sd = null;
-			if (exclusive.serviceId != null)
+			if (exclusive != null && exclusive.serviceId != null)
 			{
 				sd = sf.getServiceDetails(exclusive.serviceId);
 			}
-			else if (exclusive.serviceName != null)
+			else if (exclusive != null && exclusive.serviceName != null)
 			{
 				sd = sf.getServiceDetailsByName(exclusive.serviceName);
 			}

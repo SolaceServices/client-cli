@@ -116,11 +116,11 @@ public class SolServiceClientProfileListCommand implements Runnable
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
 			ServiceDetails sd = null;
-			if (exclusive.serviceId != null)
+			if (exclusive != null && exclusive.serviceId != null)
 			{
 				sd = sf.getServiceDetails(exclusive.serviceId);
 			}
-			else if (exclusive.serviceName != null)
+			else if (exclusive != null && exclusive.serviceName != null)
 			{
 				sd = sf.getServiceDetailsByName(exclusive.serviceName);
 			}
@@ -141,11 +141,9 @@ public class SolServiceClientProfileListCommand implements Runnable
 			if (sd != null)
 			{
 				VpnFacade vf = new VpnFacade(sd);
-				List<MsgVpnBridge> bgs = vf.getBridges();
-				int a = 2;
-				//List<MsgVpnClientProfile> cps = vf.listClientProfiles();
+				List<MsgVpnClientProfile> cps = vf.listClientProfiles();
 
-				//printResults(cps, "");		
+				printResults(cps, "");		
 			}
 			else
 			{
@@ -169,17 +167,17 @@ public class SolServiceClientProfileListCommand implements Runnable
 		System.out.println(message);
 		logger.debug("Printing client profile list.");
 		
-		List<String> headersList = Arrays.asList("Profile name", "Max Ingress", "Last NameMax Egress");
+		List<String> headersList = Arrays.asList("Profile name", "Max Ingress", "Max Egress", "Max subscr.", "Max Tx", "Max Sess Tx");
 
 		List<List<String>> rowsList = new ArrayList<List<String>>(cps.size());
 
 		for (MsgVpnClientProfile cp : cps)
 		{
-			rowsList.add(Arrays.asList(cp.getClientProfileName(), "" + cp.getMaxIngressFlowCount(), "" + cp.getMaxEgressFlowCount()));
+			rowsList.add(Arrays.asList(cp.getClientProfileName(), "" + cp.getMaxIngressFlowCount(), "" + cp.getMaxEgressFlowCount(), "" + cp.getMaxSubscriptionCount(), "" + cp.getMaxTransactedSessionCount(), "" + cp.getMaxTransactionCount()));
 		}
 		
-		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT);
-		List<Integer> colWidthsListEdited = Arrays.asList(20, 12, 12);
+		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT);
+		List<Integer> colWidthsListEdited = Arrays.asList(20, 12, 12, 12, 12, 12);
 		int width = Board.getRecommendedWidth(colWidthsListEdited, true);
 				
 		Board board = new Board(width);	
