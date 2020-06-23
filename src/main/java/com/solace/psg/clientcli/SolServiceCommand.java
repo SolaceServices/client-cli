@@ -23,8 +23,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.solace.psg.clientcli.sempv1.SolServicePurgeCommand;
-import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -36,11 +34,14 @@ import picocli.CommandLine.Option;
  *
  */
 @Command(name = "service", description = "Handles service operations.", subcommands = {
+		SolServiceCreateCommand.class,
+		SolServiceClassesCommand.class,
 		SolServiceDeleteCommand.class,
 		SolServiceDetailsCommand.class,
 	    SolServiceListCommand.class,
 	    SolServicePurgeCommand.class,
-	    SolServiceSetCommand.class	      
+	    SolServiceSetCommand.class,	      
+		SolServiceTypesCommand.class
 })
 public class SolServiceCommand implements Runnable 
 {
@@ -63,10 +64,14 @@ public class SolServiceCommand implements Runnable
 	private void showHelp()
 	{
 	    System.out.println(" sol service: ");
-	    System.out.println(" list - lists all services for a Solace Cloud Console Account");
+	    System.out.println(" classes - Displays available service classes");
+	    System.out.println(" create - Creates a service");
+	    System.out.println(" delete - Deteles a service");
 	    System.out.println(" details - lists all service details for a service");
+	    System.out.println(" list - lists all services for a Solace Cloud Console Account");
 	    System.out.println(" purge - Purges a queue");
 	    System.out.println(" set - sets a service as the default service context by service name or service ID");
+	    System.out.println(" types - Displays available service types");
 
 	    System.out.println(" Example command: sol service list");
 	}
@@ -85,16 +90,10 @@ public class SolServiceCommand implements Runnable
 		}
 		
 		try
-		{
-				
+		{		
 			System.out.println("Missing parameters for command. Try invokig command with -h for list of parameters.");
 			
 		}
-		/*catch (ApiException e)
-		{
-			System.out.println("Error occurred while running login command: " + e.getResponseBody());
-			logger.error("Error occurred while running login command: {}", e.getResponseBody());
-		}*/
 		catch (Exception e)
 		{
 			System.out.println("Error occurred while running login command: " + e.getMessage());

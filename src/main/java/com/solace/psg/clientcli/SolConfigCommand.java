@@ -38,9 +38,11 @@ public class SolConfigCommand implements Runnable
 {
 	private static final Logger logger = LogManager.getLogger(SolConfigCommand.class);
 
-	@Option(names = {"-d", "-decrypted"} )
-	private Boolean decrypt;
+	@Option(names = {"-e", "-encrypted"}, fallbackValue = "true", description = "Sets whether the credentials should be encrypted." )
+	private Boolean encrypt;
 	
+	@Option(names = {"-p", "-prompt"}, fallbackValue = "true", description = "Sets Prompt to confirm flag to true or false."  )
+	private Boolean prompt;
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -58,9 +60,10 @@ public class SolConfigCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol config [-d, -decrypted] \n");
+	    System.out.println(" sol config [-e, -encrypted=true|false] \n");
+	    System.out.println(" sol config [-p, -prompt=true|false] \n");
 
-	    System.out.println(" Example command: sol config -d");
+	    System.out.println(" Example command: sol config -e -p");
 	}
 	
 	/**
@@ -80,7 +83,11 @@ public class SolConfigCommand implements Runnable
 		{
 			ConfigurationManager config = ConfigurationManager.getInstance();
 			
-			config.setEncryptDetails(decrypt);
+			if (encrypt != null)
+				config.setEncryptDetails(encrypt);
+
+			if (prompt != null)
+				config.setPromptToConfirm(prompt);
 
 			// store the input data into the configuration file.
 			config.store();

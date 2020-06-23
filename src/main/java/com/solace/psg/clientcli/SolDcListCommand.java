@@ -121,17 +121,17 @@ public class SolDcListCommand implements Runnable
 		System.out.println(message);
 		logger.debug("Printing DC list");
 		
-		List<String> headersList = Arrays.asList("Provider", "Display name", "Certificate ID", "Continent", "Access type", "Cloud type", "Private", "Available", "Admin state", "Latitude ", "Longtitude");
+		List<String> headersList = Arrays.asList("Datacenter ID", "Provider", "Display name", "Certificate ID", "Continent", "Access type", "Cloud type", "Private", "Available", "Admin state", "Latitude ", "Longtitude");
 
 		List<List<String>> rowsList = new ArrayList<List<String>>(dcs.size());
 
 		for (DataCenter dc : dcs)
 		{
-			rowsList.add(Arrays.asList(dc.getProvider(), StringUtils.abbreviate(dc.getDisplayName().replace("\t", " "), 30), dc.getServerCertificateId(), dc.getContinent(), dc.getAccessType(), dc.getCloudType(), ""+ dc.getIsPrivate(), ""+ dc.getAvailable(), dc.getAdminState(), dc.getLat(), dc.getLng() ));
+			rowsList.add(Arrays.asList(dc.getId(), dc.getProvider(), StringUtils.abbreviate(dc.getDisplayName().replace("\t", " "), 30), dc.getServerCertificateId(), dc.getContinent(), dc.getAccessType(), dc.getCloudType(), ""+ dc.getIsPrivate(), ""+ dc.getAvailable(), dc.getAdminState(), dc.getLat(), dc.getLng() ));
 		}
 		
-		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_CENTER, Block.DATA_CENTER, Block.DATA_MIDDLE_RIGHT, Block.DATA_MIDDLE_RIGHT);
-		List<Integer> colWidthsListEdited = Arrays.asList(12, 35, 14, 14, 11, 11, 9, 10, 14, 10, 11);
+		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT,Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_CENTER, Block.DATA_CENTER, Block.DATA_MIDDLE_RIGHT, Block.DATA_MIDDLE_RIGHT);
+		List<Integer> colWidthsListEdited = Arrays.asList(18, 12, 35, 14, 14, 11, 11, 9, 10, 14, 10, 11);
 		int width = Board.getRecommendedWidth(colWidthsListEdited, true);
 				
 		Board board = new Board(width);	
