@@ -41,11 +41,14 @@ public class SolServiceSetCommand implements Runnable
 {
 	private static final Logger logger = LogManager.getLogger(SolServiceSetCommand.class);
 
-	@Option(names = {"-serviceName"})
+	@Option(names = {"-serviceName"}, description = "the service name.")
 	private String serviceName;	
 
-	@Option(names = {"-serviceId"})
+	@Option(names = {"-serviceId"}, description = "the service ID.")
 	private String serviceId;	
+
+	@Option(names = {"-none"}, fallbackValue = "true", description = "removes the set values")
+	private Boolean none;	
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -66,6 +69,7 @@ public class SolServiceSetCommand implements Runnable
 	    System.out.println(" sol service set [-serviceName=<name>] [-serviceId=<id>] \n");
 	    System.out.println(" -serviceName - the name of the service.");
 	    System.out.println(" -serviceId - the id of the service.");
+	    System.out.println(" -none - removes the set values.");
 	    System.out.println(" Example command: sol service set -serviceName=testService");
 	}
 	
@@ -79,6 +83,17 @@ public class SolServiceSetCommand implements Runnable
 		if (help)
 		{
 			showHelp();
+			return;
+		}
+		
+		if (none != null)
+		{
+			ConfigurationManager.getInstance().removeCurrentServiceId();
+			ConfigurationManager.getInstance().removeCurrentServiceName();
+			
+			ConfigurationManager.getInstance().store();
+			System.out.println("Default service unset");
+			
 			return;
 		}
 		

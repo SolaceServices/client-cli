@@ -27,14 +27,14 @@ import picocli.CommandLine.Command;
  *
  */
 @Command(name = "sol", subcommands = {
-		SolConfigCommand.class,	
+		SolConfigCommand.class,
 		SolDcCommand.class,
 		SolLoginCommand.class,
+		SolLogoutCommand.class,
 		SolRolesCommand.class,
 		SolServiceCommand.class,
 		SolUserCommand.class,
-		SolVersionCommand.class
-			      		      
+		SolVersionCommand.class 
 })
 public class SolCommand implements Runnable 
 {
@@ -51,8 +51,11 @@ public class SolCommand implements Runnable
 	    System.out.println("Usage sol: sol command [parameters] \n");  
 	    System.out.println("To login to Solace Cloud Console Account:");
 	    System.out.println(" sol login [-u, -username=<username>] [-p, -password=<password>] [-n] \n");
+	    System.out.println("To logout from Solace Cloud Console Account:");
+	    System.out.println(" sol logout \n");
 	    System.out.println("To display the current Client CLI version:");
 	    System.out.println(" sol version \n");
+	    System.out.println(" Type sol -h or --help for all available commands.");
 	    System.out.println(" Type sol <command> -h or -help for detailed help on the command usage. \n");
 	}
 

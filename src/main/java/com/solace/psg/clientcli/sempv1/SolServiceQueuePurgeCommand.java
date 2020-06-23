@@ -53,14 +53,14 @@ import picocli.CommandLine.Parameters;
  *
  */
 @Command(name = "purge",description = "Purge service queue.")
-public class SolServicePurgeCommand implements Runnable 
+public class SolServiceQueuePurgeCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServicePurgeCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolServiceQueuePurgeCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
-	@Parameters(index = "0", description = "The queue name.")
+	@Parameters(index = "0", arity="1", description = "The queue name.")
 	private String queueName;
 	
 	
@@ -70,7 +70,7 @@ public class SolServicePurgeCommand implements Runnable
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServicePurgeCommand()
+	public SolServiceQueuePurgeCommand()
 	{
 	}
 
@@ -79,10 +79,10 @@ public class SolServicePurgeCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service purge <queueName> [-serviceName=<name>] \n");
+	    System.out.println(" sol service queue purge <queueName> [-serviceName=<name>] \n");
 	    System.out.println(" -serviceName - the name of the service.");
 	    System.out.println(" <queueName> - the name of the queue to be purged.");
-	    System.out.println(" Example command: sol service purge testQueue");
+	    System.out.println(" Example command: sol service queue purge testQueue");
 	}
 	
 	/**
@@ -151,7 +151,7 @@ public class SolServicePurgeCommand implements Runnable
 	private void purgeQueue(ServiceDetails sd) throws AuthenticationException, ClientProtocolException, IOException, JAXBException 
 	{
 		ServiceManagementContext ctx = new ServiceManagementContext(sd);
-		SempSession session = new HttpSempSession(ctx.getSempUsername(), ctx.getSempPassword(), ctx.getSempUrl());
+		SempSession session = new HttpSempSession(ctx.getSempUsername(), ctx.getSempPassword(), ctx.getSempV1Url());
 		AdminCommands com = new AdminCommands(session);
 		boolean result = com.purgeQueueMessages(ctx.getVpnName(), queueName);
 		

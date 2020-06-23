@@ -69,6 +69,14 @@ public class ConfigurationManager
 	}
 	
 	/**
+	 * Resets all values by removing all properties. 
+	 */
+	public void reset()
+	{
+		props.clear();
+	}
+	
+	/**
 	 * Initialises a new instance of the class.
 	 */
 	private ConfigurationManager() 
@@ -232,7 +240,7 @@ public class ConfigurationManager
 	public void setCloudAccountPassword(String password) throws Exception
 	{
 		String encPass = null;
-		if (encryptDetails)
+		if (encryptDetails && !password.isEmpty())
 			encPass = ENC + encryptPassword(password);
 		else
 			encPass = password;
@@ -262,7 +270,7 @@ public class ConfigurationManager
 	public void setCloudAccountToken(String token) throws Exception
 	{
 		String encPass = null;
-		if (encryptDetails)
+		if (encryptDetails && !token.isEmpty())
 			encPass = ENC + encryptPassword(token);
 		else
 			encPass = token;
@@ -314,7 +322,23 @@ public class ConfigurationManager
 	{
 		props.setProperty("currentServiceId", id);
 	}
+	
+	/**
+	 * Removes the current service ID.
+	 */
+	public void removeCurrentServiceId()
+	{
+		props.remove("currentServiceId");
+	}
 
+	/**
+	 * Removes the current service name.
+	 */
+	public void removeCurrentServiceName()
+	{
+		props.remove("currentServiceName");
+	}
+	
 	/**
 	 * Gets current service id.
 	 * @return id

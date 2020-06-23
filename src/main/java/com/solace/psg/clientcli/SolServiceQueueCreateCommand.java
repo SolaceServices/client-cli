@@ -19,48 +19,54 @@
  */
 package com.solace.psg.clientcli;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
 import com.solace.psg.clientcli.config.ConfigurationManager;
+
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
+
 import com.solace.psg.sempv2.apiclient.ApiException;
+
+import com.solace.psg.sempv2.config.model.MsgVpnQueue;
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.interfaces.VpnFacade;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 /**
- * Command class to handle service lists.
+ * Command class to handle queue create.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "details",description = "Lists service details.")
-public class SolServiceDetailsCommand implements Runnable 
+@Command(name = "create", description = "Creates queue.")
+public class SolServiceQueueCreateCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceDetailsCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolServiceQueueCreateCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
-	@ArgGroup(exclusive = true, multiplicity = "1")
+	@ArgGroup(exclusive = true, multiplicity = "0..1")
     Exclusive exclusive;
 
     static class Exclusive {
-        @Option(names = "-serviceName", required = false) String serviceName;
-        @Option(names = "-serviceId", required = false) String serviceId;
+        @Option(names = "-serviceName", required = true) String serviceName;
+        @Option(names = "-serviceId", required = true) String serviceId;
     }
+
+	@Parameters(index = "0", arity = "1", description="the queue name")
+	private String queueName;
 	
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceDetailsCommand()
+	public SolServiceQueueCreateCommand()
 	{
 	}
 
@@ -69,10 +75,10 @@ public class SolServiceDetailsCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service details [-serviceName=<name>] [-serviceId=<id>] \n");
-	    System.out.println(" -serviceName - the name of the service.");
-	    System.out.println(" -serviceId - the id of the service.");
-	    System.out.println(" Example command: sol service details -serviceName=testService");
+	    System.out.println(" sol service queue create \n");
+	    System.out.println(" create - Creates a queue for a service.");
+
+	    System.out.println(" Example command: sol service queue create <queueName>");
 	}
 	
 	/**
@@ -80,7 +86,7 @@ public class SolServiceDetailsCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running service details command.");
+		logger.debug("Running queue create command.");
 		
 		if (help)
 		{
@@ -90,66 +96,68 @@ public class SolServiceDetailsCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Listing service details:");
+			System.out.println("Creating queue...");	
+			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
 			{
-				System.out.println("Token is not set. Try to login first.");	
+				System.out.println("Token is not set. Try login first.");	
 				return;
 			}
 			
 			ServiceFacade sf = new ServiceFacade(token);
-			ServiceDetails sd = null;
 			String ctxServiceId = ConfigurationManager.getInstance().getCurrentServiceId();
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
+			ServiceDetails sd = null;
 			if (exclusive.serviceId != null)
 			{
-				sd = sf.getServiceDetails(exclusive.serviceId);			
+				sd = sf.getServiceDetails(exclusive.serviceId);
 			}
 			else if (exclusive.serviceName != null)
 			{
 				sd = sf.getServiceDetailsByName(exclusive.serviceName);
 			}
-			else if (ctxServiceId != null && !ctxServiceId.isEmpty())
+			else if (ctxServiceId != null)
 			{
 				sd = sf.getServiceDetails(ctxServiceId);
 			}
-			else if (ctxServiceName != null && !ctxServiceName.isEmpty())
+			else if (ctxServiceName != null)
 			{
 				sd = sf.getServiceDetailsByName(ctxServiceName);
 			}
-			else 
+			else
 			{
-				System.out.println("No service ID or Name provided.");
+				System.out.println("Service ID or service name was not provided.");
 				return;
 			}
-
+			
 			if (sd != null)
 			{
-				printServiceDetails(sd);
+				VpnFacade vf = new VpnFacade(sd);
+				MsgVpnQueue request = new MsgVpnQueue();
+				request.setQueueName(queueName);
+				boolean result = vf.addQueue(request);
+
+				if (result)
+					System.out.println("Queue created successfully.");
+				else
+					System.out.println("Error creating the queue.  Check logs for more details.");	
 			}
-			else 
+			else
 			{
-				System.out.println("No service details available for the provided service ID or Name.");
+				System.out.println("No service found for the provided details.");
 			}
 		}
 		catch (ApiException e)
 		{
-			System.out.println("Error occurred while running service details command: " + e.getResponseBody());
-			logger.error("Error occurred while running service details command: {}", e.getResponseBody());
+			System.out.println("Error occured while running client profile command: " + e.getResponseBody());
+			logger.error("Error occured while running client profile command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occurred while running service details command: " + e.getMessage());
-			logger.error("Error occurred while running service details command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occured while running client profile command: " + e.getMessage());
+			logger.error("Error occured while running client profile command: {}, {}", e.getMessage(), e.getCause());
 		}
-	}
-	
-	private void printServiceDetails(ServiceDetails sd) throws JsonProcessingException
-	{
-		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-		String yaml = mapper.writeValueAsString(sd);
-		System.out.println(yaml);
 	}
 }

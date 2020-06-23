@@ -36,15 +36,10 @@ public class ClientCliApp
 
 	public static void main( String[] args )
     {
-		/*if (args.length < 2)
-		{
-			logger.error("Arguments must contain username and password passed: app.jar <uysername> <password>");
-			System.exit(-1);
-		}*/
-
         try
 		{
-        	CommandLine.run(new SolCommand(), args);
+        	CommandLine cmd = new CommandLine(new SolCommand());//.setColorScheme(myColorScheme()); 
+        	cmd.execute(args);
 		}
 		catch (Exception e)
 		{

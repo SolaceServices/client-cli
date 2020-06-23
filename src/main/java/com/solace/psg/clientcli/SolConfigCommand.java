@@ -43,6 +43,9 @@ public class SolConfigCommand implements Runnable
 	
 	@Option(names = {"-p", "-prompt"}, fallbackValue = "true", description = "Sets Prompt to confirm flag to true or false."  )
 	private Boolean prompt;
+
+	@Option(names = {"-r", "-reset"}, fallbackValue = "false", description = "Resets the configuration."  )
+	private Boolean reset;
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -60,10 +63,12 @@ public class SolConfigCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol config [-e, -encrypted=true|false] \n");
-	    System.out.println(" sol config [-p, -prompt=true|false] \n");
+	    System.out.println(" sol config [-e, -encrypted=true|false] default: true \n");
+	    System.out.println(" sol config [-p, -prompt=true|false] default: true \n");
+	    System.out.println(" sol config [-r, -reset=true|false] default: false\n");
 
-	    System.out.println(" Example command: sol config -e -p");
+	    System.out.println(" Example config command: sol config -e -p");
+	    System.out.println(" Example reset command: sol config -r");
 	}
 	
 	/**
@@ -89,6 +94,9 @@ public class SolConfigCommand implements Runnable
 			if (prompt != null)
 				config.setPromptToConfirm(prompt);
 
+			if (reset != null)
+				config.reset();
+			
 			// store the input data into the configuration file.
 			config.store();
 			
