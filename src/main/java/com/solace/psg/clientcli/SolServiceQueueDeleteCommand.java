@@ -44,10 +44,10 @@ import picocli.CommandLine.Parameters;
  * @author VictorTsonkov
  *
  */
-@Command(name = "create", description = "Creates queue.")
-public class SolServiceQueueCreateCommand implements Runnable 
+@Command(name = "delete", description = "Deletes a queue.")
+public class SolServiceQueueDeleteCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceQueueCreateCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolServiceQueueDeleteCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -66,7 +66,7 @@ public class SolServiceQueueCreateCommand implements Runnable
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceQueueCreateCommand()
+	public SolServiceQueueDeleteCommand()
 	{
 	}
 
@@ -75,10 +75,10 @@ public class SolServiceQueueCreateCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service queue create \n");
+	    System.out.println(" sol service queue delete \n");
 	    System.out.println(" create - Creates a queue for a service.");
 
-	    System.out.println(" Example command: sol service queue create <queueName>");
+	    System.out.println(" Example command: sol service queue delete <queueName>");
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public class SolServiceQueueCreateCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running queue create command.");
+		logger.debug("Running queue delete command.");
 		
 		if (help)
 		{
@@ -96,7 +96,7 @@ public class SolServiceQueueCreateCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Creating queue...");	
+			System.out.println("Deleting queue...");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
@@ -137,12 +137,12 @@ public class SolServiceQueueCreateCommand implements Runnable
 				VpnFacade vf = new VpnFacade(sd);
 				MsgVpnQueue request = new MsgVpnQueue();
 				request.setQueueName(queueName);
-				boolean result = vf.addQueue(request);
+				boolean result = vf.deleteQueue(queueName);
 
 				if (result)
-					System.out.println("Queue created successfully.");
+					System.out.println("Queue deleted successfully.");
 				else
-					System.out.println("Error creating the queue.  Check logs for more details.");	
+					System.out.println("Error deleting the queue.  Check logs for more details.");	
 			}
 			else
 			{
@@ -156,8 +156,8 @@ public class SolServiceQueueCreateCommand implements Runnable
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occured while running  command: " + e.getMessage());
-			logger.error("Error occured while running  command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occured while running command: " + e.getMessage());
+			logger.error("Error occured while running command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 }

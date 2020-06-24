@@ -81,10 +81,10 @@ public class SolServiceClientProfileListCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol cp list \n");
+	    System.out.println(" sol service cp list \n");
 	    System.out.println(" list - lists all client profiles for Solace Cloud Console Account");
 
-	    System.out.println(" Example command: sol cp list");
+	    System.out.println(" Example command: sol service cp list");
 	}
 	
 	/**
@@ -167,17 +167,17 @@ public class SolServiceClientProfileListCommand implements Runnable
 		System.out.println(message);
 		logger.debug("Printing client profile list.");
 		
-		List<String> headersList = Arrays.asList("Profile name", "Max Ingress", "Max Egress", "Max subscr.", "Max Tx", "Max Sess Tx");
+		List<String> headersList = Arrays.asList("Profile name", "Guar. Send", "Guar. Reci.", "Use Tx", "Bridge conn", "Allow create", "Max Ingress", "Max Egress", "Max subscr.", "Max Tx", "Max Sess Tx", "Max Conn Usr");
 
 		List<List<String>> rowsList = new ArrayList<List<String>>(cps.size());
 
 		for (MsgVpnClientProfile cp : cps)
 		{
-			rowsList.add(Arrays.asList(cp.getClientProfileName(), "" + cp.getMaxIngressFlowCount(), "" + cp.getMaxEgressFlowCount(), "" + cp.getMaxSubscriptionCount(), "" + cp.getMaxTransactedSessionCount(), "" + cp.getMaxTransactionCount()));
+			rowsList.add(Arrays.asList(cp.getClientProfileName(), "" + cp.isAllowGuaranteedMsgSendEnabled(), "" + cp.isAllowGuaranteedMsgReceiveEnabled(), "" + cp.isTlsAllowDowngradeToPlainTextEnabled(), "" + cp.isAllowBridgeConnectionsEnabled(), "" + cp.isAllowGuaranteedEndpointCreateEnabled(), "" + cp.getMaxIngressFlowCount(), "" + cp.getMaxEgressFlowCount(), "" + cp.getMaxSubscriptionCount(), "" + cp.getMaxTransactedSessionCount(), "" + cp.getMaxTransactionCount(), ""  + cp.getServiceSmfMaxConnectionCountPerClientUsername()));
 		}
 		
-		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT);
-		List<Integer> colWidthsListEdited = Arrays.asList(20, 12, 12, 12, 12, 12);
+		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT);
+		List<Integer> colWidthsListEdited = Arrays.asList(25, 11, 11, 10, 11, 12, 11, 11, 11, 9, 11, 12);
 		int width = Board.getRecommendedWidth(colWidthsListEdited, true);
 				
 		Board board = new Board(width);	

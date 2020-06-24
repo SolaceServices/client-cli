@@ -36,6 +36,8 @@ import picocli.CommandLine.Option;
 @Command(name = "queue", description = "Handles queue operations.", subcommands = {
 
 	    SolServiceQueueCreateCommand.class,
+	    SolServiceQueueDeleteCommand.class,
+	    //SolServiceQueueListCommand.class,
 	    SolServiceQueuePurgeCommand.class
 })
 public class SolServiceQueueCommand implements Runnable 

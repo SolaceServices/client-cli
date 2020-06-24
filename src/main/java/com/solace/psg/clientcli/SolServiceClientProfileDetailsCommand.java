@@ -19,19 +19,31 @@
  */
 package com.solace.psg.clientcli;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.solace.psg.clientcli.SolServiceDeleteCommand.Exclusive;
 import com.solace.psg.clientcli.config.ConfigurationManager;
-
+import com.solace.psg.sempv2.admin.model.ClientProfile;
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
-
+import com.solace.psg.sempv2.admin.model.User;
 import com.solace.psg.sempv2.apiclient.ApiException;
-
-import com.solace.psg.sempv2.config.model.MsgVpnQueue;
+import com.solace.psg.sempv2.config.model.MsgVpnBridge;
+import com.solace.psg.sempv2.config.model.MsgVpnClientProfile;
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
 import com.solace.psg.sempv2.interfaces.VpnFacade;
+import com.solace.psg.tablereporter.Block;
+import com.solace.psg.tablereporter.Board;
+import com.solace.psg.tablereporter.Table;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -39,15 +51,15 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 /**
- * Command class to handle queue create.
+ * Command class to handle user lists.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "create", description = "Creates queue.")
-public class SolServiceQueueCreateCommand implements Runnable 
+@Command(name = "details", description = "Service client profile details.")
+public class SolServiceClientProfileDetailsCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceQueueCreateCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolServiceClientProfileDetailsCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -59,14 +71,15 @@ public class SolServiceQueueCreateCommand implements Runnable
         @Option(names = "-serviceName", required = true) String serviceName;
         @Option(names = "-serviceId", required = true) String serviceId;
     }
-
-	@Parameters(index = "0", arity = "1", description="the queue name")
-	private String queueName;
+    
+	@Parameters(index = "0", arity = "1", description="the client profile name")
+	private String profileName;
+    
 	
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceQueueCreateCommand()
+	public SolServiceClientProfileDetailsCommand()
 	{
 	}
 
@@ -75,10 +88,10 @@ public class SolServiceQueueCreateCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service queue create \n");
-	    System.out.println(" create - Creates a queue for a service.");
+	    System.out.println(" sol service cp details <profileName> \n");
+	    System.out.println(" details - details for a client profiles");
 
-	    System.out.println(" Example command: sol service queue create <queueName>");
+	    System.out.println(" Example command: sol service cp details <profileName>");
 	}
 	
 	/**
@@ -86,7 +99,7 @@ public class SolServiceQueueCreateCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running queue create command.");
+		logger.debug("Running client profile list command.");
 		
 		if (help)
 		{
@@ -96,7 +109,7 @@ public class SolServiceQueueCreateCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Creating queue...");	
+			System.out.println("Listing client profiles:");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
@@ -135,14 +148,9 @@ public class SolServiceQueueCreateCommand implements Runnable
 			if (sd != null)
 			{
 				VpnFacade vf = new VpnFacade(sd);
-				MsgVpnQueue request = new MsgVpnQueue();
-				request.setQueueName(queueName);
-				boolean result = vf.addQueue(request);
+				MsgVpnClientProfile cp = vf.getClientProfile(profileName);
 
-				if (result)
-					System.out.println("Queue created successfully.");
-				else
-					System.out.println("Error creating the queue.  Check logs for more details.");	
+				printDetails(cp, "");		
 			}
 			else
 			{
@@ -151,13 +159,23 @@ public class SolServiceQueueCreateCommand implements Runnable
 		}
 		catch (ApiException e)
 		{
-			System.out.println("Error occured while running command: " + e.getResponseBody());
-			logger.error("Error occured while running command: {}", e.getResponseBody());
+			System.out.println("Error occured while running client profile command: " + e.getResponseBody());
+			logger.error("Error occured while running client profile command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occured while running  command: " + e.getMessage());
-			logger.error("Error occured while running  command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occured while running client profile command: " + e.getMessage());
+			logger.error("Error occured while running client profile command: {}, {}", e.getMessage(), e.getCause());
 		}
+	}
+	
+	private void printDetails(MsgVpnClientProfile cp, String message) throws IOException
+	{
+		System.out.println(message);
+		logger.debug("Printing client profile details.");
+		
+		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+		String yaml = mapper.writeValueAsString(cp);
+		System.out.println(yaml);
 	}
 }

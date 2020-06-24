@@ -17,7 +17,7 @@
  * an agreement signed between you and Solace.
  * 
  */
-package com.solace.psg.clientcli;
+package com.solace.psg.clientcli.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -151,13 +151,13 @@ public class SolServiceQueueCreateCommand implements Runnable
 		}
 		catch (ApiException e)
 		{
-			System.out.println("Error occured while running command: " + e.getResponseBody());
-			logger.error("Error occured while running command: {}", e.getResponseBody());
+			System.out.println("Error occured while running client profile command: " + e.getResponseBody());
+			logger.error("Error occured while running client profile command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occured while running  command: " + e.getMessage());
-			logger.error("Error occured while running  command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occured while running client profile command: " + e.getMessage());
+			logger.error("Error occured while running client profile command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 }

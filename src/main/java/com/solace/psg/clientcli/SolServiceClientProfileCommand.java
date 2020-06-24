@@ -32,8 +32,9 @@ import picocli.CommandLine.Option;
  *
  */
 @Command(name = "cp", description = "Handles client profile operations.", subcommands = {
-		//SolClientProfileCreateCommand.class,
-		//SolClientProfileDeleteCommand.class,
+		SolServiceClientProfileCreateCommand.class,
+		SolServiceClientProfileDeleteCommand.class,
+		SolServiceClientProfileDetailsCommand.class,
 	    SolServiceClientProfileListCommand.class
 })
 public class SolServiceClientProfileCommand implements Runnable 
@@ -59,6 +60,7 @@ public class SolServiceClientProfileCommand implements Runnable
 	    System.out.println(" sol cp: ");
 	    System.out.println(" create - Creates a client profile.");
 	    System.out.println(" delete - Deteles a client profile.");
+	    System.out.println(" details - Details for a client profile.");	    
 	    System.out.println(" list - lists all client profiles for a Solace Cloud Console Account.");
 
 	    System.out.println(" Example command: sol cp list");
