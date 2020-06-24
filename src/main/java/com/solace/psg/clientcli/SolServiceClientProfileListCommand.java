@@ -23,19 +23,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solace.psg.clientcli.SolServiceDeleteCommand.Exclusive;
+
 import com.solace.psg.clientcli.config.ConfigurationManager;
-import com.solace.psg.sempv2.admin.model.ClientProfile;
+
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
-import com.solace.psg.sempv2.admin.model.User;
+
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.config.model.MsgVpnBridge;
+
 import com.solace.psg.sempv2.config.model.MsgVpnClientProfile;
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
 import com.solace.psg.sempv2.interfaces.VpnFacade;

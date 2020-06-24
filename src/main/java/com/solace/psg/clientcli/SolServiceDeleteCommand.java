@@ -152,6 +152,7 @@ public class SolServiceDeleteCommand implements Runnable
 		if (ConfigurationManager.getInstance().getPromptToConfirm())
 		{
 			System.out.println("Do you want to proceed? (y/yes to confirm):");
+			@SuppressWarnings("resource")
 			Scanner scanner = new Scanner(System.in);
 
 			String val = scanner.next();

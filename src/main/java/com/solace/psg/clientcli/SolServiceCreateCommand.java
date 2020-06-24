@@ -19,7 +19,6 @@
  */
 package com.solace.psg.clientcli;
 
-import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +28,6 @@ import com.solace.psg.sempv2.admin.model.Service;
 import com.solace.psg.sempv2.apiclient.ApiException;
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
 
-import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -121,24 +119,5 @@ public class SolServiceCreateCommand implements Runnable
 			//System.out.println("Error occurred while running service create command: " + e.getMessage());
 			logger.error("Error occurred while running service create command: {}, {}", e.getMessage(), e.getCause());
 		}
-	}
-	
-	private boolean promptForConfirm()
-	{
-		boolean result = false;
-		
-		if (ConfigurationManager.getInstance().getPromptToConfirm())
-		{
-			System.out.println("Do you want to proceed? (y/yes to confirm):");
-			Scanner scanner = new Scanner(System.in);
-
-			String val = scanner.next();
-			if(val.equalsIgnoreCase("y")||val.equalsIgnoreCase("yes")) 
-			    result = true;
-		}
-		else // no need to confirm
-			result = true; 
-			
-		return result;
 	}
 }

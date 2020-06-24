@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;

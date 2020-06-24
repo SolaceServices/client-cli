@@ -31,7 +31,7 @@ import picocli.CommandLine.Command;
 		SolDcCommand.class,
 		SolLoginCommand.class,
 		SolLogoutCommand.class,
-		SolRolesCommand.class,
+		SolUserRolesCommand.class,
 		SolServiceCommand.class,
 		SolUserCommand.class,
 		SolVersionCommand.class 

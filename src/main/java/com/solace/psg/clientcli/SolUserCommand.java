@@ -22,8 +22,6 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -35,7 +33,10 @@ import picocli.CommandLine.Option;
  *
  */
 @Command(name = "user", description = "Handles user operations.", subcommands = {
-	      SolUserListCommand.class
+	      SolUserCreateCommand.class,
+	      SolUserDeleteCommand.class,
+	      SolUserListCommand.class,
+	      SolUserRolesCommand.class
 })
 public class SolUserCommand implements Runnable 
 {
@@ -57,7 +58,10 @@ public class SolUserCommand implements Runnable
 	private void showHelp()
 	{
 	    System.out.println(" sol user: \n");
+	    System.out.println(" create - Creates a user and sends an invitation to his email address to join.");
+	    System.out.println(" delete - Deletes a user.");
 	    System.out.println(" list - lists all users for Solace Cloud Console Account");
+	    System.out.println(" roles - lists all user roles for Solace Cloud Console Account");
 	    System.out.println(" Example command: sol user list");
 	}
 	
@@ -79,11 +83,6 @@ public class SolUserCommand implements Runnable
 				System.out.println("Missing parameters for command. Try invokig command with -h for list of parameters.");
 
 		}
-		/*catch (ApiException e)
-		{
-			System.out.println("Error occurred while running login command: " + e.getResponseBody());
-			logger.error("Error occurred while running login command: {}", e.getResponseBody());
-		}*/
 		catch (Exception e)
 		{
 			System.out.println("Error occurred while running list command: " + e.getMessage());

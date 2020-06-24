@@ -20,24 +20,21 @@
 package com.solace.psg.clientcli;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.List;
+
+
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.Permission;
 import com.solace.psg.sempv2.admin.model.Role;
-import com.solace.psg.sempv2.admin.model.User;
+
 import com.solace.psg.sempv2.apiclient.ApiException;
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
-import com.solace.psg.tablereporter.Block;
-import com.solace.psg.tablereporter.Board;
-import com.solace.psg.tablereporter.Table;
+
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -49,9 +46,9 @@ import picocli.CommandLine.Option;
  *
  */
 @Command(name = "roles",description = "Lists user roles.")
-public class SolRolesCommand implements Runnable 
+public class SolUserRolesCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolRolesCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolUserRolesCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -60,7 +57,7 @@ public class SolRolesCommand implements Runnable
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolRolesCommand()
+	public SolUserRolesCommand()
 	{
 	}
 
@@ -69,9 +66,9 @@ public class SolRolesCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol roles \n");
+	    System.out.println(" sol user roles \n");
 
-	    System.out.println(" Example command: sol roles");
+	    System.out.println(" Example command: sol user roles");
 	}
 	
 	/**
