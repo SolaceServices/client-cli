@@ -1,3 +1,12 @@
 To generate the auto complete scripts run (see more details: https://picocli.info/autocomplete.html):
 
 client-cli\target>java -cp "lib\\picocli-4.3.2.jar;ClientCli-0.0.1-SNAPSHOT.jar" picocli.AutoComplete -n sol com.solace.psg.clientcli.SolCommand
+
+
+semp testService 2.13
+semp lib 2.14
+current 2.16
+
+service ca add testCa C:\\Projects\\j2ee\\client-cli\\testdata\\testCa.cer
+hammer scurl -i
+

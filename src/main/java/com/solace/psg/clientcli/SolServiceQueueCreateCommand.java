@@ -140,6 +140,8 @@ public class SolServiceQueueCreateCommand implements Runnable
 				VpnFacade vf = new VpnFacade(sd);
 				MsgVpnQueue request = new MsgVpnQueue();
 				request.setQueueName(queueName);
+				request.setEgressEnabled(true);
+				request.setIngressEnabled(true);
 				if (exclusive)
 					request.accessType(AccessTypeEnum.EXCLUSIVE);
 				else

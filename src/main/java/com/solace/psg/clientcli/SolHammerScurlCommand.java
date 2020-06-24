@@ -19,59 +19,52 @@
  */
 package com.solace.psg.clientcli;
 
-import java.io.IOException;
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
-import com.solace.psg.sempv2.config.model.MsgVpnQueue;
+
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
-
+import com.solace.psg.sempv2.admin.model.ServiceManagementContext;
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
-import com.solace.psg.sempv2.interfaces.VpnFacade;
 
+import com.solace.psg.sempv2.interfaces.ServiceFacade;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.Parameters;
+
 
 /**
- * Command class to handle queue details.
+ * Command class to handle SEMP v1 curl tasks.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "details", description = "Service queue details.")
-public class SolServiceQueueDetailsCommand implements Runnable 
+@Command(name = "scurl", description = "Returns an SEMP v1 curl connection string for a service.")
+public class SolHammerScurlCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceQueueDetailsCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolHammerScurlCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
+	@Option(names = {"-i", "-insecure"}, defaultValue = "false" ,description="Generates insecure connection parameters.")
+	private boolean insecure;	
+	
 	@ArgGroup(exclusive = true, multiplicity = "0..1")
-    Exclusive exclusive;
+    ExcParam excl;
 
-    static class Exclusive {
+    static class ExcParam {
         @Option(names = "-serviceName", required = true) String serviceName;
         @Option(names = "-serviceId", required = true) String serviceId;
     }
-    
-	@Parameters(index = "0", arity = "1", description="the queue name")
-	private String queueName;
-    
-	
+
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceQueueDetailsCommand()
+	public SolHammerScurlCommand()
 	{
 	}
 
@@ -80,10 +73,9 @@ public class SolServiceQueueDetailsCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service queue details <queueName> \n");
-	    System.out.println(" details - details for a queue");
+	    System.out.println(" sol hammer scurl \n");
 
-	    System.out.println(" Example command: sol service cp details <queueName>");
+	    System.out.println(" Example command: sol hammer scurl <serviceId> | <serviceName>");
 	}
 	
 	/**
@@ -91,7 +83,7 @@ public class SolServiceQueueDetailsCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running queue details command.");
+		logger.debug("Running scurl command.");
 		
 		if (help)
 		{
@@ -101,7 +93,7 @@ public class SolServiceQueueDetailsCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Queues details:");	
+			System.out.println("Generating SEMP v1 curl connection details...");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
@@ -113,15 +105,15 @@ public class SolServiceQueueDetailsCommand implements Runnable
 			ServiceFacade sf = new ServiceFacade(token);
 			String ctxServiceId = ConfigurationManager.getInstance().getCurrentServiceId();
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
-			
+						
 			ServiceDetails sd = null;
-			if (exclusive != null && exclusive.serviceId != null)
+			if (excl != null && excl.serviceId != null)
 			{
-				sd = sf.getServiceDetails(exclusive.serviceId);
+				sd = sf.getServiceDetails(excl.serviceId);
 			}
-			else if (exclusive != null && exclusive.serviceName != null)
+			else if (excl != null && excl.serviceName != null)
 			{
-				sd = sf.getServiceDetailsByName(exclusive.serviceName);
+				sd = sf.getServiceDetailsByName(excl.serviceName);
 			}
 			else if (ctxServiceId != null)
 			{
@@ -137,12 +129,18 @@ public class SolServiceQueueDetailsCommand implements Runnable
 				return;
 			}
 			
-			if (sd != null)
+			if (sd != null) 
 			{
-				VpnFacade vf = new VpnFacade(sd);
-				MsgVpnQueue queue = vf.getQueue(queueName);
-
-				printDetails(queue, "");		
+				ServiceManagementContext ctx = new ServiceManagementContext(sd);
+				
+				StringBuffer sb = new StringBuffer();
+				sb.append("curl -d @sampleRequestXmlFile.xml ");
+				sb.append("-u");sb.append(" ");sb.append(ctx.getSempUsername());sb.append(":");sb.append(ctx.getSempPassword());sb.append(" ");
+				sb.append(ctx.getSempV1Url());sb.append(" ");
+				
+				if (insecure)
+					sb.append("-k -insecure");
+				System.out.println(sb.toString());
 			}
 			else
 			{
@@ -151,26 +149,13 @@ public class SolServiceQueueDetailsCommand implements Runnable
 		}
 		catch (ApiException e)
 		{
-			if (e.getResponseBody().contains("NOT_FOUND"))
-					System.out.println("No queue found with the provided name.");
-			else
-				System.out.println("Error occured while running queue command: " + e.getResponseBody());
-			logger.error("Error occured while running queue command: {}", e.getResponseBody());
+			System.out.println("Error occured while running command: " + e.getResponseBody());
+			logger.error("Error occured while running command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occured while running queue command: " + e.getMessage());
-			logger.error("Error occured while running queue command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occured while running  command: " + e.getMessage());
+			logger.error("Error occured while running  command: {}, {}", e.getMessage(), e.getCause());
 		}
-	}
-	
-	private void printDetails(MsgVpnQueue queue, String message) throws IOException
-	{
-		System.out.println(message);
-		logger.debug("Printing queue details.");
-		
-		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-		String yaml = mapper.writeValueAsString(queue);
-		System.out.println(yaml);
 	}
 }

@@ -27,8 +27,10 @@ import picocli.CommandLine.Command;
  *
  */
 @Command(name = "sol", subcommands = {
+		SolAboutCommand.class,
 		SolConfigCommand.class,
 		SolDcCommand.class,
+		SolHammerCommand.class,
 		SolLoginCommand.class,
 		SolLogoutCommand.class,
 		SolUserRolesCommand.class,

@@ -32,6 +32,7 @@ import picocli.CommandLine.Option;
  *
  */
 @Command(name = "service", description = "Handles service operations.", subcommands = {
+		SolServiceCaCommand.class,
 		SolServiceCreateCommand.class,
 		SolServiceClassesCommand.class,
 		SolServiceClientProfileCommand.class,

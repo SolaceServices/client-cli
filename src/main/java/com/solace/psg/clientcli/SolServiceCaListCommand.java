@@ -33,7 +33,7 @@ import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
 
 import com.solace.psg.sempv2.apiclient.ApiException;
-
+import com.solace.psg.sempv2.config.model.CertAuthority;
 import com.solace.psg.sempv2.config.model.MsgVpnClientProfile;
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
 import com.solace.psg.sempv2.interfaces.VpnFacade;
@@ -46,15 +46,15 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * Command class to handle client profile lists.
+ * Command class to handle certificate authority lists.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "list", description = "Lists service client profile details.")
-public class SolServiceClientProfileListCommand implements Runnable 
+@Command(name = "list", description = "Lists service certificate authority details.")
+public class SolServiceCaListCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceClientProfileListCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolServiceCaListCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -70,7 +70,7 @@ public class SolServiceClientProfileListCommand implements Runnable
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceClientProfileListCommand()
+	public SolServiceCaListCommand()
 	{
 	}
 
@@ -79,10 +79,10 @@ public class SolServiceClientProfileListCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service cp list \n");
-	    System.out.println(" list - lists all client profiles.");
+	    System.out.println(" sol service ca list \n");
+	    System.out.println(" list - lists all certificate authorities.");
 
-	    System.out.println(" Example command: sol service cp list");
+	    System.out.println(" Example command: sol service ca list");
 	}
 	
 	/**
@@ -90,7 +90,7 @@ public class SolServiceClientProfileListCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running client profile list command.");
+		logger.debug("Running certificate authority list command.");
 		
 		if (help)
 		{
@@ -100,7 +100,7 @@ public class SolServiceClientProfileListCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Listing client profiles:");	
+			System.out.println("Listing certificate authoritys:");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
@@ -139,9 +139,9 @@ public class SolServiceClientProfileListCommand implements Runnable
 			if (sd != null)
 			{
 				VpnFacade vf = new VpnFacade(sd);
-				List<MsgVpnClientProfile> cps = vf.listClientProfiles();
+				List<CertAuthority> cas = vf.listCAs(sd.getServiceId()); 
 
-				printResults(cps, "");		
+				printResults(cas, "");		
 			}
 			else
 			{
@@ -150,28 +150,28 @@ public class SolServiceClientProfileListCommand implements Runnable
 		}
 		catch (ApiException e)
 		{
-			System.out.println("Error occured while running client profile command: " + e.getResponseBody());
-			logger.error("Error occured while running client profile command: {}", e.getResponseBody());
+			System.out.println("Error occured while running certificate authority command: " + e.getResponseBody());
+			logger.error("Error occured while running certificate authority command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occured while running client profile command: " + e.getMessage());
-			logger.error("Error occured while running client profile command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occured while running certificate authority command: " + e.getMessage());
+			logger.error("Error occured while running certificate authority command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 	
-	private void printResults(List<MsgVpnClientProfile> cps, String message) throws IOException
+	private void printResults(List<CertAuthority> cas, String message) throws IOException
 	{
 		System.out.println(message);
-		logger.debug("Printing client profile list.");
+		logger.debug("Printing certificate authority list.");
 		
 		List<String> headersList = Arrays.asList("Profile name", "Guar. Send", "Guar. Reci.", "Use Tx", "Bridge conn", "Allow create", "Max Ingress", "Max Egress", "Max subscr.", "Max Tx", "Max Sess Tx", "Max Conn Usr");
 
-		List<List<String>> rowsList = new ArrayList<List<String>>(cps.size());
+		List<List<String>> rowsList = new ArrayList<List<String>>(cas.size());
 
-		for (MsgVpnClientProfile cp : cps)
+		for (CertAuthority ca : cas)
 		{
-			rowsList.add(Arrays.asList(cp.getClientProfileName(), "" + cp.isAllowGuaranteedMsgSendEnabled(), "" + cp.isAllowGuaranteedMsgReceiveEnabled(), "" + cp.isTlsAllowDowngradeToPlainTextEnabled(), "" + cp.isAllowBridgeConnectionsEnabled(), "" + cp.isAllowGuaranteedEndpointCreateEnabled(), "" + cp.getMaxIngressFlowCount(), "" + cp.getMaxEgressFlowCount(), "" + cp.getMaxSubscriptionCount(), "" + cp.getMaxTransactedSessionCount(), "" + cp.getMaxTransactionCount(), ""  + cp.getServiceSmfMaxConnectionCountPerClientUsername()));
+			//rowsList.add(Arrays.asList(cp.getClientProfileName(), "" + cp.isAllowGuaranteedMsgSendEnabled(), "" + cp.isAllowGuaranteedMsgReceiveEnabled(), "" + cp.isTlsAllowDowngradeToPlainTextEnabled(), "" + cp.isAllowBridgeConnectionsEnabled(), "" + cp.isAllowGuaranteedEndpointCreateEnabled(), "" + cp.getMaxIngressFlowCount(), "" + cp.getMaxEgressFlowCount(), "" + cp.getMaxSubscriptionCount(), "" + cp.getMaxTransactedSessionCount(), "" + cp.getMaxTransactionCount(), ""  + cp.getServiceSmfMaxConnectionCountPerClientUsername()));
 		}
 		
 		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT);
