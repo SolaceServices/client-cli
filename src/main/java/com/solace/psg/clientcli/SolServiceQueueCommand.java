@@ -37,7 +37,8 @@ import picocli.CommandLine.Option;
 
 	    SolServiceQueueCreateCommand.class,
 	    SolServiceQueueDeleteCommand.class,
-	    //SolServiceQueueListCommand.class,
+	    SolServiceQueueDetailsCommand.class,
+	    SolServiceQueueListCommand.class,
 	    SolServiceQueuePurgeCommand.class
 })
 public class SolServiceQueueCommand implements Runnable 
@@ -46,7 +47,6 @@ public class SolServiceQueueCommand implements Runnable
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
-	
 	
 	/**
 	 * Initialises a new instance of the class.
@@ -63,9 +63,11 @@ public class SolServiceQueueCommand implements Runnable
 	    System.out.println(" sol queue: ");
 	    System.out.println(" create - Creates a queue.");
 	    System.out.println(" delete - Deteles a queue.");
-	    System.out.println(" list - lists all queues for a Solace Cloud Console Account.");
+	    System.out.println(" details - Details of a queue.");
+	    System.out.println(" list - lists all queues.");
+	    System.out.println(" purge - purges messages from a queue.");
 
-	    System.out.println(" Example command: sol queue create <queueName>");
+	    System.out.println(" Example command: sol queue create <queueName> -exclusive");
 	}
 	
 	/**

@@ -93,7 +93,7 @@ public class SolServiceClientProfileDetailsCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running client profile list command.");
+		logger.debug("Running client profile details command.");
 		
 		if (help)
 		{
@@ -103,7 +103,7 @@ public class SolServiceClientProfileDetailsCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Listing client profiles:");	
+			System.out.println("Client profile details:");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )

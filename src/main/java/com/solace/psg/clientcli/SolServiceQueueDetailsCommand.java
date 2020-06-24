@@ -19,20 +19,24 @@
  */
 package com.solace.psg.clientcli;
 
+import java.io.IOException;
+
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
-
+import com.solace.psg.sempv2.config.model.MsgVpnQueue;
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
 
 import com.solace.psg.sempv2.apiclient.ApiException;
-
-import com.solace.psg.sempv2.config.model.MsgVpnQueue;
-import com.solace.psg.sempv2.config.model.MsgVpnQueue.AccessTypeEnum;
+import com.solace.psg.sempv2.apiclient.ApiResponse;
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
 import com.solace.psg.sempv2.interfaces.VpnFacade;
+
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -40,36 +44,35 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 /**
- * Command class to handle queue create.
+ * Command class to handle queue details.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "create", description = "Creates queue.")
-public class SolServiceQueueCreateCommand implements Runnable 
+@Command(name = "details", description = "Service queue details.")
+public class SolServiceQueueDetailsCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceQueueCreateCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolServiceQueueDetailsCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
 	@ArgGroup(exclusive = true, multiplicity = "0..1")
-    ExcParam excl;
+    Exclusive exclusive;
 
-    static class ExcParam {
+    static class Exclusive {
         @Option(names = "-serviceName", required = true) String serviceName;
         @Option(names = "-serviceId", required = true) String serviceId;
     }
-
+    
 	@Parameters(index = "0", arity = "1", description="the queue name")
 	private String queueName;
-
-	@Option(names = {"-e", "-exclusive"} , defaultValue = "false",  description="Indicates the queue should be created as exclusive. Default is non-exlusive")
-	private boolean exclusive;	
+    
+	
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceQueueCreateCommand()
+	public SolServiceQueueDetailsCommand()
 	{
 	}
 
@@ -78,10 +81,10 @@ public class SolServiceQueueCreateCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service queue create \n");
-	    System.out.println(" create - Creates a queue for a service.");
+	    System.out.println(" sol service queue details <queueName> \n");
+	    System.out.println(" details - details for a queue");
 
-	    System.out.println(" Example command: sol service queue create <queueName> -exclusive");
+	    System.out.println(" Example command: sol service cp details <queueName>");
 	}
 	
 	/**
@@ -89,7 +92,7 @@ public class SolServiceQueueCreateCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running queue create command.");
+		logger.debug("Running queue details command.");
 		
 		if (help)
 		{
@@ -99,7 +102,7 @@ public class SolServiceQueueCreateCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Creating queue...");	
+			System.out.println("Queues details:");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
@@ -113,13 +116,13 @@ public class SolServiceQueueCreateCommand implements Runnable
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
 			ServiceDetails sd = null;
-			if (excl != null && excl.serviceId != null)
+			if (exclusive != null && exclusive.serviceId != null)
 			{
-				sd = sf.getServiceDetails(excl.serviceId);
+				sd = sf.getServiceDetails(exclusive.serviceId);
 			}
-			else if (excl != null && excl.serviceName != null)
+			else if (exclusive != null && exclusive.serviceName != null)
 			{
-				sd = sf.getServiceDetailsByName(excl.serviceName);
+				sd = sf.getServiceDetailsByName(exclusive.serviceName);
 			}
 			else if (ctxServiceId != null)
 			{
@@ -138,19 +141,9 @@ public class SolServiceQueueCreateCommand implements Runnable
 			if (sd != null)
 			{
 				VpnFacade vf = new VpnFacade(sd);
-				MsgVpnQueue request = new MsgVpnQueue();
-				request.setQueueName(queueName);
-				if (exclusive)
-					request.accessType(AccessTypeEnum.EXCLUSIVE);
-				else
-					request.accessType(AccessTypeEnum.NON_EXCLUSIVE);
-				
-				boolean result = vf.addQueue(request);
+				MsgVpnQueue queue = vf.getQueue(queueName);
 
-				if (result)
-					System.out.println("Queue created successfully.");
-				else
-					System.out.println("Error creating the queue.  Check logs for more details.");	
+				printDetails(queue, "");		
 			}
 			else
 			{
@@ -159,13 +152,26 @@ public class SolServiceQueueCreateCommand implements Runnable
 		}
 		catch (ApiException e)
 		{
-			System.out.println("Error occured while running command: " + e.getResponseBody());
-			logger.error("Error occured while running command: {}", e.getResponseBody());
+			if (e.getResponseBody().contains("NOT_FOUND"))
+					System.out.println("No queue found with the provided name.");
+			else
+				System.out.println("Error occured while running queue command: " + e.getResponseBody());
+			logger.error("Error occured while running queue command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occured while running  command: " + e.getMessage());
-			logger.error("Error occured while running  command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occured while running queue command: " + e.getMessage());
+			logger.error("Error occured while running queue command: {}, {}", e.getMessage(), e.getCause());
 		}
+	}
+	
+	private void printDetails(MsgVpnQueue queue, String message) throws IOException
+	{
+		System.out.println(message);
+		logger.debug("Printing queue details.");
+		
+		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+		String yaml = mapper.writeValueAsString(queue);
+		System.out.println(yaml);
 	}
 }

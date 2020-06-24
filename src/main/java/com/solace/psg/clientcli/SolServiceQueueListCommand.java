@@ -26,7 +26,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import org.apache.maven.shared.utils.StringUtils;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
 
@@ -34,7 +34,7 @@ import com.solace.psg.sempv2.admin.model.ServiceDetails;
 
 import com.solace.psg.sempv2.apiclient.ApiException;
 
-import com.solace.psg.sempv2.config.model.MsgVpnClientProfile;
+import com.solace.psg.sempv2.config.model.MsgVpnQueue;
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
 import com.solace.psg.sempv2.interfaces.VpnFacade;
 import com.solace.psg.tablereporter.Block;
@@ -46,15 +46,15 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * Command class to handle client profile lists.
+ * Command class to handle queue list.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "list", description = "Lists service client profile details.")
-public class SolServiceClientProfileListCommand implements Runnable 
+@Command(name = "list", description = "Lists service queue details.")
+public class SolServiceQueueListCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceClientProfileListCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolServiceQueueListCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -70,7 +70,7 @@ public class SolServiceClientProfileListCommand implements Runnable
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceClientProfileListCommand()
+	public SolServiceQueueListCommand()
 	{
 	}
 
@@ -79,10 +79,10 @@ public class SolServiceClientProfileListCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service cp list \n");
-	    System.out.println(" list - lists all client profiles for Solace Cloud Console Account");
+	    System.out.println(" sol service queue list \n");
+	    System.out.println(" list - lists all queues.");
 
-	    System.out.println(" Example command: sol service cp list");
+	    System.out.println(" Example command: sol service queue list");
 	}
 	
 	/**
@@ -90,7 +90,7 @@ public class SolServiceClientProfileListCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running client profile list command.");
+		logger.debug("Running queue list command.");
 		
 		if (help)
 		{
@@ -100,7 +100,7 @@ public class SolServiceClientProfileListCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Listing client profiles:");	
+			System.out.println("Listing queues:");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
@@ -139,9 +139,9 @@ public class SolServiceClientProfileListCommand implements Runnable
 			if (sd != null)
 			{
 				VpnFacade vf = new VpnFacade(sd);
-				List<MsgVpnClientProfile> cps = vf.listClientProfiles();
+				List<MsgVpnQueue> queues = vf.listQueues();
 
-				printResults(cps, "");		
+				printResults(queues, "");		
 			}
 			else
 			{
@@ -150,32 +150,32 @@ public class SolServiceClientProfileListCommand implements Runnable
 		}
 		catch (ApiException e)
 		{
-			System.out.println("Error occured while running client profile command: " + e.getResponseBody());
-			logger.error("Error occured while running client profile command: {}", e.getResponseBody());
+			System.out.println("Error occured while running queue command: " + e.getResponseBody());
+			logger.error("Error occured while running queue command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occured while running client profile command: " + e.getMessage());
-			logger.error("Error occured while running client profile command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occured while running queue command: " + e.getMessage());
+			logger.error("Error occured while running queue command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 	
-	private void printResults(List<MsgVpnClientProfile> cps, String message) throws IOException
+	private void printResults(List<MsgVpnQueue> queues, String message) throws IOException
 	{
 		System.out.println(message);
-		logger.debug("Printing client profile list.");
+		logger.debug("Printing queue list.");
 		
-		List<String> headersList = Arrays.asList("Profile name", "Guar. Send", "Guar. Reci.", "Use Tx", "Bridge conn", "Allow create", "Max Ingress", "Max Egress", "Max subscr.", "Max Tx", "Max Sess Tx", "Max Conn Usr");
+		List<String> headersList = Arrays.asList("Queue name", "Access type", "Ingress on", "Egress on", "Cons. Ack on", "Max spool", "DMQ");
 
-		List<List<String>> rowsList = new ArrayList<List<String>>(cps.size());
+		List<List<String>> rowsList = new ArrayList<List<String>>(queues.size());
 
-		for (MsgVpnClientProfile cp : cps)
+		for (MsgVpnQueue q : queues)
 		{
-			rowsList.add(Arrays.asList(cp.getClientProfileName(), "" + cp.isAllowGuaranteedMsgSendEnabled(), "" + cp.isAllowGuaranteedMsgReceiveEnabled(), "" + cp.isTlsAllowDowngradeToPlainTextEnabled(), "" + cp.isAllowBridgeConnectionsEnabled(), "" + cp.isAllowGuaranteedEndpointCreateEnabled(), "" + cp.getMaxIngressFlowCount(), "" + cp.getMaxEgressFlowCount(), "" + cp.getMaxSubscriptionCount(), "" + cp.getMaxTransactedSessionCount(), "" + cp.getMaxTransactionCount(), ""  + cp.getServiceSmfMaxConnectionCountPerClientUsername()));
+			rowsList.add(Arrays.asList(q.getQueueName(), q.getAccessType().toString(), "" + q.isIngressEnabled(), "" + q.isEgressEnabled(), "" +  q.isConsumerAckPropagationEnabled(), "" + q.getMaxMsgSpoolUsage() , StringUtils.abbreviate(q.getDeadMsgQueue(), 19) ));
 		}
 		
-		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT);
-		List<Integer> colWidthsListEdited = Arrays.asList(25, 11, 11, 10, 11, 12, 11, 11, 11, 9, 11, 12);
+		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT);
+		List<Integer> colWidthsListEdited = Arrays.asList(25, 14, 11, 11, 13, 12, 20);
 		int width = Board.getRecommendedWidth(colWidthsListEdited, true);
 				
 		Board board = new Board(width);	
