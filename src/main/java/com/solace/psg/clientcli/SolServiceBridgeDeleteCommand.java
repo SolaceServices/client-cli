@@ -161,7 +161,7 @@ public class SolServiceBridgeDeleteCommand implements Runnable
 				boolean result = vf.deleteBridge(rsd);
 
 				if (result)
-					System.out.println("bridge deleted successfully.");
+					System.out.println("Bridge deleted successfully.");
 				else
 					System.out.println("Error deleting the bridge.  Check logs for more details.");	
 			}

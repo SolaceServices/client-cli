@@ -24,8 +24,10 @@ import org.apache.logging.log4j.Logger;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
 
+import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 /**
  * Command class to handle login.
@@ -47,8 +49,25 @@ public class SolConfigCommand implements Runnable
 	@Option(names = {"-r", "-reset"}, fallbackValue = "false", description = "Resets the configuration."  )
 	private Boolean reset;
 	
+	@ArgGroup(exclusive = true, multiplicity = "0..1")
+    ExcParam excl;
+
+	@Parameters(index = "0", arity = "0..1", description="the profile name")
+	private String profileName;
+	
+    static class ExcParam {
+	@Option(names = {"-l", "-load"}, defaultValue = "false", description = "Loads a configuration with a provided profile name."  )
+	private Boolean load;
+	@Option(names = {"-d", "-delete"}, defaultValue = "false", description = "Deletes a configuration with a provided profile name."  )
+	private Boolean delete;
+	@Option(names = {"-s", "-save"}, defaultValue = "false", description = "Saves a configuration with a provided profile name."  )
+	private Boolean save;
+    }	
+	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
+	
+	private boolean changed = false;
 	
 	
 	/**
@@ -69,6 +88,7 @@ public class SolConfigCommand implements Runnable
 
 	    System.out.println(" Example config command: sol config -e -p");
 	    System.out.println(" Example reset command: sol config -r");
+	    System.out.println(" Example save command: sol config -s seProfile");
 	}
 	
 	/**
@@ -87,20 +107,56 @@ public class SolConfigCommand implements Runnable
 		try
 		{
 			ConfigurationManager config = ConfigurationManager.getInstance();
-			
+						
 			if (encrypt != null)
+			{
 				config.setEncryptDetails(encrypt);
-
+				changed = true;
+			}
 			if (prompt != null)
+			{
 				config.setPromptToConfirm(prompt);
+				changed = true;
+			}
 
 			if (reset != null)
+			{
 				config.reset();
+				changed = true;
+			}
 			
-			// store the input data into the configuration file.
-			config.store();
+			if (changed)
+			{
+				// store the input data into the configuration file.
+				config.store();
 			
-			System.out.println("Config values saved.");
+				System.out.println("Config values saved.");
+			}
+			
+			if (excl != null)
+			{
+				if (profileName == null || profileName.isEmpty())
+				{	
+					System.out.println("Specify a profile name.");
+					return;
+				}
+				if (excl.delete)
+				{
+					ConfigurationManager.getInstance().deleteConfig(profileName);
+					System.out.println("Profile deleted successfully.");
+				}
+				else if (excl.save)
+				{
+					ConfigurationManager.getInstance().saveConfig(profileName);
+					System.out.println("Profile Saved successfully.");
+				}
+				else if (excl.load)
+				{
+					ConfigurationManager.getInstance().loadConfig(profileName);
+					System.out.println("Profile loaded successfully.");
+				}
+			}
+
 		}
 		catch (Exception e)
 		{

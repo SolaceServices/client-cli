@@ -32,6 +32,7 @@ import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.maven.shared.utils.io.FileUtils;
 
 import com.solace.psg.util.AES;
 
@@ -44,9 +45,12 @@ public class ConfigurationManager
 {
 	private static final Logger logger = LogManager.getLogger(ConfigurationManager.class);
 
-	public static final String DEFAULT_NAME = "profile.conf"; 
+	public static final String DEFAULT_NAME = "current_profile.conf"; 
+	public static final String FOLDER = "config"; 
 	
 	private String filename;
+	
+	private static String filePath = FOLDER + File.separator + DEFAULT_NAME;
 	
 	private Properties props = new Properties();
 	
@@ -81,9 +85,51 @@ public class ConfigurationManager
 	 */
 	private ConfigurationManager() 
 	{
-		this(DEFAULT_NAME);
+		this(filePath);
 	}
 
+	/**
+	 * Saves another configuration.
+	 * @param filename
+	 * @throws IOException 
+	 */
+	public void saveConfig(String profileName) throws IOException
+	{
+		String newFilename = DEFAULT_NAME.replace("current", profileName);
+		File curFile = new File(filePath);
+		File newFile = new File(FOLDER + File.separator + newFilename);
+		FileUtils.copyFile(curFile, newFile);
+	}
+	
+	/**
+	 * Delete a config file.
+	 * @param profileName
+	 * @throws IOException
+	 */
+	public void deleteConfig(String profileName) throws IOException
+	{
+		String filename = DEFAULT_NAME.replace("current", profileName);
+		File file = new File(FOLDER + File.separator + filename);
+		file.delete();
+	}	
+	
+	/**
+	 * Loads an existing config. 
+	 * @param profileName
+	 * @throws IOException
+	 */
+	public void loadConfig(String profileName) throws IOException
+	{
+		String newFilename = DEFAULT_NAME.replace("current", profileName);
+		File curFile = new File(filePath);
+		File newFile = new File(FOLDER + File.separator + newFilename);
+		if (newFile.exists())
+			FileUtils.copyFile(newFile, curFile);
+		
+		props.clear();
+		load();
+	}	
+	
 	/**
 	 * Initialises a new instance of the class.
 	 */
