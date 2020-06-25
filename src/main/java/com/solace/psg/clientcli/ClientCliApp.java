@@ -23,6 +23,9 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.solace.psg.clientcli.utils.SubscriptionConverter;
+import com.solace.psg.sempv2.admin.model.Subscription;
+
 import picocli.CommandLine;
 
 
@@ -39,6 +42,7 @@ public class ClientCliApp
         try
 		{
         	CommandLine cmd = new CommandLine(new SolCommand());//.setColorScheme(myColorScheme()); 
+        	cmd.registerConverter(Subscription.class, new SubscriptionConverter());
         	cmd.execute(args);
 		}
 		catch (Exception e)

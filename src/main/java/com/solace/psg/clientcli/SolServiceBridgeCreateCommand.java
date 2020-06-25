@@ -19,6 +19,8 @@
  */
 package com.solace.psg.clientcli;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,48 +28,59 @@ import org.apache.logging.log4j.Logger;
 import com.solace.psg.clientcli.config.ConfigurationManager;
 
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
-import com.solace.psg.sempv2.admin.model.ServiceManagementContext;
+
+import com.solace.psg.sempv2.admin.model.Subscription;
 import com.solace.psg.sempv2.apiclient.ApiException;
 
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.interfaces.VpnFacade;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-
 /**
- * Command class to handle SDKPerf tasks.
+ * Command class to handle bridge create.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "sperf", description = "Returns an SDKPerf connection string for a service.")
-public class SolHammerSperfCommand implements Runnable 
+@Command(name = "create", description = "Creates bridge.")
+public class SolServiceBridgeCreateCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolHammerSperfCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolServiceBridgeCreateCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
-	@Option(names = {"-s", "-space"}, defaultValue = "false" ,description="Generates space instead of equal signs.")
-	private boolean space;
-
-	@Option(names = {"-ss", "-secured"}, defaultValue = "false" ,description="Generates secured SMF connection string.")
-	private boolean secured;
-	
 	@ArgGroup(exclusive = true, multiplicity = "0..1")
-    ExcParam excl;
+    ExcParamLocal local;
 
-    static class ExcParam {
-        @Option(names = "-serviceName", required = true) String serviceName;
-        @Option(names = "-serviceId", required = true) String serviceId;
+	@ArgGroup(exclusive = true, multiplicity = "1")
+    ExcParamRemote remote;
+
+    static class ExcParamLocal {
+        @Option(names = {"-localServiceName", "-ln"}, required = true) String localServiceName;
+        @Option(names = {"-localServiceId", "-lid"}, required = true) String localServiceId;
     }
 
+    static class ExcParamRemote {
+        @Option(names = {"-remoteServiceName", "-rn"}, required = true) String remoteServiceName;
+        @Option(names = {"-remoteServiceId", "-rid"}, required = true) String remoteServiceId;
+    }
+
+    static class ParamSubscription {
+        @Option(names = {"-remoteServiceName", "-rn"}, required = true) String remoteServiceName;
+        @Option(names = {"-remoteServiceId", "-rid"}, required = true) String remoteServiceId;
+    }
+    
+    @Option(names = "-s", description = "Adds a subscription in format {name(mandatory) direction(opt.) type(opt.) default is SMF} -  <topicName> <IN>|<OUT> <D>|<G>|<DA> <SMF>|<MQTT>", arity = "0..*") 
+    List<Subscription> subscritpions;
+    
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolHammerSperfCommand()
+	public SolServiceBridgeCreateCommand()
 	{
 	}
 
@@ -76,9 +89,11 @@ public class SolHammerSperfCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol hammer sperf \n");
-
-	    System.out.println(" Example command: sol hammer sperf <serviceId> | <serviceName>");
+	    System.out.println(" sol service bridge create \n");
+	    System.out.println(" create - Creates a bridge for a service.");
+	    System.out.println(" create - Creates a bridge for a service.");
+	    
+	    System.out.println(" Example command: sol service bridge create -rn=testService2 -s=\"t/v1/1 IN D\" -s=\"t/v1/2 OUT G\"");
 	}
 	
 	/**
@@ -86,7 +101,7 @@ public class SolHammerSperfCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running sperf command.");
+		logger.debug("Running bridge create command.");
 		
 		if (help)
 		{
@@ -96,7 +111,7 @@ public class SolHammerSperfCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Generating SDKPerf connection details...");	
+			System.out.println("Creating bridge...");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
@@ -109,16 +124,14 @@ public class SolHammerSperfCommand implements Runnable
 			String ctxServiceId = ConfigurationManager.getInstance().getCurrentServiceId();
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
-			char delimiter = space ? ' ' : '=' ;
-			
 			ServiceDetails sd = null;
-			if (excl != null && excl.serviceId != null)
+			if (local != null && local.localServiceId != null)
 			{
-				sd = sf.getServiceDetails(excl.serviceId);
+				sd = sf.getServiceDetails(local.localServiceId);
 			}
-			else if (excl != null && excl.serviceName != null)
+			else if (local != null && local.localServiceName != null)
 			{
-				sd = sf.getServiceDetailsByName(excl.serviceName);
+				sd = sf.getServiceDetailsByName(local.localServiceName);
 			}
 			else if (ctxServiceId != null)
 			{
@@ -133,31 +146,27 @@ public class SolHammerSperfCommand implements Runnable
 				System.out.println("Service ID or service name was not provided.");
 				return;
 			}
-			
-			if (sd != null) 
+					
+			ServiceDetails rsd = null;
+			if (remote.remoteServiceId != null)
 			{
-				ServiceManagementContext ctx = new ServiceManagementContext(sd);
-				
-				String url = null; 
-				if (ctx.getSmfUrl() == null || secured)
-					url = ServiceManagementContext.SECURE_SMF_PREFIX + ctx.getSecureSmfUrl();
+				rsd = sf.getServiceDetails(remote.remoteServiceId);
+			}
+			else if (remote.remoteServiceName != null)
+			{
+				rsd = sf.getServiceDetailsByName(remote.remoteServiceName);
+			}	
+			
+			if (sd != null && rsd != null)
+			{
+				VpnFacade vf = new VpnFacade(sd);
+
+				boolean result = vf.createBridge(rsd, subscritpions);
+
+				if (result)
+					System.out.println("bridge created successfully.");
 				else
-					url = ServiceManagementContext.SMF_PREFIX + ctx.getSmfUrl();
-				
-				StringBuffer sb = new StringBuffer();
-				
-				boolean isWindows = System.getProperty("os.name")
-						  .toLowerCase().startsWith("windows");
-				
-				if (isWindows)
-					sb.append("sdkperf_java.bat ");
-				else
-					sb.append("./sdkperf_java.sh ");
-				sb.append("-cip");sb.append(delimiter);sb.append(url);sb.append(" ");
-				sb.append("-cu");sb.append(delimiter);sb.append(ctx.getUserUsername());sb.append("@");sb.append(ctx.getVpnName());sb.append(" ");
-				sb.append("-cp");sb.append(delimiter);sb.append(ctx.getUserPassword());
-				sb.append(" <sdkPerfParams>");
-				System.out.println(sb.toString());
+					System.out.println("Error creating the bridge.  Check logs for more details.");	
 			}
 			else
 			{

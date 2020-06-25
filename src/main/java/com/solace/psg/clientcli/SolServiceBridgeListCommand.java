@@ -26,14 +26,14 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import org.apache.maven.shared.utils.StringUtils;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
 
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
 
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.config.model.CertAuthority;
+import com.solace.psg.sempv2.config.model.MsgVpnBridge;
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
 import com.solace.psg.sempv2.interfaces.VpnFacade;
 import com.solace.psg.tablereporter.Block;
@@ -45,15 +45,15 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * Command class to handle certificate authority lists.
+ * Command class to handle bridge list.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "list", description = "Lists service certificate authority details.")
-public class SolServiceCaListCommand implements Runnable 
+@Command(name = "list", description = "Lists service bridge details.")
+public class SolServiceBridgeListCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceCaListCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolServiceBridgeListCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -69,7 +69,7 @@ public class SolServiceCaListCommand implements Runnable
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceCaListCommand()
+	public SolServiceBridgeListCommand()
 	{
 	}
 
@@ -78,10 +78,10 @@ public class SolServiceCaListCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service ca list \n");
-	    System.out.println(" list - lists all certificate authorities.");
+	    System.out.println(" sol service bridge list \n");
+	    System.out.println(" list - lists all bridges.");
 
-	    System.out.println(" Example command: sol service ca list");
+	    System.out.println(" Example command: sol service bridge list");
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public class SolServiceCaListCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running certificate authority list command.");
+		logger.debug("Running bridge list command.");
 		
 		if (help)
 		{
@@ -99,7 +99,7 @@ public class SolServiceCaListCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Listing certificate authoritiess:");	
+			System.out.println("Listing bridges:");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
@@ -137,9 +137,10 @@ public class SolServiceCaListCommand implements Runnable
 			
 			if (sd != null)
 			{
-				List<String> cas = sd.getCertificateAuthorities();
+				VpnFacade vf = new VpnFacade(sd);
+				List<MsgVpnBridge> bridges = vf.getBridges();
 
-				printResults(cas, "");		
+				printResults(bridges, "");		
 			}
 			else
 			{
@@ -148,27 +149,45 @@ public class SolServiceCaListCommand implements Runnable
 		}
 		catch (ApiException e)
 		{
-			System.out.println("Error occured while running certificate authority command: " + e.getResponseBody());
-			logger.error("Error occured while running certificate authority command: {}", e.getResponseBody());
+			System.out.println("Error occured while running bridge command: " + e.getResponseBody());
+			logger.error("Error occured while running bridge command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occured while running certificate authority command: " + e.getMessage());
-			logger.error("Error occured while running certificate authority command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occured while running bridge command: " + e.getMessage());
+			logger.error("Error occured while running bridge command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 	
-	private void printResults(List<String> cas, String message) throws IOException
+	private void printResults(List<MsgVpnBridge> bridges, String message) throws IOException
 	{
 		System.out.println(message);
-		logger.debug("Printing certificate authority list.");
-		for (String ca : cas)
+		logger.debug("Printing bridge list.");
+		
+		List<String> headersList = Arrays.asList("Bridge name", "Enabled", "Virtual router", "Max TTL");
+
+		List<List<String>> rowsList = new ArrayList<List<String>>(bridges.size());
+
+		for (MsgVpnBridge b : bridges)
 		{
-			if (ca != null)
-				System.out.println(ca);
-			else
-				System.out.println("<internal unnamed>");
-		}		
+			rowsList.add(Arrays.asList(StringUtils.abbreviate(b.getBridgeName(), 23), "" + b.isEnabled(), b.getBridgeVirtualRouter().getValue(), "" + b.getMaxTtl()));
+		}
+		
+		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT);
+		List<Integer> colWidthsListEdited = Arrays.asList(25, 10, 20, 10);
+		int width = Board.getRecommendedWidth(colWidthsListEdited, true);
+				
+		Board board = new Board(width);	
+		Table table = new Table(board, width, headersList, rowsList);		
+		table.setColWidthsList(colWidthsListEdited);
+		table.setColAlignsList(colAlignList);
+		
+		Block block = table.tableToBlocks();
+		//block.setBelowBlock(summaryBlock);
+		board.setInitialBlock(block);
+		
+		String tableString = board.build().getPreview();
+		System.out.println(tableString);
 	}
 
 }

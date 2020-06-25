@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO">
     <Appenders>
-        <RollingFile name="file" fileName="CoronaApp.log" filePattern="Corona-%d{yyyy-MM-dd}.log">
+        <RollingFile name="file" fileName="ClientCli.log" filePattern="ClientCli-%d{yyyy-MM-dd}.log">
             <PatternLayout>
                 <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
             </PatternLayout>

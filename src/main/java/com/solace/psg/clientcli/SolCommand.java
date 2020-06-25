@@ -31,6 +31,7 @@ import picocli.CommandLine.Command;
 		SolConfigCommand.class,
 		SolDcCommand.class,
 		SolHammerCommand.class,
+		SolJoltCommand.class,
 		SolLoginCommand.class,
 		SolLogoutCommand.class,
 		SolUserRolesCommand.class,
@@ -40,7 +41,6 @@ import picocli.CommandLine.Command;
 })
 public class SolCommand implements Runnable 
 {
-
 	/**
 	 * Initialises a new instance of the class.
 	 */

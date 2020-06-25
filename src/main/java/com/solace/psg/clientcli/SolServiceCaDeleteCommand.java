@@ -30,7 +30,6 @@ import com.solace.psg.sempv2.apiclient.ApiException;
 
 
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
-import com.solace.psg.util.FileUtils;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;

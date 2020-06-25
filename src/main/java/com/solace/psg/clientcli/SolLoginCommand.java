@@ -45,13 +45,15 @@ public class SolLoginCommand implements Runnable
 	
 	@Option(names = {"-p", "-password"})	
 	private String password;
+
+	@Option(names = {"-t", "-token"})	
+	private String token;
 	
 	@Option(names = {"-n"})
 	private boolean show;
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
-	
 	
 	/**
 	 * Initialises a new instance of the class.
@@ -68,6 +70,7 @@ public class SolLoginCommand implements Runnable
 	    System.out.println(" sol login [-u, -username=<username>] [-p, -password=<password>] [-n] \n");
 	    System.out.println(" -username - the email or username to login to Solace Cloud Console Account");
 	    System.out.println(" -password - the password to login to Solace Cloud Console Account");
+	    System.out.println(" -token    - set already obtained token for the Solace Cloud Console Account");
 	    System.out.println(" -n        - does not print in command line the token generated for the Solace Cloud Console Account");
 	    System.out.println(" Example command: sol login -u=John.Smith@example.com -p=hotshot -n");
 	}
@@ -88,17 +91,21 @@ public class SolLoginCommand implements Runnable
 		try
 		{
 			ConfigurationManager config = ConfigurationManager.getInstance();
-			ServiceFacade sf = new ServiceFacade(username, password);
-			
-			String token = sf.getCurrentAccessToken();
-			
-			if (!show)
-				System.out.println("The following login token was generated: \n " + token);
-			
-			if (token != null)
+			if (username != null && password !=null && !username.isEmpty() && !password.isEmpty())
 			{
+				ServiceFacade sf = new ServiceFacade(username, password);
+				
+				token = sf.getCurrentAccessToken();
+				
 				config.setCloudAccountUsername(username);
 				config.setCloudAccountPassword(password);
+
+				if (!show)
+					System.out.println("The following login token was generated: \n " + token);
+			}
+			
+			if (token != null && !token.isEmpty())
+			{
 				config.setCloudAccountToken(token);
 				
 				// store the input data into the configuration file.
