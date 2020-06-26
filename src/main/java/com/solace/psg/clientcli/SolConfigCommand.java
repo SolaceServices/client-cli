@@ -48,22 +48,26 @@ public class SolConfigCommand implements Runnable
 
 	@Option(names = {"-r", "-reset"}, fallbackValue = "false", description = "Resets the configuration."  )
 	private Boolean reset;
-	
+
 	@ArgGroup(exclusive = true, multiplicity = "0..1")
     ExcParam excl;
 
-	@Parameters(index = "0", arity = "0..1", description="the profile name")
-	private String profileName;
+	@Parameters(index = "0", arity = "0..1", description="the input parameter for the command")
+	private String input;
 	
     static class ExcParam {
-	@Option(names = {"-l", "-load"}, defaultValue = "false", description = "Loads a configuration with a provided profile name."  )
-	private Boolean load;
-	@Option(names = {"-d", "-delete"}, defaultValue = "false", description = "Deletes a configuration with a provided profile name."  )
-	private Boolean delete;
-	@Option(names = {"-s", "-save"}, defaultValue = "false", description = "Saves a configuration with a provided profile name."  )
-	private Boolean save;
-    }	
-	
+		@Option(names = {"-l", "-load"}, defaultValue = "false", description = "Loads a configuration with a provided profile name."  )
+		private Boolean load;
+		@Option(names = {"-d", "-delete"}, defaultValue = "false", description = "Deletes a configuration with a provided profile name."  )
+		private Boolean delete;
+		@Option(names = {"-s", "-save"}, defaultValue = "false", description = "Saves a configuration with a provided profile name."  )
+		private Boolean save;
+		@Option(names = {"-c", "-cliToSemp"}, defaultValue = "false", description = "The ClI to SEMP tool path."  )
+		private Boolean cliToSemp;    
+		@Option(names = {"-perl"}, defaultValue = "false", description = "The path to Perl executable."  )
+		private Boolean perl;    
+	}	
+
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
@@ -85,10 +89,14 @@ public class SolConfigCommand implements Runnable
 	    System.out.println(" sol config [-e, -encrypted=true|false] default: true \n");
 	    System.out.println(" sol config [-p, -prompt=true|false] default: true \n");
 	    System.out.println(" sol config [-r, -reset=true|false] default: false\n");
+	    System.out.println(" sol config [-c, -set path to cliToSemp\n");
+	    System.out.println(" sol config [-perl, -set path to Perl\n");
 
 	    System.out.println(" Example config command: sol config -e -p");
 	    System.out.println(" Example reset command: sol config -r");
 	    System.out.println(" Example save command: sol config -s seProfile");
+	    System.out.println(" Example set Cli to SEMP path command: sol config -c \"C:\\Tools\\cli-to-semp-9.0.1.30\"");
+	    System.out.println(" Example set Perl path command: sol config -perl \"C:\\Tools\\Perl\\bin\"");
 	}
 	
 	/**
@@ -135,28 +143,39 @@ public class SolConfigCommand implements Runnable
 			
 			if (excl != null)
 			{
-				if (profileName == null || profileName.isEmpty())
+				if (input == null || input.isEmpty())
 				{	
-					System.out.println("Specify a profile name.");
+					System.out.println("Specify input parameter.");
 					return;
 				}
 				if (excl.delete)
 				{
-					ConfigurationManager.getInstance().deleteConfig(profileName);
+					ConfigurationManager.getInstance().deleteConfig(input);
 					System.out.println("Profile deleted successfully.");
 				}
 				else if (excl.save)
 				{
-					ConfigurationManager.getInstance().saveConfig(profileName);
+					ConfigurationManager.getInstance().saveConfig(input);
 					System.out.println("Profile Saved successfully.");
 				}
 				else if (excl.load)
 				{
-					ConfigurationManager.getInstance().loadConfig(profileName);
+					ConfigurationManager.getInstance().loadConfig(input);
 					System.out.println("Profile loaded successfully.");
 				}
+				else if (excl.cliToSemp)
+				{
+					ConfigurationManager.getInstance().setCliToSempPath(input);
+					ConfigurationManager.getInstance().store();
+					System.out.println("CLI to SEMP path set successfully.");
+				}
+				else if (excl.perl)
+				{
+					ConfigurationManager.getInstance().setPerlPath(input);
+					ConfigurationManager.getInstance().store();
+					System.out.println("Perl path set successfully.");
+				}
 			}
-
 		}
 		catch (Exception e)
 		{

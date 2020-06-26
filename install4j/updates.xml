@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<updateDescriptor baseUrl="">
+  <entry targetMediaFileId="60" updatableVersionMin="" updatableVersionMax="" fileName="ClientCli_windows-x64_0_0_1.msi" newVersion="0.0.1" newMediaFileId="60" fileSize="31299584" md5Sum="139de735930f70035a89b70cc162495a" sha256Sum="8a2f702ee9b79c433e09361993a5cddc63a0436951cd5ff902afec6a84ed18cc" bundledJre="" archive="false" singleBundle="false">
+    <comment language="en" />
+  </entry>
+</updateDescriptor>

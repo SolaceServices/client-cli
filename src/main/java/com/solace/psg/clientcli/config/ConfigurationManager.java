@@ -352,6 +352,40 @@ public class ConfigurationManager
 	}
 
 	/**
+	 * Gets CLI to SEMP path.
+	 * @return path
+	 */
+	public String getCliToSempPath()
+	{
+		return props.getProperty("cliToSempPath");
+	}
+	/**
+	 * Sets CLI to SEMP path.
+	 * @param path the path
+	 */
+	public void setCliToSempPath(String path)
+	{
+		props.setProperty("cliToSempPath", path);
+	}
+
+	/**
+	 * Gets Perl path.
+	 * @return path
+	 */
+	public String getPerlPath()
+	{
+		return props.getProperty("perlPath");
+	}
+	/**
+	 * Sets Perl path.
+	 * @param path the path
+	 */
+	public void setPerlPath(String path)
+	{
+		props.setProperty("perlPath", path);
+	}
+
+	/**
 	 * Gets current VPN/service name.
 	 * @return name
 	 */

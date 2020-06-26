@@ -32,6 +32,8 @@ import picocli.CommandLine.Option;
  *
  */
 @Command(name = "hammer", description = "Handles various common tasks.", subcommands = {
+		SolHammerCallCliCommand.class,
+		SolHammerCliToSempCommand.class,
 		SolHammerSperfCommand.class,
 		SolHammerScurlCommand.class
 })
@@ -56,11 +58,12 @@ public class SolHammerCommand implements Runnable
 	private void showHelp()
 	{
 	    System.out.println(" sol hammer: ");
-	    System.out.println(" toSDKPerf - Creates a connection string for SDKPerf.");
-	    System.out.println(" delete - Deteles a certificate authority.");
-	    System.out.println(" list - lists all certificate authorities. ");
+	    System.out.println(" callCli   - Executes a cli command on a service via Semp v1.");
+	    System.out.println(" cliToSemp - Generates a cliToSemp command. The cli-to-semp tool path needs to be set in config.");
+	    System.out.println(" scurl     - Creates service connection string for Curl.");
+	    System.out.println(" sperf     - Creates a service connection string for SDKPerf.");
 
-	    System.out.println(" Example command: sol hammer toSDKPerf");
+	    System.out.println(" Example command: sol hammer sperf");
 	}
 	
 	/**
@@ -68,7 +71,7 @@ public class SolHammerCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running certificate authority command.");
+		logger.debug("Running hammer command.");
 		
 		if (help)
 		{
@@ -83,8 +86,8 @@ public class SolHammerCommand implements Runnable
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occurred while running certificate authority command: " + e.getMessage());
-			logger.error("Error occurred while running certificate authority command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occurred while nailing with the hammer: " + e.getMessage());
+			logger.error("Error occurred while nailing with the hammer: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 }

@@ -11,3 +11,4 @@ service ca add testCa C:\\Projects\\j2ee\\client-cli\\testdata\\testCa.cer
 hammer scurl -i
 
 service bridge create -rn=SBBTestB -s="t/v1/1 IN D" -s="t/v1/2 OUT G"
+service bridge create -rn=testService2 -s="t/v1/1 IN D" -s="t/v1/2 OUT G"
