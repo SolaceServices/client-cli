@@ -55,14 +55,20 @@ public class SolCommand implements Runnable
 	    System.out.println(" sol login [-u, -username=<username>] [-p, -password=<password>] [-n] \n");
 	    System.out.println("To logout from Solace Cloud Console Account:");
 	    System.out.println(" sol logout \n");
+	    System.out.println("To set different configuration settings user the config command:");
+	    System.out.println(" sol config <option> \n");
+	    System.out.println("To set different entities use the corresponding group commands with subparameters:");
+	    System.out.println(" sol service|user| <subparameters> \n");
+	    System.out.println("For various helper operations user the hammer command:");
+	    System.out.println(" sol hammer <option> \n");
 	    System.out.println("To display the current Client CLI version:");
 	    System.out.println(" sol version \n");
-	    System.out.println(" Type sol -h or --help for all available commands.");
-	    System.out.println(" Type sol <command> -h or -help for detailed help on the command usage. \n");
+	    System.out.println("Type sol -h or --help for all available commands.");
+	    System.out.println("Type sol <command> -h or -help for detailed help on the command usage. \n");
 	}
 
 	public void run()
 	{
-		System.out.println("For detailed usage run with 'help' parameter.");
+		System.out.println("For sample usage run with 'help' parameter. For list of subcommands run with '-h' parameter.");
 	}
 }

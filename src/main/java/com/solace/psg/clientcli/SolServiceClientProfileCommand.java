@@ -58,10 +58,10 @@ public class SolServiceClientProfileCommand implements Runnable
 	private void showHelp()
 	{
 	    System.out.println(" sol cp: ");
-	    System.out.println(" create - Creates a client profile.");
-	    System.out.println(" delete - Deteles a client profile.");
+	    System.out.println(" create  - Creates a client profile.");
+	    System.out.println(" delete  - Deteles a client profile.");
 	    System.out.println(" details - Details for a client profile.");	    
-	    System.out.println(" list - lists all client profiles for a Solace Cloud Console Account.");
+	    System.out.println(" list    - Lists all client profiles for a Solace Cloud Console Account.");
 
 	    System.out.println(" Example command: sol cp list");
 	}

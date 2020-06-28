@@ -65,14 +65,17 @@ public class SolServiceCommand implements Runnable
 	private void showHelp()
 	{
 	    System.out.println(" sol service: ");
+	    System.out.println(" bridge  - Handles service bridges.");
+	    System.out.println(" ca      - Handles service certificate authorities.");
 	    System.out.println(" classes - Displays available service classes.");
-	    System.out.println(" create - Creates a service.");
-	    System.out.println(" delete - Deteles a service.");
-	    System.out.println(" details - lists all service details for a service.");
-	    System.out.println(" list - lists all services for a Solace Cloud Console Account.");
-	    System.out.println(" purge - Purges a queue.");
-	    System.out.println(" set - sets a service as the default service context by service name or service ID.");
-	    System.out.println(" types - Displays available service types.");
+	    System.out.println(" cp      - Handles service client profiles.");
+	    System.out.println(" create  - Creates a service.");
+	    System.out.println(" delete  - Deteles a service.");
+	    System.out.println(" details - Lists all service details for a service.");
+	    System.out.println(" list    - Lists all services for a Solace Cloud Console Account.");
+	    System.out.println(" queue   - Handles service queues.");
+	    System.out.println(" set     - Sets a service as the default service context by service name or service ID.");
+	    System.out.println(" types   - Displays available service types.");
 
 	    System.out.println(" Example command: sol service list");
 	}

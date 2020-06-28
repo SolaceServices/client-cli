@@ -60,14 +60,14 @@ public class SolServiceQueueCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol queue: ");
-	    System.out.println(" create - Creates a queue.");
-	    System.out.println(" delete - Deteles a queue.");
+	    System.out.println(" sol service queue: ");
+	    System.out.println(" create  - Creates a queue.");
+	    System.out.println(" delete  - Deteles a queue.");
 	    System.out.println(" details - Details of a queue.");
-	    System.out.println(" list - lists all queues.");
-	    System.out.println(" purge - purges messages from a queue.");
+	    System.out.println(" list    - Lists all queues.");
+	    System.out.println(" purge   - Purges messages from a queue.");
 
-	    System.out.println(" Example command: sol queue create <queueName> -exclusive");
+	    System.out.println(" Example command: sol service queue create <queueName> -exclusive");
 	}
 	
 	/**

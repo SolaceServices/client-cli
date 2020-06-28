@@ -57,13 +57,13 @@ public class SolServiceBridgeCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol bridge: ");
+	    System.out.println(" sol service bridge: ");
 	    System.out.println(" create - Creates a bridge.");
 	    System.out.println(" delete - Deteles a bridge.");
 	    //System.out.println(" details - Details of a bridge.");
-	    System.out.println(" list - lists all bridges.");
+	    System.out.println(" list   - Lists all bridges.");
 
-	    System.out.println(" Example command: sol bridge create <bridgeName> ");
+	    System.out.println(" Example command: sol service bridge create <bridgeName> ");
 	}
 	
 	/**

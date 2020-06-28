@@ -60,8 +60,8 @@ public class SolUserCommand implements Runnable
 	    System.out.println(" sol user: \n");
 	    System.out.println(" create - Creates a user and sends an invitation to his email address to join.");
 	    System.out.println(" delete - Deletes a user.");
-	    System.out.println(" list - lists all users for Solace Cloud Console Account");
-	    System.out.println(" roles - lists all user roles for Solace Cloud Console Account");
+	    System.out.println(" list   - Lists all users for Solace Cloud Console Account");
+	    System.out.println(" roles  - Lists all user roles for Solace Cloud Console Account");
 	    System.out.println(" Example command: sol user list");
 	}
 	

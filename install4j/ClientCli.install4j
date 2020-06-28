@@ -1,13 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install4j version="8.0.7" transformSequenceNumber="8">
-  <application name="Solace Client CLI" applicationId="7586-1381-9992-1848" shortName="ClientCli" publisher="Solace corporation" publisherWeb="www.solace.com" version="0.0.1" macVolumeId="fc0a0254e7caf4bd" />
+  <directoryPresets config="../../../../Users/VictorTsonkov/Documents/Solace/Corona" />
+  <application name="Solace Client CLI" applicationId="7586-1381-9992-1848" mediaDir="." shortName="ClientCli" publisher="Solace corporation" publisherWeb="www.solace.com" version="0.0.1" allPathsRelative="true" macVolumeId="fc0a0254e7caf4bd" javaMinVersion="1.8" />
+  <files>
+    <mountPoints>
+      <mountPoint id="58" />
+    </mountPoints>
+    <entries>
+      <dirEntry mountPoint="58" file="../../clientcli" subDirectory="clientcli" />
+    </entries>
+  </files>
+  <launchers>
+    <launcher name="sol" id="59">
+      <executable name="sol" iconSet="true" iconFile="../../../../Users/VictorTsonkov/Documents/Solace/Corona/corona_tEa_icon.ico" executableDir="." redirectStderr="false" executableMode="console" checkConsoleParameter="true" />
+      <java mainClass="com.solace.psg.clientcli.ClientCliApp">
+        <classPath>
+          <archive location="ClientCli-0.0.1-SNAPSHOT.jar" failOnError="false" />
+        </classPath>
+      </java>
+      <iconImageFiles>
+        <file path="../../../../Users/VictorTsonkov/Documents/Solace/Corona/Webp.net-resizeimage.png" />
+      </iconImageFiles>
+    </launcher>
+  </launchers>
   <installerGui>
     <applications>
       <application id="installer" beanClass="com.install4j.runtime.beans.applications.InstallerApplication">
         <startup>
           <screen id="1" beanClass="com.install4j.runtime.beans.screens.StartupScreen" rollbackBarrierExitCode="0">
             <actions>
-              <action id="22" beanClass="com.install4j.runtime.beans.actions.misc.RequestPrivilegesAction" actionElevationType="none" rollbackBarrierExitCode="0" />
+              <action id="22" beanClass="com.install4j.runtime.beans.actions.misc.RequestPrivilegesAction" actionElevationType="none" rollbackBarrierExitCode="0">
+                <serializedBean>
+                  <property name="obtainIfNormalWin" type="boolean" value="true" />
+                </serializedBean>
+              </action>
             </actions>
           </screen>
         </startup>
@@ -414,4 +440,12 @@ return console.askYesNo(message, true);
       </group>
     </styles>
   </installerGui>
+  <mediaSets>
+    <windows name="Windows" id="60" msi="true" />
+    <unixInstaller name="Unix Installer" id="61" />
+    <macosFolder name="macOS Folder" id="63" />
+  </mediaSets>
+  <buildIds buildAll="false">
+    <mediaSet refId="60" />
+  </buildIds>
 </install4j>

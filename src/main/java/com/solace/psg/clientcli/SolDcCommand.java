@@ -39,7 +39,7 @@ public class SolDcCommand implements Runnable
 {
 	private static final Logger logger = LogManager.getLogger(SolDcCommand.class);
 	
-	@Option(names = {"-h", "-help"})
+	@Option(names = {"h", "help"})
 	private boolean help;
 	
 	/**

@@ -22,11 +22,13 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.solace.psg.clientcli.SolServiceDetailsCommand.Exclusive;
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.Service;
 import com.solace.psg.sempv2.apiclient.ApiException;
 import com.solace.psg.sempv2.interfaces.ServiceFacade;
 
+import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -41,11 +43,13 @@ public class SolServiceSetCommand implements Runnable
 {
 	private static final Logger logger = LogManager.getLogger(SolServiceSetCommand.class);
 
-	@Option(names = {"-serviceName"}, description = "the service name.")
-	private String serviceName;	
+	@ArgGroup(exclusive = true, multiplicity = "0..1")
+    Exclusive exclusive;
 
-	@Option(names = {"-serviceId"}, description = "the service ID.")
-	private String serviceId;	
+    static class Exclusive {
+        @Option(names = "-serviceName", required = false, description="the service name") String serviceName;
+        @Option(names = "-serviceId", required = false, description="the service Id") String serviceId;
+    }	
 
 	@Option(names = {"-none"}, fallbackValue = "true", description = "removes the set values")
 	private Boolean none;	
@@ -108,17 +112,17 @@ public class SolServiceSetCommand implements Runnable
 						
 			Service service = null;
 			ServiceFacade sf = new ServiceFacade(token);
-			if (serviceId != null)
+			if (exclusive != null && exclusive.serviceId != null)
 			{
-				service = sf.getServiceById(serviceId);
+				service = sf.getServiceById(exclusive.serviceId);
 			}
-			else if (serviceName != null)
+			else if (exclusive != null && exclusive.serviceName != null)
 			{
-				service = sf.getServiceByName(serviceName);
+				service = sf.getServiceByName(exclusive.serviceName);
 			}
 			else
 			{
-				System.out.println("Provide a serviceName or serviceId.");	
+				System.out.println("No service name or serviceId provided. Currently set serviceId: " + ConfigurationManager.getInstance().getCurrentServiceId() + " and serviceName: "+ ConfigurationManager.getInstance().getCurrentServiceName());	
 				return;
 			}
 			

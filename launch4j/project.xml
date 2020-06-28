@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>console</headerType>
+  <jar>C:\Projects\j2ee\client-cli\target\ClientCli-0.0.1-SNAPSHOT.jar</jar>
+  <outfile>C:\Projects\j2ee\test\sol.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl>www.github.com/SolaceServices</supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon></icon>
+  <jre>
+    <path></path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>1.8.0_0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>jreOnly</jdkPreference>
+    <runtimeBits>64</runtimeBits>
+  </jre>
+  <messages>
+    <startupErr>An error occurred while starting the application. Check log file.</startupErr>
+    <bundledJreErr>This application was configured to use a bundled Java Runtime Environment but the runtime is missing or corrupted.</bundledJreErr>
+    <jreVersionErr>This application requires a Java Runtime Environment</jreVersionErr>
+    <launcherErr>The registry refers to a nonexistent Java Runtime Environment installation or the runtime is corrupted.</launcherErr>
+    <instanceAlreadyExistsMsg>An application instance is already running.</instanceAlreadyExistsMsg>
+  </messages>
+</launch4jConfig>

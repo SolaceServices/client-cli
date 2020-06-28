@@ -57,9 +57,9 @@ public class SolServiceCaCommand implements Runnable
 	private void showHelp()
 	{
 	    System.out.println(" sol ca: ");
-	    System.out.println(" add - Adds a certificate authority.");
+	    System.out.println(" add    - Adds a certificate authority.");
 	    System.out.println(" delete - Deteles a certificate authority.");
-	    System.out.println(" list - lists all certificate authorities. ");
+	    System.out.println(" list   - Lists all certificate authorities. ");
 
 	    System.out.println(" Example command: sol ca list");
 	}

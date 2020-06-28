@@ -1,0 +1,1 @@
+doskey sol=java -jar %SOL_PATH%\ClientCli-0.0.1-SNAPSHOT.jar $*
