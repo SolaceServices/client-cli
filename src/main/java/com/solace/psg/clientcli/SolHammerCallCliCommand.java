@@ -27,7 +27,6 @@ import java.io.InputStreamReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solace.psg.clientcli.SolHammerSperfCommand.ExcParam;
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.clientcli.sempv1.CliToSempHelper;
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
@@ -137,6 +136,12 @@ public class SolHammerCallCliCommand implements Runnable
 				
 				String cliToSempPath = ConfigurationManager.getInstance().getCliToSempPath();
 				String perlPath = ConfigurationManager.getInstance().getPerlPath();
+			
+				if (cliToSempPath == null || perlPath == null)
+				{
+					System.out.println("Set config properties for cliToSempPath and perlPath before calling this command.");
+					return;
+			    }
 				
 				// Generate CLI command
 				CliToSempHelper helper = new CliToSempHelper(perlPath, cliToSempPath);

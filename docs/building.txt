@@ -1,0 +1,10 @@
+Building for Linux:
+
+java -jar packr.jar --jdk jdk1.8.0_251.zip --platform linux64 --executable sol --mainclass com.solace.psg.clientcli.ClientCliApp --classpath lib --resources resources --output out-linux
+
+
+Building for MasOS:
+
+java -jar packr.jar --jdk jdk1.8.0_251.zip --platform mac --executable sol --mainclass com.solace.psg.clientcli.ClientCliApp --classpath lib --resources resources --output out-mac
+
+Building for Windows uses launch4j in project.xml
