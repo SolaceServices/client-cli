@@ -33,8 +33,8 @@ import com.solace.psg.sempv2.config.model.MsgVpnQueue;
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
 
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
-import com.solace.psg.sempv2.interfaces.VpnFacade;
+import com.solace.psg.sempv2.ServiceManager;
+import com.solace.psg.sempv2.VpnManager;
 
 
 import picocli.CommandLine.ArgGroup;
@@ -110,26 +110,26 @@ public class SolServiceQueueDetailsCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sm = new ServiceManager(token);
 			String ctxServiceId = ConfigurationManager.getInstance().getCurrentServiceId();
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
 			ServiceDetails sd = null;
 			if (exclusive != null && exclusive.serviceId != null)
 			{
-				sd = sf.getServiceDetails(exclusive.serviceId);
+				sd = sm.getServiceDetails(exclusive.serviceId);
 			}
 			else if (exclusive != null && exclusive.serviceName != null)
 			{
-				sd = sf.getServiceDetailsByName(exclusive.serviceName);
+				sd = sm.getServiceDetailsByName(exclusive.serviceName);
 			}
 			else if (ctxServiceId != null)
 			{
-				sd = sf.getServiceDetails(ctxServiceId);
+				sd = sm.getServiceDetails(ctxServiceId);
 			}
 			else if (ctxServiceName != null)
 			{
-				sd = sf.getServiceDetailsByName(ctxServiceName);
+				sd = sm.getServiceDetailsByName(ctxServiceName);
 			}
 			else
 			{
@@ -139,7 +139,7 @@ public class SolServiceQueueDetailsCommand implements Runnable
 			
 			if (sd != null)
 			{
-				VpnFacade vf = new VpnFacade(sd);
+				VpnManager vf = new VpnManager(sd);
 				MsgVpnQueue queue = vf.getQueue(queueName);
 
 				printDetails(queue, "");		

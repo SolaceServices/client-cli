@@ -29,7 +29,7 @@ import com.solace.psg.sempv2.admin.model.ServiceDetails;
 import com.solace.psg.sempv2.apiclient.ApiException;
 
 
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -103,26 +103,26 @@ public class SolServiceCaDeleteCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sm = new ServiceManager(token);
 			String ctxServiceId = ConfigurationManager.getInstance().getCurrentServiceId();
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
 			ServiceDetails sd = null;
 			if (exclusive != null && exclusive.serviceId != null)
 			{
-				sd = sf.getServiceDetails(exclusive.serviceId);
+				sd = sm.getServiceDetails(exclusive.serviceId);
 			}
 			else if (exclusive != null && exclusive.serviceName != null)
 			{
-				sd = sf.getServiceDetailsByName(exclusive.serviceName);
+				sd = sm.getServiceDetailsByName(exclusive.serviceName);
 			}
 			else if (ctxServiceId != null)
 			{
-				sd = sf.getServiceDetails(ctxServiceId);
+				sd = sm.getServiceDetails(ctxServiceId);
 			}
 			else if (ctxServiceName != null)
 			{
-				sd = sf.getServiceDetailsByName(ctxServiceName);
+				sd = sm.getServiceDetailsByName(ctxServiceName);
 			}
 			else
 			{
@@ -132,7 +132,7 @@ public class SolServiceCaDeleteCommand implements Runnable
 			
 			if (sd != null)
 			{
-				boolean result = sf.deleteClientCertificateAuthority(sd.getServiceId(),caName);
+				boolean result = sm.deleteClientCertificateAuthority(sd.getServiceId(),caName);
 
 				if (result)
 					System.out.println("Certificate authority deleted successfully.");

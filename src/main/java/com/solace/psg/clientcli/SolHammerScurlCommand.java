@@ -29,7 +29,7 @@ import com.solace.psg.sempv2.admin.model.ServiceDetails;
 import com.solace.psg.sempv2.admin.model.ServiceManagementContext;
 import com.solace.psg.sempv2.apiclient.ApiException;
 
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -102,7 +102,7 @@ public class SolHammerScurlCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sf = new ServiceManager(token);
 			String ctxServiceId = ConfigurationManager.getInstance().getCurrentServiceId();
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 						

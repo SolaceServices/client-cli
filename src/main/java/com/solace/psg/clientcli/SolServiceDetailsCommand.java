@@ -29,7 +29,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -98,26 +98,26 @@ public class SolServiceDetailsCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sm = new ServiceManager(token);
 			ServiceDetails sd = null;
 			String ctxServiceId = ConfigurationManager.getInstance().getCurrentServiceId();
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
 			if (exclusive != null && exclusive.serviceId != null)
 			{
-				sd = sf.getServiceDetails(exclusive.serviceId);			
+				sd = sm.getServiceDetails(exclusive.serviceId);			
 			}
 			else if (exclusive != null && exclusive.serviceName != null)
 			{
-				sd = sf.getServiceDetailsByName(exclusive.serviceName);
+				sd = sm.getServiceDetailsByName(exclusive.serviceName);
 			}
 			else if (ctxServiceId != null && !ctxServiceId.isEmpty())
 			{
-				sd = sf.getServiceDetails(ctxServiceId);
+				sd = sm.getServiceDetails(ctxServiceId);
 			}
 			else if (ctxServiceName != null && !ctxServiceName.isEmpty())
 			{
-				sd = sf.getServiceDetailsByName(ctxServiceName);
+				sd = sm.getServiceDetailsByName(ctxServiceName);
 			}
 			else 
 			{

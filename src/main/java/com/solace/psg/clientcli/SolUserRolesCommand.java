@@ -33,7 +33,7 @@ import com.solace.psg.sempv2.admin.model.Permission;
 import com.solace.psg.sempv2.admin.model.Role;
 
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 
 import picocli.CommandLine.Command;
@@ -95,8 +95,8 @@ public class SolUserRolesCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);	
-			List<Role> roles = sf.getAllOrganizationRoles();
+			ServiceManager sm = new ServiceManager(token);	
+			List<Role> roles = sm.getAllOrganizationRoles();
 			
 			printResults(roles, "");		
 		}

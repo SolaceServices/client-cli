@@ -118,16 +118,22 @@ public class ConfigurationManager
 	 * @param profileName
 	 * @throws IOException
 	 */
-	public void loadConfig(String profileName) throws IOException
+	public boolean loadConfig(String profileName) throws IOException
 	{
+		boolean result = false;
 		String newFilename = DEFAULT_NAME.replace("current", profileName);
 		File curFile = new File(filePath);
 		File newFile = new File(FOLDER + File.separator + newFilename);
 		if (newFile.exists())
+		{
 			FileUtils.copyFile(newFile, curFile);
+			result = true;
+		}
 		
 		props.clear();
 		load();
+		
+		return result;
 	}	
 	
 	/**
@@ -175,14 +181,14 @@ public class ConfigurationManager
 		finally
 		{
 			if (input != null)
-				try
-				{
-					input.close();
-				}
-				catch (IOException e)
-				{
-					logger.error("Error while trying to close config file: {} ", e.getMessage());
-				}
+			try
+			{
+				input.close();
+			}
+			catch (IOException e)
+			{
+				logger.error("Error while trying to close config file: {} ", e.getMessage());
+			}
 		}
 	}
 	
@@ -195,6 +201,12 @@ public class ConfigurationManager
 		OutputStream output = null;
 		try 
 		{
+			File file = new File(filename);
+			if (!file.exists()){
+                file.getParentFile().mkdir();
+                file.createNewFile();
+            }
+			
 			output = new FileOutputStream(filename);
 			props.store(output, null);
 		}

@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -93,7 +93,7 @@ public class SolLoginCommand implements Runnable
 			ConfigurationManager config = ConfigurationManager.getInstance();
 			if (username != null && password !=null && !username.isEmpty() && !password.isEmpty())
 			{
-				ServiceFacade sf = new ServiceFacade(username, password);
+				ServiceManager sf = new ServiceManager(username, password);
 				
 				token = sf.getCurrentAccessToken();
 				

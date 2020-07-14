@@ -32,7 +32,7 @@ import com.solace.psg.sempv2.admin.model.UserRequest;
 import com.solace.psg.sempv2.apiclient.ApiException;
 
 
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 
 
@@ -108,13 +108,13 @@ public class SolUserCreateCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sm = new ServiceManager(token);
 			
 			UserRequest request = new UserRequest(email, roles);
 			request.setFirstName(firstName);
 			request.setLastName(lastName);
 			
-			User user = sf.addUser(request);
+			User user = sm.addUser(request);
 
 			if (user != null)
 				System.out.println("User created successfully with user ID: " + user.getUserId());

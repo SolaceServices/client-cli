@@ -20,8 +20,7 @@
 package com.solace.psg.clientcli.sempv1;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+
 
 import javax.xml.bind.JAXBException;
 
@@ -30,17 +29,15 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
 import com.solace.psg.clientcli.config.ConfigurationManager;
-import com.solace.psg.sempv1.sempinterface.AdminCommands;
-import com.solace.psg.sempv1.sempinterface.HttpSempSession;
-import com.solace.psg.sempv1.sempinterface.SempSession;
+import com.solace.psg.sempv1.AdminCommands;
+import com.solace.psg.sempv1.HttpSempSession;
+import com.solace.psg.sempv1.SempSession;
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
 import com.solace.psg.sempv2.admin.model.ServiceManagementContext;
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -111,7 +108,7 @@ public class SolServiceQueuePurgeCommand implements Runnable
 
 			System.out.println("Purging queue: " + queueName);
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sf = new ServiceManager(token);
 			ServiceDetails sd = null;
 			
 			if (serviceName != null)

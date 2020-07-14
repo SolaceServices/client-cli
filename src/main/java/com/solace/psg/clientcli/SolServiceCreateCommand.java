@@ -26,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.Service;
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -100,9 +100,9 @@ public class SolServiceCreateCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sm = new ServiceManager(token);
 			
-     		Service service = sf.createServiceAsync(serviceName, serviceTypeId, serviceClassId, datacenterId);
+     		Service service = sm.createServiceAsync(serviceName, serviceTypeId, serviceClassId, datacenterId);
 			
 			if (service != null)
 				System.out.println("Service creation initiated with serviceId: " + service.getServiceId() + "\nType 'sol service list' to check the creation progress.");

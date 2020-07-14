@@ -160,8 +160,10 @@ public class SolConfigCommand implements Runnable
 				}
 				else if (excl.load)
 				{
-					ConfigurationManager.getInstance().loadConfig(input);
-					System.out.println("Profile loaded successfully.");
+					if (ConfigurationManager.getInstance().loadConfig(input))
+						System.out.println("Profile loaded successfully.");
+					else
+						System.out.println("Could not load profile with name: " + input);
 				}
 				else if (excl.cliToSemp)
 				{

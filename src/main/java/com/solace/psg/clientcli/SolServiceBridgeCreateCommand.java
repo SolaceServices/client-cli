@@ -32,8 +32,8 @@ import com.solace.psg.sempv2.admin.model.ServiceDetails;
 import com.solace.psg.sempv2.admin.model.Subscription;
 import com.solace.psg.sempv2.apiclient.ApiException;
 
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
-import com.solace.psg.sempv2.interfaces.VpnFacade;
+import com.solace.psg.sempv2.ServiceManager;
+import com.solace.psg.sempv2.VpnManager;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -120,26 +120,26 @@ public class SolServiceBridgeCreateCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sm = new ServiceManager(token);
 			String ctxServiceId = ConfigurationManager.getInstance().getCurrentServiceId();
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
 			ServiceDetails sd = null;
 			if (local != null && local.localServiceId != null)
 			{
-				sd = sf.getServiceDetails(local.localServiceId);
+				sd = sm.getServiceDetails(local.localServiceId);
 			}
 			else if (local != null && local.localServiceName != null)
 			{
-				sd = sf.getServiceDetailsByName(local.localServiceName);
+				sd = sm.getServiceDetailsByName(local.localServiceName);
 			}
 			else if (ctxServiceId != null)
 			{
-				sd = sf.getServiceDetails(ctxServiceId);
+				sd = sm.getServiceDetails(ctxServiceId);
 			}
 			else if (ctxServiceName != null)
 			{
-				sd = sf.getServiceDetailsByName(ctxServiceName);
+				sd = sm.getServiceDetailsByName(ctxServiceName);
 			}
 			else
 			{
@@ -150,16 +150,16 @@ public class SolServiceBridgeCreateCommand implements Runnable
 			ServiceDetails rsd = null;
 			if (remote.remoteServiceId != null)
 			{
-				rsd = sf.getServiceDetails(remote.remoteServiceId);
+				rsd = sm.getServiceDetails(remote.remoteServiceId);
 			}
 			else if (remote.remoteServiceName != null)
 			{
-				rsd = sf.getServiceDetailsByName(remote.remoteServiceName);
+				rsd = sm.getServiceDetailsByName(remote.remoteServiceName);
 			}	
 			
 			if (sd != null && rsd != null)
 			{
-				VpnFacade vf = new VpnFacade(sd);
+				VpnManager vf = new VpnManager(sd);
 
 				boolean result = vf.createBridge(rsd, subscritpions);
 

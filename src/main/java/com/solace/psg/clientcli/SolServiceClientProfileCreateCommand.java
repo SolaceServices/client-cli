@@ -30,7 +30,7 @@ import com.solace.psg.sempv2.admin.model.ServiceDetails;
 import com.solace.psg.sempv2.apiclient.ApiException;
 
 
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 
 import picocli.CommandLine.ArgGroup;
@@ -105,26 +105,26 @@ public class SolServiceClientProfileCreateCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sm = new ServiceManager(token);
 			String ctxServiceId = ConfigurationManager.getInstance().getCurrentServiceId();
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
 			ServiceDetails sd = null;
 			if (exclusive != null && exclusive.serviceId != null)
 			{
-				sd = sf.getServiceDetails(exclusive.serviceId);
+				sd = sm.getServiceDetails(exclusive.serviceId);
 			}
 			else if (exclusive != null && exclusive.serviceName != null)
 			{
-				sd = sf.getServiceDetailsByName(exclusive.serviceName);
+				sd = sm.getServiceDetailsByName(exclusive.serviceName);
 			}
 			else if (ctxServiceId != null)
 			{
-				sd = sf.getServiceDetails(ctxServiceId);
+				sd = sm.getServiceDetails(ctxServiceId);
 			}
 			else if (ctxServiceName != null)
 			{
-				sd = sf.getServiceDetailsByName(ctxServiceName);
+				sd = sm.getServiceDetailsByName(ctxServiceName);
 			}
 			else
 			{
@@ -136,7 +136,7 @@ public class SolServiceClientProfileCreateCommand implements Runnable
 			{
 				ClientProfile profile = new ClientProfile();
 				profile.setClientProfileName(profileName);
-				boolean result = sf.addClientProfile(sd.getServiceId(), profile);
+				boolean result = sm.addClientProfile(sd.getServiceId(), profile);
 
 				if (result)
 					System.out.println("Client profile created successfully.");

@@ -34,7 +34,7 @@ import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.DataCenter;
 
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 import com.solace.psg.tablereporter.Block;
 import com.solace.psg.tablereporter.Board;
 import com.solace.psg.tablereporter.Table;
@@ -99,8 +99,8 @@ public class SolDcListCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);	
-			List<DataCenter> dcs = sf.getDataCenters();
+			ServiceManager sm = new ServiceManager(token);	
+			List<DataCenter> dcs = sm.getDataCenters();
 			
 			printResults(dcs, "");		
 		}
@@ -127,11 +127,11 @@ public class SolDcListCommand implements Runnable
 
 		for (DataCenter dc : dcs)
 		{
-			rowsList.add(Arrays.asList(dc.getId(), dc.getProvider(), StringUtils.abbreviate(dc.getDisplayName().replace("\t", " "), 30), dc.getServerCertificateId(), dc.getContinent(), dc.getAccessType(), dc.getCloudType(), ""+ dc.getIsPrivate(), ""+ dc.getAvailable(), dc.getAdminState(), dc.getLat(), dc.getLng() ));
+			rowsList.add(Arrays.asList(StringUtils.abbreviate(dc.getId(), 28), dc.getProvider(), StringUtils.abbreviate(dc.getDisplayName().replace("\t", " "), 30), dc.getServerCertificateId(), dc.getContinent(), dc.getAccessType(), dc.getCloudType(), ""+ dc.getIsPrivate(), ""+ dc.getAvailable(), dc.getAdminState(), dc.getLat(), dc.getLng() ));
 		}
 		
 		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT,Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_CENTER, Block.DATA_CENTER, Block.DATA_MIDDLE_RIGHT, Block.DATA_MIDDLE_RIGHT);
-		List<Integer> colWidthsListEdited = Arrays.asList(18, 12, 35, 14, 14, 11, 11, 9, 10, 14, 10, 11);
+		List<Integer> colWidthsListEdited = Arrays.asList(29, 12, 35, 14, 14, 11, 11, 9, 10, 14, 10, 11);
 		int width = Board.getRecommendedWidth(colWidthsListEdited, true);
 				
 		Board board = new Board(width);	

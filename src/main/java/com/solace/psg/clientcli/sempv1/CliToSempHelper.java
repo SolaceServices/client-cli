@@ -11,8 +11,8 @@ import org.apache.http.auth.AuthenticationException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.util.EntityUtils;
 
-import com.solace.psg.sempv1.sempinterface.HttpSempSession;
-import com.solace.psg.sempv1.sempinterface.SempSession;
+import com.solace.psg.sempv1.HttpSempSession;
+import com.solace.psg.sempv1.SempSession;
 
 /**
  * Class to be used for Cli-To-Semp tool. 

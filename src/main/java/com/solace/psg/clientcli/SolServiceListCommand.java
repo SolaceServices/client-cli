@@ -26,11 +26,12 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.maven.shared.utils.StringUtils;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.Service;
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 import com.solace.psg.tablereporter.Block;
 import com.solace.psg.tablereporter.Board;
 import com.solace.psg.tablereporter.Table;
@@ -95,8 +96,8 @@ public class SolServiceListCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);	
-			List<Service> services = sf.getAllServices();
+			ServiceManager sm = new ServiceManager(token);	
+			List<Service> services = sm.getAllServices();
 			
 			printResults(services, "");		
 		}
@@ -123,11 +124,11 @@ public class SolServiceListCommand implements Runnable
 
 		for (Service service : services)
 		{
-			rowsList.add(Arrays.asList(service.getName(), service.getServiceId(), service.getDatacenterId(), service.getServiceClassId(), service.getUserId(), service.getAdminProgress(), service.getAdminState()));
+			rowsList.add(Arrays.asList(service.getName(), service.getServiceId(), StringUtils.abbreviate(service.getDatacenterId(), 28), service.getServiceClassId(), service.getUserId(), service.getAdminProgress(), service.getAdminState()));
 		}
 		
 		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_CENTER, Block.DATA_CENTER);
-		List<Integer> colWidthsListEdited = Arrays.asList(40, 14, 20, 16, 14, 12, 11);
+		List<Integer> colWidthsListEdited = Arrays.asList(40, 14, 29, 16, 14, 12, 11);
 		int width = Board.getRecommendedWidth(colWidthsListEdited, true);
 				
 		Board board = new Board(width);	

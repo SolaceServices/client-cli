@@ -30,8 +30,8 @@ import com.solace.psg.sempv2.admin.model.ServiceDetails;
 import com.solace.psg.sempv2.apiclient.ApiException;
 
 import com.solace.psg.sempv2.config.model.MsgVpnQueue;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
-import com.solace.psg.sempv2.interfaces.VpnFacade;
+import com.solace.psg.sempv2.ServiceManager;
+import com.solace.psg.sempv2.VpnManager;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -105,7 +105,7 @@ public class SolServiceQueueCreateCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sf = new ServiceManager(token);
 			String ctxServiceId = ConfigurationManager.getInstance().getCurrentServiceId();
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
@@ -134,7 +134,7 @@ public class SolServiceQueueCreateCommand implements Runnable
 			
 			if (sd != null)
 			{
-				VpnFacade vf = new VpnFacade(sd);
+				VpnManager vf = new VpnManager(sd);
 				MsgVpnQueue request = new MsgVpnQueue();
 				request.setQueueName(queueName);
 				boolean result = vf.addQueue(request);

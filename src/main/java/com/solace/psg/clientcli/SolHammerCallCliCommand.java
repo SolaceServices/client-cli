@@ -31,7 +31,7 @@ import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.clientcli.sempv1.CliToSempHelper;
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
 import com.solace.psg.sempv2.admin.model.ServiceManagementContext;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -103,26 +103,26 @@ public class SolHammerCallCliCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sm = new ServiceManager(token);
 			String ctxServiceId = ConfigurationManager.getInstance().getCurrentServiceId();
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 						
 			ServiceDetails sd = null;
 			if (excl != null && excl.serviceId != null)
 			{
-				sd = sf.getServiceDetails(excl.serviceId);
+				sd = sm.getServiceDetails(excl.serviceId);
 			}
 			else if (excl != null && excl.serviceName != null)
 			{
-				sd = sf.getServiceDetailsByName(excl.serviceName);
+				sd = sm.getServiceDetailsByName(excl.serviceName);
 			}
 			else if (ctxServiceId != null)
 			{
-				sd = sf.getServiceDetails(ctxServiceId);
+				sd = sm.getServiceDetails(ctxServiceId);
 			}
 			else if (ctxServiceName != null)
 			{
-				sd = sf.getServiceDetailsByName(ctxServiceName);
+				sd = sm.getServiceDetailsByName(ctxServiceName);
 			}
 			else
 			{

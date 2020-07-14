@@ -28,7 +28,7 @@ import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.apiclient.ApiException;
 
 
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -93,9 +93,9 @@ public class SolUserDeleteCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sm = new ServiceManager(token);
 			
-			Boolean result = sf.deleteUser(userId);
+			Boolean result = sm.deleteUser(userId);
 
 			if (result)
 				System.out.println("User deleted successfully");

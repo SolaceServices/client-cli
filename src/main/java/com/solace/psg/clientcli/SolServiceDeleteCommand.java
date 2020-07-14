@@ -27,7 +27,7 @@ import org.apache.logging.log4j.Logger;
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.Service;
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -96,14 +96,14 @@ public class SolServiceDeleteCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sm = new ServiceManager(token);
 			//Service service = null;
 			boolean result = false;
 			
 			if (exclusive.serviceId != null && !exclusive.serviceId.isEmpty()) // try to delete by provided ID
 			{
 				if (promptForConfirm())
-					result = sf.deleteService(exclusive.serviceId);		
+					result = sm.deleteService(exclusive.serviceId);		
 				else
 				{
 					System.out.println("Service command aborted.");
@@ -112,10 +112,10 @@ public class SolServiceDeleteCommand implements Runnable
 			}
 			else if (exclusive.serviceName != null && !exclusive.serviceName.isEmpty()) // try to delete by provided name
 			{				
-				Service service = sf.getServiceByName(exclusive.serviceName);
+				Service service = sm.getServiceByName(exclusive.serviceName);
 				if (service != null)
 					if (promptForConfirm())
-						result = sf.deleteService(service.getServiceId());	
+						result = sm.deleteService(service.getServiceId());	
 					else
 					{
 						System.out.println("Service command aborted.");

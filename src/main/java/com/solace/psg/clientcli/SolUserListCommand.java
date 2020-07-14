@@ -32,7 +32,7 @@ import org.apache.logging.log4j.Logger;
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.User;
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 import com.solace.psg.tablereporter.Block;
 import com.solace.psg.tablereporter.Board;
 import com.solace.psg.tablereporter.Table;
@@ -97,8 +97,8 @@ public class SolUserListCommand implements Runnable
 				return;
 			}
 			
-			ServiceFacade sf = new ServiceFacade(token);	
-			List<User> users = sf.getAllUsers();
+			ServiceManager sm = new ServiceManager(token);	
+			List<User> users = sm.getAllUsers();
 			
 			printResults(users, "");		
 		}

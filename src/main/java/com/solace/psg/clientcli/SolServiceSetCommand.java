@@ -26,7 +26,7 @@ import com.solace.psg.clientcli.SolServiceDetailsCommand.Exclusive;
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.Service;
 import com.solace.psg.sempv2.apiclient.ApiException;
-import com.solace.psg.sempv2.interfaces.ServiceFacade;
+import com.solace.psg.sempv2.ServiceManager;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -111,14 +111,14 @@ public class SolServiceSetCommand implements Runnable
 			}
 						
 			Service service = null;
-			ServiceFacade sf = new ServiceFacade(token);
+			ServiceManager sm = new ServiceManager(token);
 			if (exclusive != null && exclusive.serviceId != null)
 			{
-				service = sf.getServiceById(exclusive.serviceId);
+				service = sm.getServiceById(exclusive.serviceId);
 			}
 			else if (exclusive != null && exclusive.serviceName != null)
 			{
-				service = sf.getServiceByName(exclusive.serviceName);
+				service = sm.getServiceByName(exclusive.serviceName);
 			}
 			else
 			{
