@@ -1,0 +1,24 @@
+So it seems like you want to dynamically discover Classes that implement a specific interface (e.g., Plugin) at runtime. You have basically two choices for this:
+
+Use a component framework like osgi
+Use Java's internal discovery process (ServiceLoader)
+Since there are many good tutorials on osgi (also small ones), I will not detail that here. To use Java's internal discovery process, you need to do the following:
+
+Bundle all "new" classes that you wish to discover into a jar file
+Create a new file inside the jar file: META-INF/services/package.Plugin You must use the full package qualifier here
+This file is a simple text file and contains the fully qualified name of each class implementing Plugin in that jar-file
+Place that jar file into the classpath of your (potentially already running) application
+Discover the services:
+Service discovery is done like this:
+
+ServiceLoader<Plugin> loader = ServiceLoader.load(Plugin.class)
+for (Plugin p : loader) {
+    // do something with the plugin
+}
+There are more details here: http://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html
+
+As for static methods in interfaces: not possible. The semantics of that would also be somewhat weird as static methods are accessible without an instance of a class, and interfaces just define the methods, without any functionality. Thus, static would allow to call Interface.doSomething() whereas the interface does not define any functionality, this leads just to confusion.
+
+edit:
+
+added description what should be in the meta-file
