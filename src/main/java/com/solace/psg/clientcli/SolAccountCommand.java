@@ -22,32 +22,31 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * Command class to handle certificate authority operations.
+ * Command class to handle Organisation accounts operations.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "ca", description = "Handles certificate authority operations.", subcommands = {
-		SolServiceCaAddCommand.class,
-		SolServiceCaDeleteCommand.class,
-	    SolServiceCaListCommand.class
+@Command(name = "account", aliases = "a", description = "Handles account operations.", subcommands = {
+	      SolAccountListCommand.class,
+	      SolAccountSwitchCommand.class
 })
-public class SolServiceCaCommand implements Runnable 
+public class SolAccountCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceCaCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolAccountCommand.class);
 	
-	@Option(names = {"-h", "-help"})
+	@Option(names = {"h", "help"})
 	private boolean help;
-	
 	
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceCaCommand()
+	public SolAccountCommand()
 	{
 	}
 
@@ -56,12 +55,11 @@ public class SolServiceCaCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol ca: ");
-	    System.out.println(" add    - Adds a certificate authority.");
-	    System.out.println(" delete - Deteles a certificate authority.");
-	    System.out.println(" list   - Lists all certificate authorities. ");
-
-	    System.out.println(" Example command: sol ca list");
+	    System.out.println(" sol account: \n");
+	    System.out.println(" list - lists all organization accounts for username");
+	    System.out.println(" switch - switches to a different organization");
+	    System.out.println(" Example command: sol account list");
+	    System.out.println(" Example command: sol account switch myorg-dev");
 	}
 	
 	/**
@@ -69,7 +67,7 @@ public class SolServiceCaCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running certificate authority command.");
+		logger.debug("Running list command.");
 		
 		if (help)
 		{
@@ -79,13 +77,13 @@ public class SolServiceCaCommand implements Runnable
 		
 		try
 		{		
-			System.out.println("Missing parameters for command. Try invokig command with -h for list of parameters.");
-			
+				System.out.println("Missing parameters for command. Try invokig command with -h for list of parameters.");
+
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occurred while running certificate authority command: " + e.getMessage());
-			logger.error("Error occurred while running certificate authority command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occurred while running list command: " + e.getMessage());
+			logger.error("Error occurred while running list command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 }

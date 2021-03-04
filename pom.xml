@@ -4,7 +4,7 @@
 
   <groupId>com.solace.psg</groupId>
   <artifactId>ClientCli</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.2.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>ClientCli</name>
@@ -29,7 +29,7 @@
     <dependency>
         <groupId>com.solace.psg</groupId>
         <artifactId>sempv2-interface</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.2.0-SNAPSHOT</version>
     </dependency>
 	<!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
 	<dependency>

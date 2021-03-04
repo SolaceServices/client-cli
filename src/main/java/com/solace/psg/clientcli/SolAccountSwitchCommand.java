@@ -20,44 +20,53 @@
 package com.solace.psg.clientcli;
 
 import java.io.IOException;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.maven.shared.utils.StringUtils;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
-import com.solace.psg.sempv2.admin.model.Permission;
-import com.solace.psg.sempv2.admin.model.Role;
-
+import com.solace.psg.sempv2.admin.model.DataCenter;
+import com.solace.psg.sempv2.admin.model.Organization;
 import com.solace.psg.sempv2.apiclient.ApiException;
 import com.solace.psg.sempv2.ServiceManager;
-
+import com.solace.psg.tablereporter.Block;
+import com.solace.psg.tablereporter.Board;
+import com.solace.psg.tablereporter.Table;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 /**
- * Command class to handle roles.
+ * Command class to handle organisation account lists.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "roles",description = "Lists user roles.")
-public class SolUserRolesCommand implements Runnable 
+@Command(name = "switch", aliases = "s", description = "Changes and organization account by provided organization ID.")
+public class SolAccountSwitchCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolUserRolesCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolAccountSwitchCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
+	@Parameters(index = "0", arity = "1", description="the organization ID")
+	private String orgId;
 	
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolUserRolesCommand()
+	public SolAccountSwitchCommand()
 	{
 	}
 
@@ -66,9 +75,8 @@ public class SolUserRolesCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol user roles \n");
-
-	    System.out.println(" Example command: sol user roles");
+	    System.out.println(" sol account switch <orgId> \n");
+	    System.out.println(" Example command: sol account switch myorg-dev");
 	}
 	
 	/**
@@ -76,7 +84,7 @@ public class SolUserRolesCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running roles command.");
+		logger.debug("Running account list command.");
 		
 		if (help)
 		{
@@ -86,9 +94,12 @@ public class SolUserRolesCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Listing roles:");	
+			System.out.println("Switching organization account...");	
 			
-			String token = ConfigurationManager.getInstance().getCloudAccountToken();
+			ConfigurationManager config = ConfigurationManager.getInstance();
+
+			
+			String token = config.getCloudAccountToken();
 			if (token == null || token.isEmpty() )
 			{
 				System.out.println("Token is not set. Try login first.");	
@@ -96,13 +107,21 @@ public class SolUserRolesCommand implements Runnable
 			}
 			
 			ServiceManager sm = new ServiceManager(token);	
-			List<Role> roles = sm.getAllOrganizationRoles();
+			String newOrgToken = sm.getOrgToken(orgId);
 			
-			printResults(roles, "");		
+			config.setCloudAccountToken(newOrgToken);
+			config.setCloudAccountOrgId(orgId);
+			
+			// store the input data into the configuration file.
+			config.store();
+			
+			System.out.println("Switching organization account successful.");
+			
 		}
 		catch (ApiException e)
 		{
 			System.out.println("Error occurred while running command: " + e.getResponseBody());
+			System.out.println("Please check if organization ID is valid by typing sol account list organization ID has different authentication mechanism.");
 			logger.error("Error occurred while running command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
@@ -110,23 +129,5 @@ public class SolUserRolesCommand implements Runnable
 			System.out.println("Error occurred while running command: " + e.getMessage());
 			logger.error("Error occurred while running command: {}, {}", e.getMessage(), e.getCause());
 		}
-	}
-	
-	private void printResults(List<Role> roles, String message) throws IOException
-	{
-		System.out.println(message);
-		logger.debug("Printing roles");
-		
-		for (Role role : roles)
-		{
-			System.out.println();
-			System.out.println("Role ID: [" + role.getId() + "], role name: [" + role.getName() + "], Permissions: ");
-			List<Permission> perms = role.getPermissions();
-			System.out.print("     ");
-			for (Permission perm : perms)
-			{
-				System.out.print("[" + perm.getName() + "] "); 
-			}
-		}
-	}
+	}	
 }

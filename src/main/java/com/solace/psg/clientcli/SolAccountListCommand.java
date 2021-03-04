@@ -20,8 +20,11 @@
 package com.solace.psg.clientcli;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -32,7 +35,7 @@ import org.apache.maven.shared.utils.StringUtils;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.DataCenter;
-
+import com.solace.psg.sempv2.admin.model.Organization;
 import com.solace.psg.sempv2.apiclient.ApiException;
 import com.solace.psg.sempv2.ServiceManager;
 import com.solace.psg.tablereporter.Block;
@@ -43,15 +46,15 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * Command class to handle DC lists.
+ * Command class to handle organisation account lists.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "list",description = "Lists dc details.")
-public class SolDcListCommand implements Runnable 
+@Command(name = "list",description = "Lists all organization accounts for the current user.")
+public class SolAccountListCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolDcListCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolAccountListCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -60,7 +63,7 @@ public class SolDcListCommand implements Runnable
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolDcListCommand()
+	public SolAccountListCommand()
 	{
 	}
 
@@ -69,10 +72,10 @@ public class SolDcListCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol dc list \n");
-	    System.out.println(" list - lists all data centers for Solace Cloud Console Account");
+	    System.out.println(" sol account list \n");
+	    System.out.println(" list - lists all organization accounts for the current username");
 
-	    System.out.println(" Example command: sol dc list");
+	    System.out.println(" Example command: sol account list");
 	}
 	
 	/**
@@ -80,7 +83,7 @@ public class SolDcListCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running DC list command.");
+		logger.debug("Running account list command.");
 		
 		if (help)
 		{
@@ -90,7 +93,7 @@ public class SolDcListCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Listing Data centers:");	
+			System.out.println("Listing organization accounts:");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
@@ -100,9 +103,9 @@ public class SolDcListCommand implements Runnable
 			}
 			
 			ServiceManager sm = new ServiceManager(token);	
-			List<DataCenter> dcs = sm.getDataCenters();
+			List<Organization> accs = sm.getAllOrgAccounts();
 			
-			printResults(dcs, "");		
+			printResults(accs, "");		
 		}
 		catch (ApiException e)
 		{
@@ -116,22 +119,37 @@ public class SolDcListCommand implements Runnable
 		}
 	}
 	
-	private void printResults(List<DataCenter> dcs, String message) throws IOException
+	private void printResults(List<Organization> orgs, String message) throws IOException
 	{
 		System.out.println(message);
-		logger.debug("Printing DC list");
+		logger.debug("Printing accounts list");
 		
-		List<String> headersList = Arrays.asList("Datacenter ID", "Provider", "Display name", "Certificate ID", "Continent", "Access type", "Cloud type", "Private", "Available", "Admin state", "Latitude ", "Longtitude");
+		List<String> headersList = Arrays.asList("Organization ID", "Name", "Organization Type", "Account Type", "Created on", "Deleted on");
 
-		List<List<String>> rowsList = new ArrayList<List<String>>(dcs.size());
+		List<List<String>> rowsList = new ArrayList<List<String>>(orgs.size());
+		
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-		for (DataCenter dc : dcs)
+		for (Organization org : orgs)
 		{
-			rowsList.add(Arrays.asList(StringUtils.abbreviate(dc.getId(), 28), dc.getProvider(), StringUtils.abbreviate(dc.getDisplayName().replace("\t", " "), 30), dc.getServerCertificateId(), dc.getContinent(), dc.getAccessType(), dc.getCloudType(), ""+ dc.getIsPrivate(), ""+ dc.getAvailable(), dc.getAdminState(), dc.getLat(), dc.getLng() ));
+			String cds = "----";
+			String dds = "----";
+			if (org.getCreatedTimestamp() != null)
+			{
+				Date cd = new Date(org.getCreatedTimestamp());
+				cds = df.format(cd);
+			}
+			if (org.getDeletedTimestamp() != null)
+			{
+				Date dd = new Date(org.getDeletedTimestamp());
+				dds = df.format(dd);
+			}
+			
+			rowsList.add(Arrays.asList(StringUtils.abbreviate(org.getOrganizationId(), 28), StringUtils.abbreviate(org.getName(), 28), StringUtils.abbreviate(org.getOrganizationType(), 15), StringUtils.abbreviate(org.getType(), 15), cds, dds ));
 		}
 		
-		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT,Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_CENTER, Block.DATA_CENTER, Block.DATA_MIDDLE_RIGHT, Block.DATA_MIDDLE_RIGHT);
-		List<Integer> colWidthsListEdited = Arrays.asList(29, 12, 35, 14, 14, 11, 11, 9, 10, 14, 10, 11);
+		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT,Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_CENTER, Block.DATA_CENTER);
+		List<Integer> colWidthsListEdited = Arrays.asList(29, 29, 16, 16, 12, 12);
 		int width = Board.getRecommendedWidth(colWidthsListEdited, true);
 				
 		Board board = new Board(width);	

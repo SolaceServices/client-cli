@@ -1,5 +1,5 @@
 /**
- * Copyright 2020 Solace Systems, Inc. All rights reserved.
+ * Copyright 2021 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -46,6 +46,9 @@ public class SolLoginCommand implements Runnable
 	@Option(names = {"-p", "-password"})	
 	private String password;
 
+	@Option(names = {"-o", "-org"})	
+	private String org;
+
 	@Option(names = {"-t", "-token"})	
 	private String token;
 	
@@ -67,12 +70,14 @@ public class SolLoginCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol login [-u, -username=<username>] [-p, -password=<password>] [-n] \n");
+	    System.out.println(" sol login [-u, -username=<username>] [-p, -password=<password>] [-o, -org=<organizationID>] [-n] \n");
 	    System.out.println(" -username - the email or username to login to Solace Cloud Console Account");
 	    System.out.println(" -password - the password to login to Solace Cloud Console Account");
+	    System.out.println(" -org - the organization ID. By default, login uses the first if more than one in the user account");
 	    System.out.println(" -token    - set already obtained token for the Solace Cloud Console Account");
 	    System.out.println(" -n        - does not print in command line the token generated for the Solace Cloud Console Account");
-	    System.out.println(" Example command: sol login -u=John.Smith@example.com -p=hotshot -n");
+	    System.out.println(" Example command: sol login -u=John.Smith@example.com -p=hotshot -o=myorg-dev -n");
+	    System.out.println(" If the account is obtained via organization SSO a token needs to be obtained via SSO first. -n");
 	}
 	
 	/**
@@ -93,10 +98,11 @@ public class SolLoginCommand implements Runnable
 			ConfigurationManager config = ConfigurationManager.getInstance();
 			if (username != null && password !=null && !username.isEmpty() && !password.isEmpty())
 			{
-				ServiceManager sf = new ServiceManager(username, password);
+				// obtain default token if org not set, otherwise get token of specified org ID.
+				ServiceManager sf = new ServiceManager(username, password, org);
 				
 				token = sf.getCurrentAccessToken();
-				
+							
 				config.setCloudAccountUsername(username);
 				config.setCloudAccountPassword(password);
 
@@ -107,6 +113,7 @@ public class SolLoginCommand implements Runnable
 			if (token != null && !token.isEmpty())
 			{
 				config.setCloudAccountToken(token);
+				config.setCloudAccountOrgId(org);
 				
 				// store the input data into the configuration file.
 				config.store();
@@ -117,6 +124,7 @@ public class SolLoginCommand implements Runnable
 		catch (ApiException e)
 		{
 			System.out.println("Error occurred while running login command: " + e.getResponseBody());
+			System.out.println("Please check if the credentials are correct, the organization is valid or if your organization is using SSO.");
 			logger.error("Error occurred while running login command: {}", e.getResponseBody());
 		}
 		catch (Exception e)

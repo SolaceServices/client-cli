@@ -1,5 +1,5 @@
 /**
- * Copyright 2020 Solace Systems, Inc. All rights reserved.
+ * Copyright 2021 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *

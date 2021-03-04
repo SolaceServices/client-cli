@@ -1,5 +1,5 @@
 /**
- * Copyright 2020 Solace Systems, Inc. All rights reserved.
+ * Copyright 2021 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -43,7 +43,9 @@ public class SolLogoutCommand implements Runnable
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
-	
+	@Option(names = {"-c", "-clean"})
+	private boolean clean;
+
 	/**
 	 * Initialises a new instance of the class.
 	 */
@@ -56,7 +58,8 @@ public class SolLogoutCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol logout ");
+	    System.out.println(" -c , -clean removes also currecnly set service Id and other shortcut account options. ");
+		System.out.println(" sol logout [-c]");
 	    System.out.println(" Example command: sol logout \n");
 	}
 	
@@ -80,6 +83,13 @@ public class SolLogoutCommand implements Runnable
 			config.setCloudAccountUsername("");
 			config.setCloudAccountPassword("");
 			config.setCloudAccountToken("");
+			config.setCloudAccountOrgId("");
+			
+			if (clean)
+			{
+				config.setCurrentServiceId("");
+				config.setCurrentServiceName("");
+			}
 			
 			// store the input data into the configuration file.
 			config.store();

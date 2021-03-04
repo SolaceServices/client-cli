@@ -1,5 +1,5 @@
 /**
- * Copyright 2020 Solace Systems, Inc. All rights reserved.
+ * Copyright 2021 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -26,7 +26,7 @@ package com.solace.psg.clientcli;
  */
 public class ClientCliGlobals
 {
-	public final static String VERSION = "0.0.1";
+	public final static String VERSION = "0.2.0";
 
 	/**
 	 * This class should not be instantiated.

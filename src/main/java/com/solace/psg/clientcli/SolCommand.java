@@ -1,5 +1,5 @@
 /**
- * Copyright 2020 Solace Systems, Inc. All rights reserved.
+ * Copyright 2021 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -28,6 +28,7 @@ import picocli.CommandLine.Command;
  */
 @Command(name = "sol", subcommands = {
 		SolAboutCommand.class,
+		SolAccountCommand.class,
 		SolConfigCommand.class,
 		SolDcCommand.class,
 		SolHammerCommand.class,
@@ -50,11 +51,14 @@ public class SolCommand implements Runnable
 	
 	@Command(name = "help")
 	public void helpCommand() {
+	    System.out.println("Here are some common commands to begin with. \n");  
 	    System.out.println("Usage sol: sol command [parameters] \n");  
 	    System.out.println("To login to Solace Cloud Console Account:");
 	    System.out.println(" sol login [-u, -username=<username>] [-p, -password=<password>] [-n] \n");
 	    System.out.println("To logout from Solace Cloud Console Account:");
 	    System.out.println(" sol logout \n");
+	    System.out.println("To access organization accounts for the currently logged user use:");
+	    System.out.println(" sol account <option> \n");
 	    System.out.println("To set different configuration settings user the config command:");
 	    System.out.println(" sol config <option> \n");
 	    System.out.println("To set different entities use the corresponding group commands with subparameters:");

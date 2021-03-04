@@ -4,7 +4,7 @@
 package com.solace.psg.clientcli.config;
 
 /**
- * Copyright 2020 Solace Systems, Inc. All rights reserved.
+ * Copyright 2021 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -352,6 +352,25 @@ public class ConfigurationManager
 	public void setCloudAccountUsername(String username)
 	{
 		props.setProperty("cloudUsername", username);
+	}
+
+	/**
+	 * Gets cloud account org id.
+	 * @return user name
+	 */
+	public String getCloudAccountOrgId()
+	{
+		return props.getProperty("cloudOrgId");
+	}
+
+	/**
+	 * Sets cloud account org id.
+	 * @param username user name 
+	 */
+	public void setCloudAccountOrgId(String orgId)
+	{
+		props.setProperty("cloudOrgId", orgId);
+		//props.setProperty("cloudOrgId", orgId == null  ? "" : orgId);
 	}
 	
 	/**
