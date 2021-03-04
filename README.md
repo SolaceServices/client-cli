@@ -14,44 +14,52 @@ The application can be ingerated with Cli-To-Semp tool to generate and execute c
 The application can be ingerated with SDKPerf by generating connection parameters for it to use for Solace Cloud instances.
 
 ## Initialization 
-The application registers its executable as "sol" console command and provides an easy console usage by typing commands like "sol <commands>". For more information type `sol help` or `sol -h`.
+The application registers its executable as "sol" console command and provides an easy console usage by typing commands like "sol `commands`". For more information type `sol help` or `sol -h`.
 
 ## Common commands description. 
 
 ### Login to Solace Cloud 
-sol login -u=<username> -p=<password>
-sol login -u=<username> -p=<password> -o=<organisation ID>
+sol login -u=`username` -p=`password`
+sol login -u=`username` -p=`password` -o=`organisation ID`
 
 ### Logout from Solace Cloud 
 sol logout
 sol logout -c // Logs out and cleans currently set context in the configuration such as context serviceId
 
 ### Accounts
-sol account <options>
+sol account `options`
 
 ### Configuration
-sol config <options>
+sol config `options`
 
 ### Data centers
-sol dc <options>
+sol dc `options`
 
 ### Intermission
 sol jolt
 
 ### Services
-sol service <options>
+sol service `options`
+
+#### Bridges
+
+#### CAs
+
+#### Client Profiles
+
+#### Queues
 
 ### Roles
-sol roles <options>
+sol roles `options`
 
 ### Users
-sol user <options>
+sol user `options`
 
 ### Integration
-sol hammer callCli <options>
-sol hammer cliToSemp <options>
-sol hammer scurl <options>
-sol hammer sperf <options>
+sol hammer callCli `options`
+sol hammer cliToSemp `options`
+sol hammer scurl `options`
+sol hammer sperf `options`
 
 ### Help
 sol help
