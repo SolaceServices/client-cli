@@ -60,8 +60,8 @@ public class SolHammerSperfCommand implements Runnable
     ExcParam excl;
 
     static class ExcParam {
-        @Option(names = "-serviceName", required = true) String serviceName;
-        @Option(names = "-serviceId", required = true) String serviceId;
+        @Option(names = {"-serviceName", "-sn"}, required = true) String serviceName;
+        @Option(names = {"-serviceId", "-sid"}, required = true) String serviceId;
     }
 
 	/**

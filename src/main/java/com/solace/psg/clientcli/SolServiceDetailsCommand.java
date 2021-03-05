@@ -53,8 +53,8 @@ public class SolServiceDetailsCommand implements Runnable
     Exclusive exclusive;
 
     static class Exclusive {
-        @Option(names = "-serviceName", required = false) String serviceName;
-        @Option(names = "-serviceId", required = false) String serviceId;
+        @Option(names = {"-serviceName", "-sn"}, required = false, description="the service name") String serviceName;
+        @Option(names = {"-serviceId", "-sid"}, required = false) String serviceId;
     }
 	
 	/**

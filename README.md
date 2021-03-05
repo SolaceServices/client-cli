@@ -26,7 +26,7 @@ The application can be ingerated with SDKPerf by generating connection parameter
 ## Initialization 
 The application registers its executable as "sol" console command and provides an easy console usage by typing commands like "sol `commands`". For more information type `sol help` or `sol -h`.
 
-## Common commands description. 
+## Some example commands and common tasks using the Client CLI tool.
 
 ### Login to Solace Cloud 
 `sol login -u=<username> -p=<password>`
@@ -36,25 +36,68 @@ The application registers its executable as "sol" console command and provides a
 `sol logout`
 
 Log out and clean currently set context in the configuration such as context serviceId:
+
 `sol logout -c`  
 
 ### Accounts
-`sol account <options>`
+To list available organizations for an account: 
+`sol account list`
+To switch an account:
+`sol account switch <organisation ID>`
 
 ### Configuration
 `sol config <options>`
 
 ### Data centers
-`sol dc <options>`
+`sol dc list`
 
 ### Intermission
 `sol jolt`
 
 ### Services
-To create a service get available service types:
-`sol service type`
+The following operations on services are currently available:
+- bridge  - Handles service bridges.
+- ca      - Handles service certificate authorities.
+- classes - Displays available service classes.
+- cp      - Handles service client profiles.
+- create  - Creates a service.
+- delete  - Deteles a service.
+- details - Lists all service details for a service.
+- list    - Lists all services for a Solace Cloud Console Account.
+- queue   - Handles service queues.
+- set     - Sets a service as the default service context by service name or service ID.
+- types   - Displays available service types.
 
+#### Create a service
+To create a service get available service types (currently 'developer' and 'enterprise' types are available):
+`sol service types`
+
+then find available dc:
+`sol dc list`
+
+and list of service classes:
+`sol service classes`
+
+After having the necessairy values you can create a service with the following command:
 `sol service create -class=<serviceClassId> -dc=<datacenterId> -serviceName=<serviceName> -type=<serviceTypeId>`
+
+for example: 
+`sol service create -class=developer -dc=aws-eu-west-2a -serviceName=my-new-test-service -type=developer`
+
+#### Delete a service
+To delete a service:
+`sol service delete -serviceName=<serviceName> | -serviceId=<serviceId>`
+
+#### List services
+To list services and apply a search filter:
+`sol service list -fn=<part name>`
+
+#### Setting default context service
+To set a default context service which will be picked by default use:
+`sol service set -serviceName=<service name> | -serviceId=<service ID>`
+
+To remove the default service:
+`sol service set -none`
 
 #### Bridges
 
@@ -63,6 +106,18 @@ To create a service get available service types:
 #### Client Profiles
 
 #### Queues
+The following operations on queues are currently available: 
+- create  - Creates a queue.
+- delete  - Deteles a queue.
+- details - Details of a queue.
+- list    - Lists all queues.
+- purge   - Purges messages from a queue.
+ 
+To create a queue: 
+`sol service queue create <queueName> -exclusive`
+
+To purge messages:
+`sol service queue purge <queueName>` 
 
 ### Roles
 `sol roles options`

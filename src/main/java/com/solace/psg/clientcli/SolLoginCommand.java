@@ -25,6 +25,7 @@ import org.apache.logging.log4j.Logger;
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.apiclient.ApiException;
 import com.solace.psg.sempv2.ServiceManager;
+import com.solace.psg.sempv2.admin.model.User;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -40,7 +41,7 @@ public class SolLoginCommand implements Runnable
 {
 	private static final Logger logger = LogManager.getLogger(SolLoginCommand.class);
 
-	@Option(names = {"-u", "-username"})
+	@Option(names = {"-u", "-username"}, required = true)
 	private String username;
 	
 	@Option(names = {"-p", "-password"})	
@@ -96,12 +97,13 @@ public class SolLoginCommand implements Runnable
 		try
 		{
 			ConfigurationManager config = ConfigurationManager.getInstance();
+			ServiceManager sm = null;
 			if (username != null && password !=null && !username.isEmpty() && !password.isEmpty())
 			{
 				// obtain default token if org not set, otherwise get token of specified org ID.
-				ServiceManager sf = new ServiceManager(username, password, org);
+				sm = new ServiceManager(username, password, org);
 				
-				token = sf.getCurrentAccessToken();
+				token = sm.getCurrentAccessToken();
 							
 				config.setCloudAccountUsername(username);
 				config.setCloudAccountPassword(password);
@@ -114,6 +116,13 @@ public class SolLoginCommand implements Runnable
 			{
 				config.setCloudAccountToken(token);
 				config.setCloudAccountOrgId(org);
+				
+				// Get current user ID. 
+				if (sm == null)
+					sm = new ServiceManager(token);
+				
+				User currentUser = sm.getUserByEmail(username);
+				config.setCloudAccountUserId(currentUser.getUserId());
 				
 				// store the input data into the configuration file.
 				config.store();

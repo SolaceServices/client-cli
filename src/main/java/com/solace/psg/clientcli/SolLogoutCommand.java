@@ -84,6 +84,7 @@ public class SolLogoutCommand implements Runnable
 			config.setCloudAccountPassword("");
 			config.setCloudAccountToken("");
 			config.setCloudAccountOrgId("");
+			config.setCloudAccountUserId("");
 			
 			if (clean)
 			{

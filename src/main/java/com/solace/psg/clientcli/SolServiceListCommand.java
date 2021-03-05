@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,6 +39,7 @@ import com.solace.psg.tablereporter.Table;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import sun.security.krb5.Config;
 
 /**
  * Command class to handle service lists.
@@ -53,6 +55,11 @@ public class SolServiceListCommand implements Runnable
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
+	@Option(names = {"-fn", "-filterName"}, required = false, description = "filter the name of the service")
+	private String filterName;	
+
+	@Option(names = {"-mine"}, required = false, description = "filter services created by me")
+	private boolean filterMine;	
 	
 	/**
 	 * Initialises a new instance of the class.
@@ -98,6 +105,22 @@ public class SolServiceListCommand implements Runnable
 			
 			ServiceManager sm = new ServiceManager(token);	
 			List<Service> services = sm.getAllServices();
+					
+			// filter service list by name
+			if (filterName !=null && !filterName.isEmpty())
+			{
+				services = services.stream().filter(service -> service.getName().contains(filterName)).collect(Collectors.toList());;
+			}
+
+			// filter services created by current user ID
+			if (filterMine)
+			{
+				String userId = ConfigurationManager.getInstance().getCloudAccountUserId();
+				if (userId.isEmpty())
+					System.out.println("Current user Id is empty or not set. Ignoring '-mine' option.");
+				else
+					services = services.stream().filter(service -> service.getUserId().contentEquals(userId)).collect(Collectors.toList());;
+			}
 			
 			printResults(services, "");		
 		}
@@ -143,5 +166,4 @@ public class SolServiceListCommand implements Runnable
 		String tableString = board.build().getPreview();
 		System.out.println(tableString);
 	}
-
 }

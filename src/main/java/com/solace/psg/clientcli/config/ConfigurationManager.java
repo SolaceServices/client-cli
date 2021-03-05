@@ -355,7 +355,25 @@ public class ConfigurationManager
 	}
 
 	/**
-	 * Gets cloud account org id.
+	 * Gets cloud account user ID.
+	 * @return user ID
+	 */
+	public String getCloudAccountUserId()
+	{
+		return props.getProperty("cloudUserId");
+	}
+
+	/**
+	 * Sets cloud account user ID.
+	 * @param username user ID 
+	 */
+	public void setCloudAccountUserId(String userId)
+	{
+		props.setProperty("cloudUserId", userId);
+	}
+
+	/**
+	 * Gets cloud account organisation ID.
 	 * @return user name
 	 */
 	public String getCloudAccountOrgId()
@@ -364,13 +382,12 @@ public class ConfigurationManager
 	}
 
 	/**
-	 * Sets cloud account org id.
+	 * Sets cloud account organisation ID.
 	 * @param username user name 
 	 */
 	public void setCloudAccountOrgId(String orgId)
 	{
 		props.setProperty("cloudOrgId", orgId);
-		//props.setProperty("cloudOrgId", orgId == null  ? "" : orgId);
 	}
 	
 	/**

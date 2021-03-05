@@ -22,7 +22,6 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solace.psg.clientcli.SolServiceDetailsCommand.Exclusive;
 import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.Service;
 import com.solace.psg.sempv2.apiclient.ApiException;
@@ -47,8 +46,8 @@ public class SolServiceSetCommand implements Runnable
     Exclusive exclusive;
 
     static class Exclusive {
-        @Option(names = "-serviceName", required = false, description="the service name") String serviceName;
-        @Option(names = "-serviceId", required = false, description="the service Id") String serviceId;
+        @Option(names = {"-serviceName", "-sn"}, required = false, description="the service name") String serviceName;
+        @Option(names = {"-serviceId", "-sid"}, required = false, description="the service Id") String serviceId;
     }	
 
 	@Option(names = {"-none"}, fallbackValue = "true", description = "removes the set values")

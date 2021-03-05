@@ -48,8 +48,8 @@ public class SolServiceDeleteCommand implements Runnable
     Exclusive exclusive;
 
     static class Exclusive {
-        @Option(names = "-serviceName", required = true) String serviceName;
-        @Option(names = "-serviceId", required = true) String serviceId;
+        @Option(names = {"-serviceName", "-sn"}, required = true) String serviceName;
+        @Option(names = {"-serviceId", "-sid"}, required = true) String serviceId;
     }
 	
 	@Option(names = {"-h", "-help"})
