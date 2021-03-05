@@ -50,17 +50,11 @@ sol jolt
 
 ### Services
 sol service `options`:
-	bridge  - Handles service bridges.
-	ca      - Handles service certificate authorities.
-	classes - Displays available service classes.
-	cp      - Handles service client profiles.
-	create  - Creates a service.
-	delete  - Deteles a service.
-	details - Lists all service details for a service.
-	list    - Lists all services for a Solace Cloud Console Account.
-	queue   - Handles service queues.
-	set     - Sets a service as the default service context by service name or service ID.
-	types   - Displays available service types.
+
+To create a service get available service types:
+sol service type
+
+`sol service create -class=<serviceClassId> -dc=<datacenterId> -serviceName=<serviceName> -type=<serviceTypeId>`
 
 #### Bridges
 
@@ -71,22 +65,22 @@ sol service `options`:
 #### Queues
 
 ### Roles
-sol roles `options`
+`sol roles options`
 
 ### Users
-sol user `options`
+`sol user options`
 
 ### Integration
-sol hammer callCli  `cli command` [`-serviceId=id` | `-serviceName=name`]
+`sol hammer callCli  <cli command> [-serviceId=id | -serviceName=name]`
 
-sol hammer cliToSemp `cli command`
+`sol hammer cliToSemp <cli command>`
 
-sol hammer scurl [`-serviceId=id` | `-serviceName=name`] [-i]
+`sol hammer scurl [-serviceId=id | -serviceName=name] [-i]`
 
-sol hammer sperf [`-serviceId=id` | `-serviceName=name`] [-s] [-ss]
+`sol hammer sperf [-serviceId=id | -serviceName=name] [-s] [-ss]`
 
 ### Help
-sol help
+`sol help`
 
 ### Version
-sol version | sol -v
+`sol version` | `sol -v`
