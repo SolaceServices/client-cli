@@ -27,7 +27,7 @@ import picocli.CommandLine.Command;
  * @author VictorTsonkov
  *
  */
-@Command(name = "version",description = "Displays the library version.")
+@Command(name = "version", aliases = "-v", description = "Displays the library version.")
 public class SolVersionCommand implements Runnable 
 {
 

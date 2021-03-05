@@ -31,7 +31,7 @@ import picocli.CommandLine.Option;
  * @author VictorTsonkov
  *
  */
-@Command(name = "hammer", description = "Handles various common tasks.", subcommands = {
+@Command(name = "hammer", aliases = "h", description = "Handles various common tasks.", subcommands = {
 		SolHammerCallCliCommand.class,
 		SolHammerCliToSempCommand.class,
 		SolHammerSperfCommand.class,

@@ -35,7 +35,7 @@ import picocli.CommandLine.Parameters;
  * @author VictorTsonkov
  *
  */
-@Command(name = "config", description = "Config settings.")
+@Command(name = "config", aliases = "c", description = "Config settings.")
 public class SolConfigCommand implements Runnable 
 {
 	private static final Logger logger = LogManager.getLogger(SolConfigCommand.class);

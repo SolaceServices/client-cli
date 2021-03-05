@@ -45,7 +45,7 @@ import picocli.CommandLine.Option;
  * @author VictorTsonkov
  *
  */
-@Command(name = "roles",description = "Lists user roles.")
+@Command(name = "roles",  aliases = "r",description = "Lists user roles.")
 public class SolUserRolesCommand implements Runnable 
 {
 	private static final Logger logger = LogManager.getLogger(SolUserRolesCommand.class);

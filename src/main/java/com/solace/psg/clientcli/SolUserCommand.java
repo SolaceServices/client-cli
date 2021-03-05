@@ -32,7 +32,7 @@ import picocli.CommandLine.Option;
  * @author VictorTsonkov
  *
  */
-@Command(name = "user", description = "Handles user operations.", subcommands = {
+@Command(name = "user", aliases = "u", description = "Handles user operations.", subcommands = {
 	      SolUserCreateCommand.class,
 	      SolUserDeleteCommand.class,
 	      SolUserListCommand.class,
