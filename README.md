@@ -29,30 +29,30 @@ The application registers its executable as "sol" console command and provides a
 ## Common commands description. 
 
 ### Login to Solace Cloud 
-sol login -u=`username` -p=`password`
-sol login -u=`username` -p=`password` -o=`organisation ID`
+`sol login -u=<username> -p=<password>`
+`sol login -u=<username> -p=<password> -o=<organisation ID>`
 
 ### Logout from Solace Cloud 
-sol logout
-sol logout -c // Logs out and cleans currently set context in the configuration such as context serviceId
+`sol logout`
+
+Log out and clean currently set context in the configuration such as context serviceId:
+`sol logout -c`  
 
 ### Accounts
-sol account `options`
+`sol account <options>`
 
 ### Configuration
-sol config `options`
+`sol config <options>`
 
 ### Data centers
-sol dc `options`
+`sol dc <options>`
 
 ### Intermission
-sol jolt
+`sol jolt`
 
 ### Services
-sol service `options`:
-
 To create a service get available service types:
-sol service type
+`sol service type`
 
 `sol service create -class=<serviceClassId> -dc=<datacenterId> -serviceName=<serviceName> -type=<serviceTypeId>`
 
