@@ -164,6 +164,12 @@ public class SolServiceBridgeListCommand implements Runnable
 		System.out.println(message);
 		logger.debug("Printing bridge list.");
 		
+		if (bridges == null || bridges.size() < 1)
+		{
+			System.out.println("No bridges found for the service.");
+			return;
+		}
+		
 		List<String> headersList = Arrays.asList("Bridge name", "Enabled", "Virtual router", "Max TTL");
 
 		List<List<String>> rowsList = new ArrayList<List<String>>(bridges.size());

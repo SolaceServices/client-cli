@@ -1,7 +1,7 @@
 # Solace Client CLI 
 
 ## Description
-Solace Client CLI (codename: Project Corona) is an application for handling Solace Cloud operations via the command line.
+Solace Client CLI (code name: Project Corona) is an application for handling Solace Cloud operations via the command line.
 The Client CLI can handle multiple cloud accounts by creating different profiles for each account and can also handle multiple organisations under a specified account. 
 
 ## Internal libraries part of the application release
@@ -13,7 +13,7 @@ The application is using libraries (sempv1-interface and sempv2-interface) for e
 3. Test the command by opening a command prompt (cmd.exe) and running "sol -v" or "sol version". For more help on commands type "sol -h".
 
 ## Linux installation. 
-1. Copy the executable ClientCli-0.0.1-SNAPSHOT.jar and the 'lib' directory somewhere. 
+1. Copy the executable ClientCli-x.x.x.jar and the 'lib' directory somewhere. 
 2. Run /sol.sh to create an alias or add the alias command to the user profile script.
 3. Test the command by typing "sol -v" or "sol version". For more help on commands type "sol -h". 
 
@@ -100,6 +100,13 @@ To remove the default service:
 `sol service set -none`
 
 #### Bridges
+The following operations on bridges are currently available:  
+- create - Creates a bridge.
+- delete - Deteles a bridge.
+- list   - Lists all bridges.
+
+A sample command to create a bridge to a remote service:
+`sol service bridge create -rn=testService2 -s="t/v1/1 IN D" -s="t/v1/2 OUT G"`
 
 #### CAs
 

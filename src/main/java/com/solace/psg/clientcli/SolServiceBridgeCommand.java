@@ -63,7 +63,7 @@ public class SolServiceBridgeCommand implements Runnable
 	    //System.out.println(" details - Details of a bridge.");
 	    System.out.println(" list   - Lists all bridges.");
 
-	    System.out.println(" Example command: sol service bridge create -rn=testService2 -s=\\\"t/v1/1 IN D\\\" -s=\\\"t/v1/2 OUT G\\\"");
+	    System.out.println(" Example command: sol service bridge create -rn=testService2 -s=\"t/v1/1 IN D\" -s=\"t/v1/2 OUT G\"");
 	}
 	
 	/**
