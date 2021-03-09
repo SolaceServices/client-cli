@@ -31,7 +31,7 @@ import com.solace.psg.sempv2.admin.model.ServiceDetails;
 
 import com.solace.psg.sempv2.admin.model.Subscription;
 import com.solace.psg.sempv2.apiclient.ApiException;
-
+import com.solace.psg.util.FileUtils;
 import com.solace.psg.sempv2.ServiceManager;
 import com.solace.psg.sempv2.VpnManager;
 
@@ -75,10 +75,31 @@ public class SolServiceBridgeCreateCommand implements Runnable
     }
     
     @Option(names = "-s", description = "Adds a subscription in format {name(mandatory) direction(opt.) type(opt.) default is SMF} -  <topicName> <IN>|<OUT> <D>|<G>|<DA> <SMF>|<MQTT>", arity = "0..*") 
-    List<Subscription> subscritpions;
+    List<Subscription> subscriptions;
  
 	@Option(names = {"-r", "-rollback"}, defaultValue = "true")
 	private boolean rollback;
+
+	@Option(names = {"-c", "-cert"}, defaultValue = "false", description = "Indicates if using certificate for authentication")
+	private Boolean cert;	
+
+	@Option(names = {"-lu", "-localUsername"}, description = "local username / certificate key file")
+	private String localUsername;	
+
+	@Option(names = {"-lp", "-localPassword"}, description = "local password")
+	private String localPassword;	
+
+	@Option(names = {"-ltcn", "-localTcn"}, description = "local Trusted Common Name")
+	private String localTcn;	
+
+	@Option(names = {"-ru", "-remoteUsername"}, description = "remote username / certificate key file")
+	private String remoteUsername;	
+
+	@Option(names = {"-rp", "-remotePassword"}, description = "remote password")
+	private String remotePassword;	
+
+	@Option(names = {"-rtcn", "-remoteTcn"}, description = "remote Trusted Common Name")
+	private String remoteTcn;	
 
 	/**
 	 * Initialises a new instance of the class.
@@ -99,6 +120,29 @@ public class SolServiceBridgeCreateCommand implements Runnable
 	    System.out.println(" Example command: sol service bridge create -rn=testService2 -s=\"t/v1/1 IN D\" -s=\"t/v1/2 OUT G\"");
 	}
 	
+	private boolean checkParams()
+	{
+		boolean result = false;
+		
+		if (cert = true)
+		{
+			if (localUsername == null || localUsername.isEmpty())
+				System.out.println("Parameter localUsername is required.");				
+			else if (remoteUsername == null || remoteUsername.isEmpty())
+				System.out.println("Parameter remoteUsername is required.");
+			else if (localTcn == null || localTcn.isEmpty())
+				System.out.println("Parameter localTcn is required.");
+			else if (remoteTcn == null || remoteTcn.isEmpty())
+				System.out.println("Parameter remoteTcn is required.");
+			else
+				result = true;
+		}
+		else 
+			result = true;
+		
+		return result;
+	}
+	
 	/**
 	 * Runs the command.
 	 */
@@ -114,6 +158,9 @@ public class SolServiceBridgeCreateCommand implements Runnable
 		
 		try
 		{
+			if (!checkParams())
+				return;
+			
 			System.out.println("Creating bridge...");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
@@ -164,7 +211,16 @@ public class SolServiceBridgeCreateCommand implements Runnable
 			{
 				VpnManager vf = new VpnManager(sd);
 
-				boolean result = vf.createBridge(rsd, subscritpions, rollback);
+				boolean result = false;
+				
+				if (cert)
+				{
+					String localCertContent  = new String (FileUtils.readReponseFromFile(localUsername));
+					String remoteCertContent  = new String (FileUtils.readReponseFromFile(remoteUsername));
+					result = vf.createBridge(rsd, subscriptions, rollback, true, localCertContent, localPassword, remoteCertContent, remotePassword, localTcn, remoteTcn);
+				}
+				else
+					result = vf.createBridge(rsd, subscriptions, rollback, false, localUsername, localPassword, remoteUsername, remotePassword, null, null);
 
 				if (result)
 					System.out.println("bridge created successfully.");

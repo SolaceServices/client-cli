@@ -108,6 +108,24 @@ The following operations on bridges are currently available:
 Client CLI creates secured bridges as standard, with a name generated in the following format: *<Local_VPN_name>_<Remote_VPN_name>*. A sample command to create a bridge to a remote service is shown below. The command also adds 2 subscriptions - *Ingoing Direct* subscription **t/v1/1** and *Outgoing Guaranteed* **t/v1/2**:
 `sol service bridge create -rn=<serviceName> -s="t/v1/1 IN D" -s="t/v1/2 OUT G"`
 
+The following command creates a bridge with custom bridge users (local username needs to be configured on the local service and remote username - on the remote service): 
+`service bridge create -rn=<serviceName> -lu=<local username> -lp=<local password> -ru=<remote username> -rp=<remote password> -s="t/v1/1 IN D" -s="t/v1/2 OUT G" `
+
+To create a TLS bridge with certificates, there are several prerequisites (refer to https://docs.solace.com/Solace-Cloud/ght_client_certs.htm):
+1. Certificate authentication on both services need to be enabled
+2. Both services need to have CA of the issuing authority (RootCaCert), as well as the client certificates and chain if any (ClientCert).
+3. Both services should have configured users to match the CN name of the certificates (*<local TCN>* and *<remote TCN>* if different CN names)
+Parameters *localUsername* and *remoteUsername* should point to filepaths of files containing the client private key and certificate appended together as:
+`-----BEGIN RSA PRIVATE KEY-----`
+`...`
+`-----END RSA PRIVATE KEY-----`
+`-----BEGIN CERTIFICATE-----`
+`...`
+`-----END CERTIFICATE-----`
+  
+The CN name of the certificate content has to be added as well as *-cert=true* parameter to the command:
+`service bridge create -rn=<serviceName> -cert=true -lu=<local user key path> -lp=<local password> -ltcn=<local TCN> -ru=<remote user key path> -rp=<remote password> -rtcn=<remote TCN> -s="t/v1/1 IN D" -s="t/v1/2 OUT G" `
+
 To delete a bridge, the name or the id of the remote service need to be passed to the context of a local service:
 `service bridge delete -rn=<serviceName>`
 
