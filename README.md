@@ -139,6 +139,13 @@ To add a CA, you can create a file with the CA content (if a chain of authority 
 `service ca add <CA Name> <Path to CA file>`
 
 #### Client Profiles
+The following operations on Client Profiles are currently available:  
+- create  - Creates a client profile.
+- delete  - Deteles a client profile.
+- details - Details for a client profile.
+- list    - Lists all client profiles for a Solace Cloud Console Account.
+A sample command is:
+`sol service cp create <profileName>`
 
 #### Queues
 The following operations on queues are currently available: 
