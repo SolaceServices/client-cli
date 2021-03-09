@@ -76,7 +76,10 @@ public class SolServiceBridgeCreateCommand implements Runnable
     
     @Option(names = "-s", description = "Adds a subscription in format {name(mandatory) direction(opt.) type(opt.) default is SMF} -  <topicName> <IN>|<OUT> <D>|<G>|<DA> <SMF>|<MQTT>", arity = "0..*") 
     List<Subscription> subscritpions;
-    
+ 
+	@Option(names = {"-r", "-rollback"}, defaultValue = "true")
+	private boolean rollback;
+
 	/**
 	 * Initialises a new instance of the class.
 	 */
@@ -161,7 +164,7 @@ public class SolServiceBridgeCreateCommand implements Runnable
 			{
 				VpnManager vf = new VpnManager(sd);
 
-				boolean result = vf.createBridge(rsd, subscritpions);
+				boolean result = vf.createBridge(rsd, subscritpions, rollback);
 
 				if (result)
 					System.out.println("bridge created successfully.");

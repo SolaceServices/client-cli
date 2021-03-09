@@ -105,10 +105,20 @@ The following operations on bridges are currently available:
 - delete - Deteles a bridge.
 - list   - Lists all bridges.
 
-A sample command to create a bridge to a remote service:
-`sol service bridge create -rn=testService2 -s="t/v1/1 IN D" -s="t/v1/2 OUT G"`
+Client CLI creates secured bridges as standard, with a name generated in the following format: *<Local_VPN_name>_<Remote_VPN_name>*. A sample command to create a bridge to a remote service is shown below. The command also adds 2 subscriptions - *Ingoing Direct* subscription **t/v1/1** and *Outgoing Guaranteed* **t/v1/2**:
+`sol service bridge create -rn=<serviceName> -s="t/v1/1 IN D" -s="t/v1/2 OUT G"`
+
+To delete a bridge, the name or the id of the remote service need to be passed to the context of a local service:
+`service bridge delete -rn=<serviceName>`
 
 #### CAs
+The following operations on CAs are currently available:  
+- add    - Adds a certificate authority.
+- delete - Deteles a certificate authority.
+- list   - Lists all certificate authorities.
+
+To add a CA, you can create a file with the CA content (if a chain of authority is required, create separate file and CA for each chained authority), and then add the CA with a given name and file path:
+`service ca add <CA Name> <Path to CA file>`
 
 #### Client Profiles
 
