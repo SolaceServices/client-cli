@@ -37,7 +37,14 @@
 	    <artifactId>okhttp</artifactId>
 	    <version>4.7.2</version>
 	</dependency>
-        
+
+	<!-- Solace JCSMP -->
+	<dependency>
+	    <groupId>com.solacesystems</groupId>
+	    <artifactId>sol-jcsmp</artifactId>
+	    <version>10.10.0</version>
+	</dependency>
+	        
     <!-- CLI library -->
 	<dependency>
 	    <groupId>info.picocli</groupId>

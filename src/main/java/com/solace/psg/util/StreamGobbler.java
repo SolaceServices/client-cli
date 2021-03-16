@@ -1,5 +1,5 @@
 /**
- * Copyright 2016-2020 Solace Corporation. All rights reserved.
+ * Copyright 2016-2021 Solace Corporation. All rights reserved.
  *
  * http://www.solace.com
  *

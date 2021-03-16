@@ -34,7 +34,7 @@ import picocli.CommandLine.Option;
  *
  */
 @Command(name = "queue", description = "Handles queue operations.", subcommands = {
-
+	    SolServiceQueueCopyCommand.class,
 	    SolServiceQueueCreateCommand.class,
 	    SolServiceQueueDeleteCommand.class,
 	    SolServiceQueueDetailsCommand.class,
@@ -61,6 +61,7 @@ public class SolServiceQueueCommand implements Runnable
 	private void showHelp()
 	{
 	    System.out.println(" sol service queue: ");
+	    System.out.println(" copy    - Copies messages from a queue to another.");
 	    System.out.println(" create  - Creates a queue.");
 	    System.out.println(" delete  - Deteles a queue.");
 	    System.out.println(" details - Details of a queue.");

@@ -149,6 +149,7 @@ A sample command is:
 
 #### Queues
 The following operations on queues are currently available: 
+- copy    - Copies or moves messages from one service queue to another service queue 
 - create  - Creates a queue.
 - delete  - Deteles a queue.
 - details - Details of a queue.
@@ -157,6 +158,12 @@ The following operations on queues are currently available:
  
 To create a queue: 
 `sol service queue create <queueName> -exclusive`
+
+To copy queue messages:
+`sol service queue copy [-ln=<localServiceName>] -lq=<localQueueName> -rn=<remoteServiceName> -rq=<remoteQueueName> -mn=<message number to copy> `
+
+To move queue messages:
+`sol service queue copy -r [-ln=<localServiceName>] -lq=<localQueueName> -rn=<remoteServiceName> -rq=<remoteQueueName> -mn=<message number to move> `
 
 To purge messages:
 `sol service queue purge <queueName>` 
