@@ -7,6 +7,10 @@ The Client CLI can handle multiple cloud accounts by creating different profiles
 ## Internal libraries part of the application release
 The application is using libraries (sempv1-interface and sempv2-interface) for executing SEMP V1 and SEMP v2 commands from the client's command line. 
 
+## Building sol executable
+Once the code is compiled in a jar file, there is a tool, which can be used to generate a sol.exe - launch4j. The project icon and configuration is located in the launch4j project folder. 
+
+
 ## Windows installation:
 1. Copy the executable sol.exe and the 'lib' subfolder in a folder of your choice. 
 2. Add to the System Path variable the path to the sol.exe file. 
@@ -175,13 +179,19 @@ To purge messages:
 `sol user options`
 
 ### Integration
+Integration with Solace CLI provides a way to execute a command against the service CLI:
 `sol hammer callCli  <cli command> [-serviceId=id | -serviceName=name]`
 
+Integration with CLI to SEMP tool provides a way to generate CLI commands using the tool (the path to the tool needs to be configiures using *sol config* command):
 `sol hammer cliToSemp <cli command>`
 
+Integration with cURL  provides a way to excute command with cURL:
 `sol hammer scurl [-serviceId=id | -serviceName=name] [-i]`
 
+Integration with SDKPerf provides a command to generate a connection string for SDKPerf (the path to SDKPerf needs to be configiures using *sol config* command):
 `sol hammer sperf [-serviceId=id | -serviceName=name] [-s] [-ss]`
+
+Integration with SempConfig tool by Island Chen (https://github.com/flyisland/sempcfg) provides a way to export VPN configuration and import it into another service:
 
 ### Help
 `sol help`
