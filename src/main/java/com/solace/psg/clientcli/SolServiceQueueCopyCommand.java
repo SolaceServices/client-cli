@@ -81,8 +81,20 @@ public class SolServiceQueueCopyCommand implements Runnable
 	@Option(names = {"-lq", "-localQueue"}, arity = "1", description = "local queue name")
 	private String localQueueName;	
 
+	@Option(names = {"-lu", "-localUsername"}, arity = "0..1", description = "local queue username")
+	private String localQueueUsername;	
+	
+	@Option(names = {"-lp", "-localPassword"}, arity = "0..1", description = "local queue password")
+	private String localQueuePassword;	
+	
 	@Option(names = {"-rq", "-remoteQueue"}, arity = "1", description = "remote queue name")
 	private String remoteQueueName;	
+
+	@Option(names = {"-ru", "-remoteUsername"}, arity = "0..1", description = "remote queue username")
+	private String remoteQueueUsername;	
+	
+	@Option(names = {"-rp", "-remotePassword"}, arity = "0..1", description = "remote queue password")
+	private String remoteQueuePassword;	
 
 	@Option(names = {"-mn", "-messageNumber"}, arity = "1", description = "message number to copy")
 	private long messageNumber;	
@@ -190,6 +202,18 @@ public class SolServiceQueueCopyCommand implements Runnable
 				VPN localVpn = new VPN(lUrl, lsc.getVpnName(), lsc.getUserUsername(), lsc.getUserPassword());
 				VPN remoteVpn = new VPN(rUrl, rsc.getVpnName(), rsc.getUserUsername(), rsc.getUserPassword());
 				
+				if (localQueueUsername != null)
+				{
+					localVpn.setUsername(localQueueUsername);
+					localVpn.setPassword(localQueuePassword);
+				}
+	
+				if (remoteQueueUsername != null)
+				{
+					remoteVpn.setUsername(remoteQueueUsername);
+					remoteVpn.setPassword(remoteQueuePassword);
+				}
+				
 				SimpleQueueCopy sqc = new SimpleQueueCopy(localVpn, remoteVpn, localQueueName, remoteQueueName, messageNumber, remove);
 				
 				Thread thread = new Thread(sqc);
@@ -203,7 +227,7 @@ public class SolServiceQueueCopyCommand implements Runnable
 				
 				System.out.println("");
 				if ((sqc.getStatus() == SimpleQueueCopy.STATUS_COMPLETED))
-					System.out.println("Messages copied successfully.");
+					System.out.println(messageNumber + " messages copied successfully.");
 				else
 					System.out.println("Error copying messages. Check logs for more details.");	
 			}

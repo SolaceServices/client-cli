@@ -98,6 +98,9 @@ To delete a service:
 To list services and apply a search filter:
 `sol service list -fn=<part name>`
 
+To list only services created by current user:
+`sol service list -mine`
+
 #### Setting default context service
 To set a default context service which will be picked by default use:
 `sol service set -serviceName=<service name> | -serviceId=<service ID>`
@@ -167,6 +170,9 @@ To create a queue:
 
 To copy queue messages:
 `sol service queue copy [-ln=<localServiceName>] -lq=<localQueueName> -rn=<remoteServiceName> -rq=<remoteQueueName> -mn=<message number to copy> `
+
+To copy queue messages with specific usernames:
+`sol service queue copy [-ln=<localServiceName>] -lq=<localQueueName> -lu-<local username> -lp=<local password> -rn=<remoteServiceName> -rq=<remoteQueueName> -ru-<remote username> -rp=<remote password> -mn=<message number to copy> `
 
 To move queue messages:
 `sol service queue copy -r [-ln=<localServiceName>] -lq=<localQueueName> -rn=<remoteServiceName> -rq=<remoteQueueName> -mn=<message number to move> `
