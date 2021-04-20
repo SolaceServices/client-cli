@@ -8,7 +8,9 @@ The Client CLI can handle multiple cloud accounts by creating different profiles
 The application is using libraries (sempv1-interface and sempv2-interface) for executing SEMP V1 and SEMP v2 commands from the client's command line. 
 
 ## Building sol executable
-Once the code is compiled in a jar file, there is a tool, which can be used to generate a sol.exe - launch4j. The project icon and configuration is located in the launch4j project folder. 
+Once the code is compiled in a jar file, there is a tool, which can be used to generate a sol.exe - Launch4j (http://launch4j.sourceforge.net/). **Launch4j** requires the executable jar and main class as parameters, as well as icon and output path tto generate an axecutable - *sol.exe*. 
+The project icon and configuration is located in the launch4j project folder.
+To be able to run the sol.exe you need to also place on its path the *lib* folder with all additional jars from the target build folder.  
 
 
 ## Windows installation:

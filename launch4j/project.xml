@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
-  <headerType>gui</headerType>
-  <jar>C:\Projects\ClientCli-0.2.0.jar</jar>
-  <outfile>C:\Projects\sol.exe</outfile>
+  <headerType>console</headerType>
+  <jar>C:\Projects\j2ee\client-cli\target\ClientCli-0.2.0.jar</jar>
+  <outfile>C:\Projects\j2ee\clientcli\sol.exe</outfile>
   <errTitle>Error occured</errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -13,7 +13,10 @@
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>C:\Projects\test\corona.ico</icon>
+  <icon>C:\Projects\j2ee\client-cli\launch4j\corona.ico</icon>
+  <classPath>
+    <mainClass>com.solace.psg.clientcli.ClientCliApp</mainClass>
+  </classPath>
   <jre>
     <path></path>
     <bundledJre64Bit>false</bundledJre64Bit>
@@ -23,4 +26,18 @@
     <jdkPreference>preferJre</jdkPreference>
     <runtimeBits>64/32</runtimeBits>
   </jre>
+  <versionInfo>
+    <fileVersion>0.2.0.0</fileVersion>
+    <txtFileVersion>0.2.0.0</txtFileVersion>
+    <fileDescription>Solace Client CLI</fileDescription>
+    <copyright>Solace PSG</copyright>
+    <productVersion>0.2.0.0</productVersion>
+    <txtProductVersion>0.2.0.0</txtProductVersion>
+    <productName>Solace Client CLI</productName>
+    <companyName>Solace</companyName>
+    <internalName>Project Corona</internalName>
+    <originalFilename>sol.exe</originalFilename>
+    <trademarks></trademarks>
+    <language>ENGLISH_US</language>
+  </versionInfo>
 </launch4jConfig>
