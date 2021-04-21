@@ -151,7 +151,7 @@ public class SolServiceListCommand implements Runnable
 		}
 		
 		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_CENTER, Block.DATA_CENTER);
-		List<Integer> colWidthsListEdited = Arrays.asList(40, 14, 29, 16, 14, 12, 11);
+		List<Integer> colWidthsListEdited = Arrays.asList(40, 14, 29, 20, 14, 12, 11);
 		int width = Board.getRecommendedWidth(colWidthsListEdited, true);
 				
 		Board board = new Board(width);	
