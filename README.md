@@ -182,10 +182,12 @@ To purge messages:
 `sol service queue purge <queueName>` 
 
 ### Roles
-`sol roles options`
+`sol user roles`
 
 ### Users
-`sol user options`
+sol user create <firstname> <lastname> <email> roles 
+`sol user create <firstname> <lastname> <email> messaging-service-editor`
+
 
 ### Integration
 Integration with Solace CLI provides a way to execute a command against the service CLI:

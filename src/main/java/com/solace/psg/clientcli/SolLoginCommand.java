@@ -44,7 +44,7 @@ public class SolLoginCommand implements Runnable
 	@Option(names = {"-u", "-username"}, required = true)
 	private String username;
 	
-	@Option(names = {"-p", "-password"})	
+	@Option(names = {"-p", "-password"}, required = true)	
 	private String password;
 
 	@Option(names = {"-o", "-org"})	
@@ -115,7 +115,8 @@ public class SolLoginCommand implements Runnable
 			if (token != null && !token.isEmpty())
 			{
 				config.setCloudAccountToken(token);
-				config.setCloudAccountOrgId(org);
+				if (org != null)
+					config.setCloudAccountOrgId(org);
 				
 				// Get current user ID. 
 				if (sm == null)
