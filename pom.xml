@@ -4,7 +4,7 @@
 
   <groupId>com.solace.psg</groupId>
   <artifactId>ClientCli</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
   <packaging>jar</packaging>
 
   <name>ClientCli</name>
@@ -35,21 +35,21 @@
 	<dependency>
 	    <groupId>com.squareup.okhttp3</groupId>
 	    <artifactId>okhttp</artifactId>
-	    <version>4.7.2</version>
+	    <version>4.9.2</version>
 	</dependency>
 
 	<!-- Solace JCSMP -->
 	<dependency>
 	    <groupId>com.solacesystems</groupId>
 	    <artifactId>sol-jcsmp</artifactId>
-	    <version>10.10.0</version>
+	    <version>10.12.1</version>
 	</dependency>
 	        
     <!-- CLI library -->
 	<dependency>
 	    <groupId>info.picocli</groupId>
 	    <artifactId>picocli</artifactId>
-	    <version>4.3.2</version>
+	    <version>4.6.1</version>
 	</dependency>
 	<dependency>
 	  <groupId>info.picocli</groupId>
