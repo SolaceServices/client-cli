@@ -36,8 +36,14 @@ The application registers its executable as "sol" console command and provides a
 ## Some example commands and common tasks using the Client CLI tool.
 
 ### Login to Solace Cloud 
+Login to Solace Cloud is done via the same credentials a user has for the Solace Cloud GUI. Sample login commands are listed here:
+
 `sol login -u=<username> -p=<password>`
 `sol login -u=<username> -p=<password> -o=<organisation ID>`
+
+Once the user is logged in, a temporary token is issued and stored in the config file to be reused for other commands.
+
+For **Solace Cloud SSO** login or for **permanent** token, the user should login to Solace Cloud via the GUI and manually issue a token from the Token page. 
 
 ### Logout from Solace Cloud 
 `sol logout`
