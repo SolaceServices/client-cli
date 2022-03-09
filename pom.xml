@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.solace.psg</groupId>
-  <artifactId>ClientCli</artifactId>
+  <artifactId>clientcli</artifactId>
   <version>0.3.0</version>
   <packaging>jar</packaging>
 
-  <name>ClientCli</name>
+  <name>clientcli</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -24,12 +24,12 @@
     <dependency>
         <groupId>com.solace.psg</groupId>
         <artifactId>sempv1-interface</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.3.0-SNAPSHOT</version>
     </dependency>
     <dependency>
         <groupId>com.solace.psg</groupId>
         <artifactId>sempv2-interface</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.3.0-SNAPSHOT</version>
     </dependency>
 	<!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
 	<dependency>

@@ -16,7 +16,7 @@ To be able to run the sol.exe you need to also place on its path the *lib* folde
 
 ## Windows installation:
 1. Copy the executable sol.exe and the 'lib' subfolder in a folder of your choice. 
-2. Add the sol.exe path to the Environment variable *Path*. 
+2. Add to the System Path variable the path to the sol.exe file. 
 3. Test the command by opening a command prompt (cmd.exe) and running "sol -v" or "sol version". For more help on commands type "sol -h".
 
 ## Linux installation. 
