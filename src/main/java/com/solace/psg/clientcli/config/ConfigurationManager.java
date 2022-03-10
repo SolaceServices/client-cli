@@ -4,7 +4,7 @@
 package com.solace.psg.clientcli.config;
 
 /**
- * Copyright 2021 Solace Systems, Inc. All rights reserved.
+ * Copyright 2022 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *

@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Solace Systems, Inc. All rights reserved.
+ * Copyright 2022 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -129,7 +129,7 @@ public class SolUserListCommand implements Runnable
 		}
 		
 		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_CENTER, Block.DATA_CENTER);
-		List<Integer> colWidthsListEdited = Arrays.asList(14, 15, 15, 40, 25, 15, 12);
+		List<Integer> colWidthsListEdited = Arrays.asList(14, 15, 15, 40, 25, 25, 12);
 		int width = Board.getRecommendedWidth(colWidthsListEdited, true);
 				
 		Board board = new Board(width);	

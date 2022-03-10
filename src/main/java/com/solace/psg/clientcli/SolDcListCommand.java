@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Solace Systems, Inc. All rights reserved.
+ * Copyright 2022 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -38,6 +38,7 @@ import com.solace.psg.sempv2.ServiceManager;
 import com.solace.psg.tablereporter.Block;
 import com.solace.psg.tablereporter.Board;
 import com.solace.psg.tablereporter.Table;
+import com.solace.psg.util.StringHelper;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -127,7 +128,7 @@ public class SolDcListCommand implements Runnable
 
 		for (DataCenter dc : dcs)
 		{
-			rowsList.add(Arrays.asList(StringUtils.abbreviate(dc.getId(), 28), dc.getProvider(), StringUtils.abbreviate(dc.getDisplayName().replace("\t", " "), 30), dc.getServerCertificateId(), dc.getContinent(), dc.getAccessType(), dc.getCloudType(), ""+ dc.getIsPrivate(), ""+ dc.getAvailable(), dc.getAdminState(), dc.getLat(), dc.getLng() ));
+			rowsList.add(Arrays.asList(StringUtils.abbreviate(dc.getId(), 28), StringHelper.nonNull(dc.getProvider()), StringUtils.abbreviate(dc.getDisplayName().replace("\t", " "), 30), dc.getServerCertificateId(), dc.getContinent(), dc.getAccessType(), dc.getCloudType(), StringHelper.nonNull(dc.getIsPrivate()), StringHelper.nonNull( dc.getAvailable()), StringHelper.nonNull(dc.getAdminState()), StringHelper.nonNull(dc.getLat()), StringHelper.nonNull(dc.getLng() )));
 		}
 		
 		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT,Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_CENTER, Block.DATA_CENTER, Block.DATA_MIDDLE_RIGHT, Block.DATA_MIDDLE_RIGHT);
@@ -146,5 +147,7 @@ public class SolDcListCommand implements Runnable
 		String tableString = board.build().getPreview();
 		System.out.println(tableString);
 	}
+	
+	//private String Strings.nullToEmpty
 
 }

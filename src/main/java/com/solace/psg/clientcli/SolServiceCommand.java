@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Solace Systems, Inc. All rights reserved.
+ * Copyright 2022 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -42,7 +42,8 @@ import picocli.CommandLine.Option;
 	    SolServiceListCommand.class,    
 	    SolServiceQueueCommand.class,
 	    SolServiceSetCommand.class,	      
-		SolServiceTypesCommand.class
+		SolServiceTypesCommand.class,
+		SolServiceUsernameCommand.class
 })
 public class SolServiceCommand implements Runnable 
 {
@@ -65,17 +66,18 @@ public class SolServiceCommand implements Runnable
 	private void showHelp()
 	{
 	    System.out.println(" sol service: ");
-	    System.out.println(" bridge  - Handles service bridges.");
-	    System.out.println(" ca      - Handles service certificate authorities.");
-	    System.out.println(" classes - Displays available service classes.");
-	    System.out.println(" cp      - Handles service client profiles.");
-	    System.out.println(" create  - Creates a service.");
-	    System.out.println(" delete  - Deteles a service.");
-	    System.out.println(" details - Lists all service details for a service.");
-	    System.out.println(" list    - Lists all services for a Solace Cloud Console Account.");
-	    System.out.println(" queue   - Handles service queues.");
-	    System.out.println(" set     - Sets a service as the default service context by service name or service ID.");
-	    System.out.println(" types   - Displays available service types.");
+	    System.out.println(" bridge   - Handles service bridges.");
+	    System.out.println(" ca       - Handles service certificate authorities.");
+	    System.out.println(" classes  - Displays available service classes.");
+	    System.out.println(" cp       - Handles service client profiles.");
+	    System.out.println(" create   - Creates a service.");
+	    System.out.println(" delete   - Deteles a service.");
+	    System.out.println(" details  - Lists all service details for a service.");
+	    System.out.println(" list     - Lists all services for a Solace Cloud Console Account.");
+	    System.out.println(" queue    - Handles service queues.");
+	    System.out.println(" set      - Sets a service as the default service context by service name or service ID.");
+	    System.out.println(" types    - Displays available service types.");
+	    System.out.println(" username - Handles service usernames.");
 
 	    System.out.println(" Example command: sol service list");
 	}

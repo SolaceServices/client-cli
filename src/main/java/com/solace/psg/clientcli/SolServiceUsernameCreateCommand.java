@@ -28,8 +28,10 @@ import com.solace.psg.clientcli.config.ConfigurationManager;
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
 
 import com.solace.psg.sempv2.apiclient.ApiException;
-
+import com.solace.psg.sempv2.config.model.MsgVpnClientUsername;
 import com.solace.psg.sempv2.config.model.MsgVpnQueue;
+import com.solace.psg.sempv2.config.model.MsgVpnQueue.AccessTypeEnum;
+import com.solace.psg.sempv2.config.model.MsgVpnQueue.PermissionEnum;
 import com.solace.psg.sempv2.ServiceManager;
 import com.solace.psg.sempv2.VpnManager;
 
@@ -39,34 +41,52 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 /**
- * Command class to handle queue create.
+ * Command class to handle user name create.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "delete", description = "Deletes a queue.")
-public class SolServiceQueueDeleteCommand implements Runnable 
+@Command(name = "create", description = "Creates username.")
+public class SolServiceUsernameCreateCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceQueueDeleteCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolServiceUsernameCreateCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
 	@ArgGroup(exclusive = true, multiplicity = "0..1")
-    Exclusive exclusive;
+    ExcParam excl;
 
-    static class Exclusive {
+    static class ExcParam {
         @Option(names = {"-serviceName", "-sn"}, required = true) String serviceName;
         @Option(names = {"-serviceId", "-sid"}, required = true) String serviceId;
     }
 
-	@Parameters(index = "0", arity = "1", description="the queue name")
-	private String queueName;
-	
+	@Parameters(index = "0", arity = "1", description="the username")
+	private String username;
+
+	@Option(names = {"-sm", "-subscriptionmanager"} , defaultValue = "false",  description="Indicates the username is subscription manager. Default is false.")
+	private boolean subman;	
+
+	@Option(names = {"-gp", "-guaranteedpermission"} , defaultValue = "false",  description="Sets Guaranteed Endpoint Permission Override. Default is false.")
+	private boolean gp;	
+
+	@Option(names = {"-p", "-password"} , defaultValue = "",  description="Sets the password. Default is blank.")
+	private String password;	
+
+	@Option(names = {"-cp", "-clientprofile"} , defaultValue = "default",  description="Sets the client profile name. Default is 'default'.")
+	private String clientprofile;	
+
+	@Option(names = {"-acl", "-aclprofile"} , defaultValue = "default",  description="Sets the acl name. Default is 'default'.")
+	private String acl;	
+
+	@Option(names = {"-e", "-enabled"} , defaultValue = "true",  description="Indicates whether the username is enabled. Default is true.")
+	private boolean enabled;	
+
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceQueueDeleteCommand()
+	public SolServiceUsernameCreateCommand()
 	{
 	}
 
@@ -75,10 +95,10 @@ public class SolServiceQueueDeleteCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service queue delete \n");
-	    System.out.println(" create - Creates a queue for a service.");
+	    System.out.println(" sol service username create \n");
+	    System.out.println(" create - Creates a username for a service.");
 
-	    System.out.println(" Example command: sol service queue delete <queueName>");
+	    System.out.println(" Example command: sol service username create <username> -p=<password>");
 	}
 	
 	/**
@@ -86,7 +106,7 @@ public class SolServiceQueueDeleteCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running queue delete command.");
+		logger.debug("Running queue create command.");
 		
 		if (help)
 		{
@@ -96,7 +116,7 @@ public class SolServiceQueueDeleteCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Deleting queue...");	
+			System.out.println("Creating username...");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
@@ -110,13 +130,13 @@ public class SolServiceQueueDeleteCommand implements Runnable
 			String ctxServiceName = ConfigurationManager.getInstance().getCurrentServiceName();
 			
 			ServiceDetails sd = null;
-			if (exclusive != null && exclusive.serviceId != null)
+			if (excl != null && excl.serviceId != null)
 			{
-				sd = sm.getServiceDetails(exclusive.serviceId);
+				sd = sm.getServiceDetails(excl.serviceId);
 			}
-			else if (exclusive != null && exclusive.serviceName != null)
+			else if (excl != null && excl.serviceName != null)
 			{
-				sd = sm.getServiceDetailsByName(exclusive.serviceName);
+				sd = sm.getServiceDetailsByName(excl.serviceName);
 			}
 			else if (ctxServiceId != null)
 			{
@@ -135,14 +155,21 @@ public class SolServiceQueueDeleteCommand implements Runnable
 			if (sd != null)
 			{
 				VpnManager vf = new VpnManager(sd);
-				MsgVpnQueue request = new MsgVpnQueue();
-				request.setQueueName(queueName);
-				boolean result = vf.deleteQueue(queueName);
+				MsgVpnClientUsername request = new MsgVpnClientUsername();
+				request.setClientUsername(username);
+				request.setAclProfileName(acl);
+				request.setClientProfileName(clientprofile);				
+				request.setPassword(password);
+				request.setEnabled(enabled);
+				request.setSubscriptionManagerEnabled(subman);
+				request.setGuaranteedEndpointPermissionOverrideEnabled(gp);
+								
+				boolean result = vf.addClientUsername(request);
 
 				if (result)
-					System.out.println("Queue deleted successfully.");
+					System.out.println("Username created successfully.");
 				else
-					System.out.println("Error deleting the queue.  Check logs for more details.");	
+					System.out.println("Error creating the username.  Check logs for more details.");	
 			}
 			else
 			{
@@ -156,8 +183,8 @@ public class SolServiceQueueDeleteCommand implements Runnable
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occured while running command: " + e.getMessage());
-			logger.error("Error occured while running command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occured while running  command: " + e.getMessage());
+			logger.error("Error occured while running  command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 }

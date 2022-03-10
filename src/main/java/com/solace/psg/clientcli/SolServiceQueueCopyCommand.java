@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Solace Systems, Inc. All rights reserved.
+ * Copyright 2022 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -117,9 +117,10 @@ public class SolServiceQueueCopyCommand implements Runnable
 	private void showHelp()
 	{
 	    System.out.println(" sol service queue copy \n");
-	    System.out.println(" copy - Copies/ moves messages from one queue to another.");
+	    System.out.println(" copy - Copies / moves messages from one queue to another.");
 
-	    System.out.println(" Example command: sol service queue copy [-ln=<localServiceName>] -lq=<localQueueName> -rn=<remoteServiceName> -rq=<remoteQueueName> -mn=<message number to copy> [-r]");
+	    System.out.println(" Example command: sol service queue copy [-ln=<localServiceName>] -lq=<localQueueName> -lu=<local username> -lp=<local password> -rn=<remoteServiceName> -rq=<remoteQueueName> -ru=<remote username> -rp=<remote password> -mn=<message number to copy> [-r]");
+	    System.out.println(" When -r | -remove is used, messages are removed from the source queue, which makes this a move operation.");
 	}
 	
 	/**

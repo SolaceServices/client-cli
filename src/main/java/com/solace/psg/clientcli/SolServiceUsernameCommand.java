@@ -22,30 +22,31 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.solace.psg.clientcli.sempv1.SolServiceQueuePurgeCommand;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * Command class to handle dc operations.
+ * Command class to handle username operations.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "dc", description = "Handles data center operations.", subcommands = {
-	      SolDcListCommand.class
+@Command(name = "username", description = "Handles username operations.", subcommands = {
+	    SolServiceUsernameCreateCommand.class
 })
-public class SolDcCommand implements Runnable 
+public class SolServiceUsernameCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolDcCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolServiceUsernameCommand.class);
 	
-	@Option(names = {"h", "help"})
+	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolDcCommand()
+	public SolServiceUsernameCommand()
 	{
 	}
 
@@ -54,9 +55,12 @@ public class SolDcCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol dc: \n");
-	    System.out.println(" list - lists all data centers for Solace Cloud Console Account");
-	    System.out.println(" Example command: sol dc list");
+	    System.out.println(" sol service username: ");
+	    System.out.println(" create  - Creates a username.");
+	    System.out.println(" delete  - Deteles a username.");
+	    System.out.println(" list    - Lists all usernames.");
+
+	    System.out.println(" Example command: sol service username create <username> -p=<password> -subscriptionmanager");
 	}
 	
 	/**
@@ -64,7 +68,7 @@ public class SolDcCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running list command.");
+		logger.debug("Running username command.");
 		
 		if (help)
 		{
@@ -74,18 +78,13 @@ public class SolDcCommand implements Runnable
 		
 		try
 		{		
-				System.out.println("Missing parameters for command. Try invokig command with -h for list of parameters.");
-
+			System.out.println("Missing parameters for command. Try invokig command with -h for list of parameters.");
+			
 		}
-		/*catch (ApiException e)
-		{
-			System.out.println("Error occurred while running login command: " + e.getResponseBody());
-			logger.error("Error occurred while running login command: {}", e.getResponseBody());
-		}*/
 		catch (Exception e)
 		{
-			System.out.println("Error occurred while running list command: " + e.getMessage());
-			logger.error("Error occurred while running list command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occurred while running command: " + e.getMessage());
+			logger.error("Error occurred while running command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 }

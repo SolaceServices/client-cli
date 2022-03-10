@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Solace Systems, Inc. All rights reserved.
+ * Copyright 2022 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -163,6 +163,12 @@ public class SolServiceQueueListCommand implements Runnable
 	private void printResults(List<MsgVpnQueue> queues, String message) throws IOException
 	{
 		System.out.println(message);
+		if (queues == null || queues.size() == 0)
+		{
+			System.out.println("No queues available to list.");
+			return;
+		}
+			
 		logger.debug("Printing queue list.");
 		
 		List<String> headersList = Arrays.asList("Queue name", "Access type", "Ingress on", "Egress on", "Cons. Ack on", "Max spool", "DMQ");
@@ -171,11 +177,11 @@ public class SolServiceQueueListCommand implements Runnable
 
 		for (MsgVpnQueue q : queues)
 		{
-			rowsList.add(Arrays.asList(q.getQueueName(), q.getAccessType().toString(), "" + q.isIngressEnabled(), "" + q.isEgressEnabled(), "" +  q.isConsumerAckPropagationEnabled(), "" + q.getMaxMsgSpoolUsage() , StringUtils.abbreviate(q.getDeadMsgQueue(), 19) ));
+			rowsList.add(Arrays.asList(StringUtils.abbreviate(q.getQueueName(), 64), q.getAccessType().toString(), "" + q.isIngressEnabled(), "" + q.isEgressEnabled(), "" +  q.isConsumerAckPropagationEnabled(), "" + q.getMaxMsgSpoolUsage() , StringUtils.abbreviate(q.getDeadMsgQueue(), 19) ));
 		}
 		
 		List<Integer> colAlignList = Arrays.asList(Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT, Block.DATA_MIDDLE_LEFT);
-		List<Integer> colWidthsListEdited = Arrays.asList(25, 14, 11, 11, 13, 12, 20);
+		List<Integer> colWidthsListEdited = Arrays.asList(65, 14, 11, 11, 13, 12, 20);
 		int width = Board.getRecommendedWidth(colWidthsListEdited, true);
 				
 		Board board = new Board(width);	

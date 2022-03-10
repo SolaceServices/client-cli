@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Solace Systems, Inc. All rights reserved.
+ * Copyright 2022 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -39,7 +39,8 @@ import picocli.CommandLine.Option;
 	    SolServiceQueueDeleteCommand.class,
 	    SolServiceQueueDetailsCommand.class,
 	    SolServiceQueueListCommand.class,
-	    SolServiceQueuePurgeCommand.class
+	    SolServiceQueuePurgeCommand.class,
+	    SolServiceQueueStatsCommand.class
 })
 public class SolServiceQueueCommand implements Runnable 
 {
@@ -65,6 +66,7 @@ public class SolServiceQueueCommand implements Runnable
 	    System.out.println(" create  - Creates a queue.");
 	    System.out.println(" delete  - Deteles a queue.");
 	    System.out.println(" details - Details of a queue.");
+	    System.out.println(" stats   - Statistics for a queue.");
 	    System.out.println(" list    - Lists all queues.");
 	    System.out.println(" purge   - Purges messages from a queue.");
 

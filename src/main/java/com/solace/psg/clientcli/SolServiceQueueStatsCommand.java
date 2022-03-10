@@ -19,17 +19,23 @@
  */
 package com.solace.psg.clientcli;
 
+import java.io.IOException;
+
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
+import com.solace.psg.sempv2.monitor.model.MsgVpnQueue;
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
 
 import com.solace.psg.sempv2.apiclient.ApiException;
-
-
 import com.solace.psg.sempv2.ServiceManager;
+import com.solace.psg.sempv2.VpnManager;
+
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -37,15 +43,15 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 /**
- * Command class to handle certificate authority delete.
+ * Command class to handle queue details.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "delete", description = "Deletes certificate authority.")
-public class SolServiceCaDeleteCommand implements Runnable 
+@Command(name = "stats", description = "Service queue stats.")
+public class SolServiceQueueStatsCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceCaDeleteCommand.class);
+	private static final Logger logger = LogManager.getLogger(SolServiceQueueStatsCommand.class);
 	
 	@Option(names = {"-h", "-help"})
 	private boolean help;
@@ -57,14 +63,15 @@ public class SolServiceCaDeleteCommand implements Runnable
         @Option(names = {"-serviceName", "-sn"}, required = true) String serviceName;
         @Option(names = {"-serviceId", "-sid"}, required = true) String serviceId;
     }
-
-	@Parameters(index = "0", arity = "1", description="the certificate authority name")
-	private String caName;
+    
+	@Parameters(index = "0", arity = "1", description="the queue name")
+	private String queueName;
+    
 	
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceCaDeleteCommand()
+	public SolServiceQueueStatsCommand()
 	{
 	}
 
@@ -73,10 +80,10 @@ public class SolServiceCaDeleteCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service ca delete \n");
-	    System.out.println(" delete - Deletes a certificate authority for a service.");
+	    System.out.println(" sol service queue stats <queueName> \n");
+	    System.out.println(" stats - stats for a queue");
 
-	    System.out.println(" Example command: sol service ca delete <caName>");
+	    System.out.println(" Example command: sol service cp details <queueName>");
 	}
 	
 	/**
@@ -84,7 +91,7 @@ public class SolServiceCaDeleteCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running certificate authority create command.");
+		logger.debug("Running queue stats command.");
 		
 		if (help)
 		{
@@ -94,7 +101,7 @@ public class SolServiceCaDeleteCommand implements Runnable
 		
 		try
 		{
-			System.out.println("Deleting certificate authority...");	
+			System.out.println("Queues stats:");	
 			
 			String token = ConfigurationManager.getInstance().getCloudAccountToken();
 			if (token == null || token.isEmpty() )
@@ -132,12 +139,10 @@ public class SolServiceCaDeleteCommand implements Runnable
 			
 			if (sd != null)
 			{
-				boolean result = sm.deleteClientCertificateAuthority(sd.getServiceId(),caName);
+				VpnManager vf = new VpnManager(sd);
+				MsgVpnQueue queue = vf.getQueueStats(queueName);
 
-				if (result)
-					System.out.println("Certificate authority deleted successfully.");
-				else
-					System.out.println("Error deleting the certificate authority.  Check logs for more details.");	
+				printDetails(queue, "");		
 			}
 			else
 			{
@@ -146,13 +151,26 @@ public class SolServiceCaDeleteCommand implements Runnable
 		}
 		catch (ApiException e)
 		{
-			System.out.println("Error occured while running certificate authority command: " + e.getResponseBody());
-			logger.error("Error occured while running certificate authority command: {}", e.getResponseBody());
+			if (e.getResponseBody().contains("NOT_FOUND"))
+					System.out.println("No queue found with the provided name.");
+			else
+				System.out.println("Error occured while running queue command: " + e.getResponseBody());
+			logger.error("Error occured while running queue command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occured while running certificate authority command: " + e.getMessage());
-			logger.error("Error occured while running certificate authority command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occured while running queue command: " + e.getMessage());
+			logger.error("Error occured while running queue command: {}, {}", e.getMessage(), e.getCause());
 		}
+	}
+	
+	private void printDetails(MsgVpnQueue queue, String message) throws IOException
+	{
+		System.out.println(message);
+		logger.debug("Printing queue details.");
+		
+		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+		String yaml = mapper.writeValueAsString(queue);
+		System.out.println(yaml);
 	}
 }

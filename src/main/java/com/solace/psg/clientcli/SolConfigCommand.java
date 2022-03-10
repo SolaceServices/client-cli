@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Solace Systems, Inc. All rights reserved.
+ * Copyright 2022 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -91,7 +91,10 @@ public class SolConfigCommand implements Runnable
 	    System.out.println(" sol config [-r, -reset=true|false] default: false\n");
 	    System.out.println(" sol config [-c, -set path to cliToSemp\n");
 	    System.out.println(" sol config [-perl, -set path to Perl\n");
-
+	    System.out.println(" sol config [-l, -loads a profile name\n");
+	    System.out.println(" sol config [-d, -deletes a profile name\n");
+	    System.out.println(" sol config [-s, -saves a profile name\n");
+	    
 	    System.out.println(" Example config command: sol config -e -p");
 	    System.out.println(" Example reset command: sol config -r");
 	    System.out.println(" Example save command: sol config -s seProfile");

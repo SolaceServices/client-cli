@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Solace Systems, Inc. All rights reserved.
+ * Copyright 2022 Solace Systems, Inc. All rights reserved.
  *
  * http://www.solace.com
  *
@@ -31,6 +31,7 @@ import com.solace.psg.sempv2.apiclient.ApiException;
 
 import com.solace.psg.sempv2.config.model.MsgVpnQueue;
 import com.solace.psg.sempv2.config.model.MsgVpnQueue.AccessTypeEnum;
+import com.solace.psg.sempv2.config.model.MsgVpnQueue.PermissionEnum;
 import com.solace.psg.sempv2.ServiceManager;
 import com.solace.psg.sempv2.VpnManager;
 
@@ -66,6 +67,10 @@ public class SolServiceQueueCreateCommand implements Runnable
 
 	@Option(names = {"-e", "-exclusive"} , defaultValue = "false",  description="Indicates the queue should be created as exclusive. Default is non-exlusive")
 	private boolean exclusive;	
+
+	@Option(names = {"-q", "-quota"} , defaultValue = "5000",  description="Sets the maximum queue quota in Mb. Default is 5000 Mb")
+	private int quota;	
+
 	/**
 	 * Initialises a new instance of the class.
 	 */
@@ -140,6 +145,8 @@ public class SolServiceQueueCreateCommand implements Runnable
 				VpnManager vf = new VpnManager(sd);
 				MsgVpnQueue request = new MsgVpnQueue();
 				request.setQueueName(queueName);
+				request.setMaxMsgSpoolUsage(Long.valueOf(quota));
+				request.setPermission(PermissionEnum.CONSUME);
 				request.setEgressEnabled(true);
 				request.setIngressEnabled(true);
 				if (exclusive)
