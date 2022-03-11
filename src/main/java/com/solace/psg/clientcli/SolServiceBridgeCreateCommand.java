@@ -117,14 +117,15 @@ public class SolServiceBridgeCreateCommand implements Runnable
 	    System.out.println(" create - Creates a bridge for a service.");
 	    System.out.println(" create - Creates a bridge for a service.");
 	    
-	    System.out.println(" Example command: sol service bridge create -rn=testService2 -s=\"t/v1/1 IN D\" -s=\"t/v1/2 OUT G\"");
+	    System.out.println(" Example command with default user: sol service bridge create -s=\"t/v1/1 IN D\" -s=\"t/v1/2 OUT G\"");
+	    System.out.println(" Example command with provided user: sol service bridge create -lu=user -lp=pass -ru=user -rp=pass -s=\"t/v1/1 IN D\" -s=\"t/v1/2 OUT G\"");
 	}
 	
 	private boolean checkParams()
 	{
 		boolean result = false;
 		
-		if (cert = true)
+		if (cert)
 		{
 			if (localUsername == null || localUsername.isEmpty())
 				System.out.println("Parameter localUsername is required.");				
@@ -138,7 +139,14 @@ public class SolServiceBridgeCreateCommand implements Runnable
 				result = true;
 		}
 		else 
-			result = true;
+		{
+			/*if (localUsername == null || localUsername.isEmpty())
+				System.out.println("Parameter localUsername is required.");				
+			else if (remoteUsername == null || remoteUsername.isEmpty())
+				System.out.println("Parameter remoteUsername is required.");
+			else*/
+				result = true;
+		}
 		
 		return result;
 	}
@@ -223,7 +231,7 @@ public class SolServiceBridgeCreateCommand implements Runnable
 					result = vf.createBridge(rsd, subscriptions, rollback, false, localUsername, localPassword, remoteUsername, remotePassword, null, null);
 
 				if (result)
-					System.out.println("bridge created successfully.");
+					System.out.println("Bridge created successfully.");
 				else
 					System.out.println("Error creating the bridge.  Check logs for more details.");	
 			}

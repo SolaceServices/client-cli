@@ -164,8 +164,9 @@ public class SimpleQueueCopy implements Runnable, SessionEventHandler, XMLMessag
 		if (msg == null)
 		{
 			stopped = true;
-			System.out.println("Received a null message for source queue within default receive timeout. Check messageCount.");
-			logger.error("Received a null message for source queue {}. Stopping the copy process.", sourceQueueName);
+			System.out.println("Received no message for source queue within default receive timeout. Check messageCount.");
+			logger.error("Received no message for source queue {}. Stopping the copy process.", sourceQueueName);
+			//messagesCopied -= 1;
 			return;
 		}
 		
