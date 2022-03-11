@@ -119,6 +119,7 @@ public class SolServiceBridgeCreateCommand implements Runnable
 	    
 	    System.out.println(" Example command with default user: sol service bridge create -s=\"t/v1/1 IN D\" -s=\"t/v1/2 OUT G\"");
 	    System.out.println(" Example command with provided user: sol service bridge create -lu=user -lp=pass -ru=user -rp=pass -s=\"t/v1/1 IN D\" -s=\"t/v1/2 OUT G\"");
+	    System.out.println(" Example command with certificate: service bridge create -rn=<serviceName> -cert=true -lu=<local user key path> -lp=<local password> -ltcn=<local TCN> -ru=<remote user key path> -rp=<remote password> -rtcn=<remote TCN> -s=\"t/v1/1 IN D\" -s=\"t/v1/2 OUT G\"");
 	}
 	
 	private boolean checkParams()
