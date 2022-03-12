@@ -9,6 +9,11 @@ The Client CLI can handle multiple cloud accounts by creating different profiles
 ## Requirements
 The application requires Java JRE 11+ since version 0.4.0. Prior version is compatible with Java 1.8+
 
+## Releases
+The folder /releases/<version> contains a ready compiled release for everyone who doesn't want to build the tool but just to use it directly. It contains the executable file and the required libraries.
+The files required for Windows are the sol.exe and the /libs folder.
+The files required for Linux are the ClientCli-<version>, solinstall.sh (used to create alias for the sol command) and the /libs folder.
+
 ## Internal libraries part of the application release
 The application is using libraries (sempv1-interface and sempv2-interface) for executing SEMP V1 and SEMP v2 commands from the client's command line. 
 

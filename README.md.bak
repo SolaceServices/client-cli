@@ -189,13 +189,17 @@ The following operations on queues are currently available:
 - create  - Creates a queue.
 - delete  - Deteles a queue.
 - details - Details of a queue.
+- stats   - Displays queue statistics.
 - list    - Lists all queues.
 - purge   - Purges messages from a queue.
  
 To create a queue: 
 `sol service queue create <queueName> -exclusive`
 
-To copy queue messages:
+To copy messages from one queue to another on the same service:
+`sol service queue copy [-ln=<localServiceName>] -lq=<sourceQueueName> -rq=<targetQueueName> -mn=<message number to copy> `
+
+To copy queue messages to a different service:
 `sol service queue copy [-ln=<localServiceName>] -lq=<localQueueName> -rn=<remoteServiceName> -rq=<remoteQueueName> -mn=<message number to copy> `
 
 To copy queue messages with specific usernames:
