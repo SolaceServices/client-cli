@@ -6,11 +6,14 @@
 Solace Client CLI (code name: Project Corona) is an application for handling Solace Cloud operations via the command line.
 The Client CLI can handle multiple cloud accounts by creating different profiles for each account and can also handle multiple organisations under a specified account. 
 
+## Requirements
+The application requires Java JRE 11+ since version 0.4.0. Prior version is compatible with Java 1.8+
+
 ## Internal libraries part of the application release
 The application is using libraries (sempv1-interface and sempv2-interface) for executing SEMP V1 and SEMP v2 commands from the client's command line. 
 
 ## Compiling the code
-Use the following command to compile (with -DskipTests as optional parameter):
+Use the following command to compile (with *-DskipTests* as optional parameter):
 mvn clean compile package
 
 ## Building sol executable
@@ -33,6 +36,10 @@ The application can be ingerated with Cli-To-Semp tool to generate and execute c
 
 ## Integration with SDKPerf tool
 The application can be ingerated with SDKPerf by generating connection parameters for it to use for Solace Cloud instances.
+
+## Integration with SolConfig tool
+Since version 0.4.0, the Client CLI uses a slightly modified SolClient library, which is used for configuration backups and restores. Current implementation is 1.1.5. The repo can be found here:
+https://github.com/flyisland/solconfig   
 
 ## Initialization 
 The application registers its executable as "sol" console command and provides an easy console usage by typing commands like "sol `commands`". For more information type `sol help` or `sol -h`.
@@ -73,17 +80,19 @@ To switch an account:
 
 ### Services
 The following operations on services are currently available:
-- bridge  - Handles service bridges.
-- ca      - Handles service certificate authorities.
-- classes - Displays available service classes.
-- cp      - Handles service client profiles.
-- create  - Creates a service.
-- delete  - Deteles a service.
-- details - Lists all service details for a service.
-- list    - Lists all services for a Solace Cloud Console Account.
-- queue   - Handles service queues.
-- set     - Sets a service as the default service context by service name or service ID.
-- types   - Displays available service types.
+- bridge   - Handles service bridges.
+- ca       - Handles service certificate authorities.
+- classes  - Displays available service classes.
+- config   - Creates config backups and restore services. 
+- cp       - Handles service client profiles.
+- create   - Creates a service.
+- delete   - Deteles a service.
+- details  - Lists all service details for a service.
+- list     - Lists all services for a Solace Cloud Console Account.
+- queue    - Handles service queues.
+- set      - Sets a service as the default service context by service name or service ID.
+- types    - Displays available service types.
+- username - Manages usernames.
 
 #### Create a service
 To create a service get available service types (currently 'developer' and 'enterprise' types are available):
@@ -111,6 +120,13 @@ To list services and apply a search filter:
 
 To list only services created by current user:
 `sol service list -mine`
+
+#### Service backups
+To backup a service the following command can be used to create an exported configuration file:
+`sol service config backup `
+
+To restore a service the following command can be used to import configuration from a file:
+`sol service config restore <filepath>`
 
 #### Setting default context service
 To set a default context service which will be picked by default use:

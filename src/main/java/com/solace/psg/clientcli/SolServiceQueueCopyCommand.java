@@ -22,26 +22,23 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
-import com.solace.psg.clientcli.SolServiceBridgeCreateCommand.ExcParamLocal;
-import com.solace.psg.clientcli.SolServiceBridgeCreateCommand.ExcParamRemote;
+
 import com.solace.psg.clientcli.config.ConfigurationManager;
 
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
 import com.solace.psg.sempv2.admin.model.ServiceManagementContext;
 import com.solace.psg.sempv2.apiclient.ApiException;
 
-import com.solace.psg.sempv2.config.model.MsgVpnQueue;
-import com.solace.psg.sempv2.config.model.MsgVpnQueue.AccessTypeEnum;
+
 import com.solace.psg.util.queuecopy.SimpleQueueCopy;
 import com.solace.psg.util.queuecopy.VPN;
 import com.solace.psg.sempv2.ServiceManager;
-import com.solace.psg.sempv2.VpnManager;
+
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.Parameters;
+
 
 /**
  * Command class to handle queue copy.
@@ -60,7 +57,7 @@ public class SolServiceQueueCopyCommand implements Runnable
 	@ArgGroup(exclusive = true, multiplicity = "0..1")
     ExcParamLocal local;
 
-	@ArgGroup(exclusive = true, multiplicity = "1")
+	@ArgGroup(exclusive = true, multiplicity = "0..1")
     ExcParamRemote remote;
 
     static class ExcParamLocal {
@@ -121,6 +118,7 @@ public class SolServiceQueueCopyCommand implements Runnable
 
 	    System.out.println(" Example command: sol service queue copy [-ln=<localServiceName>] -lq=<localQueueName> -lu=<local username> -lp=<local password> -rn=<remoteServiceName> -rq=<remoteQueueName> -ru=<remote username> -rp=<remote password> -mn=<message number to copy> [-r]");
 	    System.out.println(" When -r | -remove is used, messages are removed from the source queue, which makes this a move operation.");
+	    System.out.println(" When remote service name or Id is not specified, the copy operation works only on one broker.");
 	}
 	
 	/**
@@ -178,14 +176,16 @@ public class SolServiceQueueCopyCommand implements Runnable
 			}
 					
 			ServiceDetails rsd = null;
-			if (remote.remoteServiceId != null)
+			if (remote == null)
+				rsd = sd;
+			else if (remote.remoteServiceId != null)
 			{
 				rsd = sm.getServiceDetails(remote.remoteServiceId);
 			}
 			else if (remote.remoteServiceName != null)
 			{
 				rsd = sm.getServiceDetailsByName(remote.remoteServiceName);
-			}	
+			}
 			
 			if (sd != null && rsd != null)
 			{
