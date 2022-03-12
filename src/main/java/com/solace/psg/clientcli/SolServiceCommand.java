@@ -37,6 +37,7 @@ import picocli.CommandLine.Option;
 		SolServiceCreateCommand.class,
 		SolServiceClassesCommand.class,
 		SolServiceClientProfileCommand.class,
+		SolServiceConfigCommand.class,
 		SolServiceDeleteCommand.class,
 		SolServiceDetailsCommand.class,
 	    SolServiceListCommand.class,    
@@ -69,6 +70,7 @@ public class SolServiceCommand implements Runnable
 	    System.out.println(" bridge   - Handles service bridges.");
 	    System.out.println(" ca       - Handles service certificate authorities.");
 	    System.out.println(" classes  - Displays available service classes.");
+	    System.out.println(" config   - Handles service config backups.");
 	    System.out.println(" cp       - Handles service client profiles.");
 	    System.out.println(" create   - Creates a service.");
 	    System.out.println(" delete   - Deteles a service.");

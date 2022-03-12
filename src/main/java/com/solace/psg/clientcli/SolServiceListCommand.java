@@ -39,7 +39,7 @@ import com.solace.psg.tablereporter.Table;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import sun.security.krb5.Config;
+//import sun.security.krb5.Config;
 
 /**
  * Command class to handle service lists.

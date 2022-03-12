@@ -4,7 +4,7 @@
 
   <groupId>com.solace.psg</groupId>
   <artifactId>ClientCli</artifactId>
-  <version>0.3.0</version>
+  <version>0.4.0</version>
   <packaging>jar</packaging>
 
   <name>ClientCli</name>
@@ -12,8 +12,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven-compiler-source>1.8</maven-compiler-source>
-    <maven-compiler-target>1.8</maven-compiler-target>
+    <maven-compiler-source>11</maven-compiler-source>
+    <maven-compiler-target>11</maven-compiler-target>
     <maven-compiler-plugin-version>3.8.0</maven-compiler-plugin-version>
 	<property></property>
   </properties>
@@ -24,12 +24,12 @@
     <dependency>
         <groupId>com.solace.psg</groupId>
         <artifactId>sempv1-interface</artifactId>
-        <version>0.3.0-SNAPSHOT</version>
+        <version>0.4.0-SNAPSHOT</version>
     </dependency>
     <dependency>
         <groupId>com.solace.psg</groupId>
         <artifactId>sempv2-interface</artifactId>
-        <version>0.3.0-SNAPSHOT</version>
+        <version>0.4.0-SNAPSHOT</version>
     </dependency>
 	<!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
 	<dependency>
@@ -92,6 +92,16 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+	
+	<!-- SolConfig local jar -->
+	<dependency>
+	    <groupId>com.solace.tools</groupId>
+	    <artifactId>solconfig</artifactId>
+	    <version>1.1.5</version>
+	    <scope>system</scope>
+	    <systemPath>${project.basedir}/lib/solconfig.jar</systemPath>
+	</dependency>
+
   </dependencies>
   
   <build>

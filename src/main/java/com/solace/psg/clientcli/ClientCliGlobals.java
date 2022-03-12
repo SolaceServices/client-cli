@@ -26,7 +26,7 @@ package com.solace.psg.clientcli;
  */
 public class ClientCliGlobals
 {
-	public final static String VERSION = "0.2.0";
+	public final static String VERSION = "0.4.0";
 
 	/**
 	 * This class should not be instantiated.
