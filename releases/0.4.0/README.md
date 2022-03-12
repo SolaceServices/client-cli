@@ -3,7 +3,7 @@
 ![Logo](CoronaCLI.png)
 
 ## Description
-Solace Client CLI (code name: Project Corona) is an application for handling Solace Cloud operations via the command line.
+Solace Client CLI is an application for handling Solace Cloud operations via the command line.
 The Client CLI can handle multiple cloud accounts by creating different profiles for each account and can also handle multiple organisations under a specified account. 
 
 ## Requirements
