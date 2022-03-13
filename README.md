@@ -19,16 +19,16 @@ The application is using libraries (sempv1-interface and sempv2-interface) for e
 
 ## Compiling the code
 The source is depending on maven repos for *semp1-interface*, *sempv2-interface* and *solconfig*. You can import these repos and install them into the local maven repository in order to build the code. The compiled jars can be imported with the following command:
-`mvn install:install-file -Dfile="<path-to-local-code>\client-cli\lib\solconfig.jar" -DgroupId=com.solace.tools -DartifactId=solconfig -Dversion=1.1.5 -Dpackaging=jar`
-`mvn install:install-file -Dfile="<path-to-local-code>\client-cli\lib\sempv1-interface.jar" -DgroupId=com.solace.psg -DartifactId=sempv1-interface -Dversion=0.4.0 -Dpackaging=jar`
-`mvn install:install-file -Dfile="<path-to-local-code>\client-cli\lib\sempv2-interface.jar" -DgroupId=com.solace.psg -DartifactId=sempv2-interface -Dversion=0.4.0 -Dpackaging=jar`
+`mvn install:install-file -Dfile="<path-to-local-code>\client-cli\lib\solconfig.jar" -DgroupId=com.solace.tools -DartifactId=solconfig -Dversion=<version> -Dpackaging=jar`
+`mvn install:install-file -Dfile="<path-to-local-code>\client-cli\lib\sempv1-interface.jar" -DgroupId=com.solace.psg -DartifactId=sempv1-interface -Dversion=<version> -Dpackaging=jar`
+`mvn install:install-file -Dfile="<path-to-local-code>\client-cli\lib\sempv2-interface.jar" -DgroupId=com.solace.psg -DartifactId=sempv2-interface -Dversion=<version> -Dpackaging=jar`
 
 Use the following command to compile (with *-DskipTests* as optional parameter):
 mvn clean compile package
 
 ## Generating command autocpletion script
 Picocli library supports autocmpletion (refer to https://picocli.info/autocomplete.html). To create a script run:
-`java -cp "lib/picocli-4.6.1.jar;target/ClientCli-0.4.0.jar" picocli.AutoComplete -n sol com.solace.psg.clientcli.SolCommand`
+`java -cp "lib/picocli-<version>.jar;target/ClientCli-<version>.jar" picocli.AutoComplete -n sol com.solace.psg.clientcli.SolCommand`
 The above command will generate a command script called *sol_completion*.
 For Linux autocompletion run:
 `source sol_completion`

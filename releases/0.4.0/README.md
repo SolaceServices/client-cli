@@ -18,8 +18,20 @@ The files required for Linux are the ClientCli-<version>, solinstall.sh (used to
 The application is using libraries (sempv1-interface and sempv2-interface) for executing SEMP V1 and SEMP v2 commands from the client's command line. 
 
 ## Compiling the code
+The source is depending on maven repos for *semp1-interface*, *sempv2-interface* and *solconfig*. You can import these repos and install them into the local maven repository in order to build the code. The compiled jars can be imported with the following command:
+`mvn install:install-file -Dfile="<path-to-local-code>\client-cli\lib\solconfig.jar" -DgroupId=com.solace.tools -DartifactId=solconfig -Dversion=1.1.5 -Dpackaging=jar`
+`mvn install:install-file -Dfile="<path-to-local-code>\client-cli\lib\sempv1-interface.jar" -DgroupId=com.solace.psg -DartifactId=sempv1-interface -Dversion=0.4.0 -Dpackaging=jar`
+`mvn install:install-file -Dfile="<path-to-local-code>\client-cli\lib\sempv2-interface.jar" -DgroupId=com.solace.psg -DartifactId=sempv2-interface -Dversion=0.4.0 -Dpackaging=jar`
+
 Use the following command to compile (with *-DskipTests* as optional parameter):
 mvn clean compile package
+
+## Generating command autocpletion script
+Picocli library supports autocmpletion (refer to https://picocli.info/autocomplete.html). To create a script run:
+`java -cp "lib/picocli-4.6.1.jar;target/ClientCli-0.4.0.jar" picocli.AutoComplete -n sol com.solace.psg.clientcli.SolCommand`
+The above command will generate a command script called *sol_completion*.
+For Linux autocompletion run:
+`source sol_completion`
 
 ## Building sol executable
 Once the code is compiled in a jar file, there is a tool, which can be used to generate a sol.exe - Launch4j (http://launch4j.sourceforge.net/). **Launch4j** requires the executable jar and main class as parameters, as well as icon and output path tto generate an axecutable - *sol.exe*. 
@@ -33,7 +45,8 @@ To be able to run the sol.exe you need to also place on its path the *lib* folde
 
 ## Linux installation. 
 1. Copy the executable ClientCli-x.x.x.jar and the 'lib' directory somewhere. 
-2. Run /sol.sh to create an alias or add the alias command to the user profile script.
+2. Run `source solinstall.sh` to create an alias. Alternatively, the alias cab be created directly via the follwing command:
+`alias sol="java -jar <path-to-jar>/ClientCli-0.4.0.jar"`
 3. Test the command by typing "sol -v" or "sol version". For more help on commands type "sol -h". 
 
 ## Integration with Cli-To-Semp tool
