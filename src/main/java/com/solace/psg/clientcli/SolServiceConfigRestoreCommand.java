@@ -168,35 +168,7 @@ public class SolServiceConfigRestoreCommand implements Runnable
 				Commander commander = Commander.ofSempClient(sempClient);
 		        commander.setCurlOnly(false);
 				
-				ConfigBroker configFile = commander.getConfigBrokerFromFile(filePath);
-				commander.exitOnObjectsNotExist(configFile);
-
-				sempClient.setOpaquePassword(configFile.getOpaquePassword());
-				ConfigBroker configBroker = commander.generateConfigFromBroker(configFile);
-				List.of(configFile, configBroker).forEach(cb ->
-				{
-					cb.removeChildrenObjects(ConfigObject::isReservedObject, ConfigObject::isDeprecatedObject);
-					cb.removeAttributes(AttributeType.PARENT_IDENTIFIERS, AttributeType.DEPRECATED,
-							AttributeType.BROKER_SPECIFIC);
-					cb.removeAttributesWithDefaultValue();
-					cb.checkAttributeCombinations();
-				});
-
-				RestCommandList deleteCommandList = new RestCommandList();
-				RestCommandList createCommandList = new RestCommandList();
-				RestCommandList updateCommandList = new RestCommandList();
-				RestCommandList enableCommandList = new RestCommandList();
-				configBroker.generateUpdateCommands(configFile, deleteCommandList, updateCommandList, createCommandList, enableCommandList);
-
-				RestCommandList allCommands = createCommandList.addAll(updateCommandList).addAll(deleteCommandList).addAll(enableCommandList);
-				if (allCommands.sieze() > 0)
-				{
-					allCommands.execute(sempClient, false);
-				}
-				else
-				{
-					Utils.errPrintlnAndExit("Configuration file %s is identical to the existing objects.", filePath.toAbsolutePath());
-				}
+		        commander.update(filePath);
 		        
 		        System.out.println("Config backup created successfully.");
 			}

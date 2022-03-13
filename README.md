@@ -18,6 +18,11 @@ The files required for Linux are the ClientCli-<version>, solinstall.sh (used to
 The application is using libraries (sempv1-interface and sempv2-interface) for executing SEMP V1 and SEMP v2 commands from the client's command line. 
 
 ## Compiling the code
+The source is depending on maven repos for *semp1-interface*, *sempv2-interface* and *solconfig*. You can import these repos and install them into the local maven repository in order to build the code. The compiled jars can be imported with the following command:
+`mvn install:install-file -Dfile="<path-to-local-code>\client-cli\lib\solconfig.jar" -DgroupId=com.solace.tools -DartifactId=solconfig -Dversion=1.1.5 -Dpackaging=jar`
+`mvn install:install-file -Dfile="<path-to-local-code>\client-cli\lib\sempv1-interface.jar" -DgroupId=com.solace.psg -DartifactId=sempv1-interface -Dversion=0.4.0 -Dpackaging=jar`
+`mvn install:install-file -Dfile="<path-to-local-code>\client-cli\lib\sempv2-interface.jar" -DgroupId=com.solace.psg -DartifactId=sempv2-interface -Dversion=0.4.0 -Dpackaging=jar`
+
 Use the following command to compile (with *-DskipTests* as optional parameter):
 mvn clean compile package
 
