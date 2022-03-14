@@ -228,7 +228,10 @@ public class SolServiceQueueCopyCommand implements Runnable
 				
 				System.out.println("");
 				if ((sqc.getStatus() == SimpleQueueCopy.STATUS_COMPLETED))
-					System.out.println(sqc.getMessagesCopied() + " messages copied successfully.");
+					if (remove)
+						System.out.println(sqc.getMessagesCopied() + " messages moved successfully.");
+					else
+						System.out.println(sqc.getMessagesCopied() + " messages copied successfully.");
 				else
 					System.out.println("Error copying messages. Check logs for more details.");	
 			}

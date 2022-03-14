@@ -292,8 +292,8 @@ public class SimpleQueueCopy implements Runnable, SessionEventHandler, XMLMessag
 		properties.setProperty(JCSMPProperties.USERNAME, sourceVpn.getUsername());
 		properties.setProperty(JCSMPProperties.PASSWORD, sourceVpn.getPassword());
 		properties.setBooleanProperty(JCSMPProperties.REAPPLY_SUBSCRIPTIONS, true);
-		properties.setProperty(JCSMPProperties.CLIENT_NAME, "CL_CLI_" + sourceVpn.getUsername());	
-				
+		properties.setProperty(JCSMPProperties.CLIENT_NAME, "CL_CLI_" + sourceVpn.getUsername() + "_" + properties.hashCode());		
+		
         JCSMPChannelProperties cp = (JCSMPChannelProperties) properties.getProperty(JCSMPProperties.CLIENT_CHANNEL_PROPERTIES);
         
         cp.setConnectRetries(sourceVpn.getConnectRetries());
@@ -331,7 +331,7 @@ public class SimpleQueueCopy implements Runnable, SessionEventHandler, XMLMessag
 		properties.setProperty(JCSMPProperties.USERNAME, targetVpn.getUsername());
 		properties.setProperty(JCSMPProperties.PASSWORD, targetVpn.getPassword());
 		properties.setBooleanProperty(JCSMPProperties.REAPPLY_SUBSCRIPTIONS, true);
-		properties.setProperty(JCSMPProperties.CLIENT_NAME, "CL_CLI_" + targetVpn.getUsername());
+		properties.setProperty(JCSMPProperties.CLIENT_NAME, "CL_CLI_" + targetVpn.getUsername() + "_" + properties.hashCode());
 				
 		String host = targetVpn.getUrl();
 		if (host.toLowerCase().startsWith("tcps:"))	
