@@ -44,7 +44,7 @@ public class SolLoginCommand implements Runnable
 	@Option(names = {"-u", "-username"}, required = true)
 	private String username;
 	
-	@Option(names = {"-p", "-password"}, required = true)	
+	@Option(names = {"-p", "-password"}, required = false)	
 	private String password;
 
 	@Option(names = {"-o", "-org"})	

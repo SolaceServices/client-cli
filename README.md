@@ -73,6 +73,7 @@ Login to Solace Cloud is done via the same credentials a user has for the Solace
 Once the user is logged in, a temporary token is issued and stored in the config file to be reused for other commands.
 
 For **Solace Cloud SSO** login or for **permanent** token, the user should login to Solace Cloud via the GUI and manually issue a token from the Token page. 
+`sol login -u=<username> -t=<token>`
 
 ### Logout from Solace Cloud 
 `sol logout`
