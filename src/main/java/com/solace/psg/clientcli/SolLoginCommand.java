@@ -53,7 +53,7 @@ public class SolLoginCommand implements Runnable
 	@Option(names = {"-t", "-token"})	
 	private String token;
 	
-	@Option(names = {"-n"})
+	@Option(names = {"-s"}, defaultValue = "false")
 	private boolean show;
 	
 	@Option(names = {"-h", "-help"})
@@ -76,7 +76,7 @@ public class SolLoginCommand implements Runnable
 	    System.out.println(" -password - the password to login to Solace Cloud Console Account");
 	    System.out.println(" -org - the organization ID. By default, login uses the first if more than one in the user account");
 	    System.out.println(" -token    - set already obtained token for the Solace Cloud Console Account");
-	    System.out.println(" -n        - does not print in command line the token generated for the Solace Cloud Console Account");
+	    System.out.println(" -s        - show the token generated for the Solace Cloud Console Account");
 	    System.out.println(" Example command: sol login -u=John.Smith@example.com -p=hotshot -o=myorg-dev -n");
 	    System.out.println(" If the account is obtained via organization SSO a token needs to be obtained via SSO first. -n");
 	}
@@ -108,7 +108,7 @@ public class SolLoginCommand implements Runnable
 				config.setCloudAccountUsername(username);
 				config.setCloudAccountPassword(password);
 
-				if (!show)
+				if (show)
 					System.out.println("The following login token was generated: \n " + token);
 			}
 			
