@@ -45,8 +45,13 @@ To be able to run the sol.exe you need to also place on its path the *lib* folde
 
 ## Linux installation. 
 1. Copy the executable ClientCli-x.x.x.jar and the 'lib' directory somewhere. 
-2. Run `source solinstall.sh` to create an alias. Alternatively, the alias cab be created directly via the follwing command:
+2. Run `source solinstall.sh` to create an alias. Alternatively, the alias can be created directly via the follwing command:
 `alias sol="java -jar <path-to-jar>/ClientCli-<version>.jar"`
+4. solinstall.sh and sol_completion scripts can be installed on shell startup as well by adding to .bashrc the lines:
+```
+source <path to script>/solinstall.sh
+source <path to script>/sol_completion
+```
 3. Test the command by typing "sol -v" or "sol version". For more help on commands type "sol -h". 
 
 ## Integration with Cli-To-Semp tool
