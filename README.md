@@ -7,7 +7,7 @@ Solace Client CLI is an application for handling Solace Cloud operations via the
 The Client CLI can handle multiple cloud accounts by creating different profiles for each account and can also handle multiple organisations under a specified account. 
 
 ## Requirements
-The application requires Java JRE 11+ since version 0.4.0. Prior version is compatible with Java 1.8+
+The application requires Java JRE 11+ since version 0.4.1. Prior version is compatible with Java 1.8+
 
 ## Releases
 The folder /releases/<version> contains a ready compiled release for everyone who doesn't want to build the tool but just to use it directly. It contains the executable file and the required libraries.
@@ -61,7 +61,7 @@ The application can be ingerated with Cli-To-Semp tool to generate and execute c
 The application can be ingerated with SDKPerf by generating connection parameters for it to use for Solace Cloud instances.
 
 ## Integration with SolConfig tool
-Since version 0.4.0, the Client CLI uses a slightly modified SolClient library, which is used for configuration backups and restores. Current implementation is 1.1.5. The repo can be found here:
+Since version 0.4.1, the Client CLI uses a slightly modified SolClient library, which is used for configuration backups and restores. Current implementation is 1.1.5. The repo can be found here:
 https://github.com/flyisland/solconfig   
 
 ## Initialization 
@@ -263,3 +263,7 @@ Integration with SempConfig tool by Island Chen (https://github.com/flyisland/se
 
 ### Version
 `sol version` | `sol -v`
+
+## Release history
+0.4.0 Support for configuration backup and restores.
+0.4.1 Support for message copy DMQ eligible flag and TTL for cases when a message is copied from a DMQ back to a normal queue.

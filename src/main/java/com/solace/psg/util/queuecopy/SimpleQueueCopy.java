@@ -77,6 +77,11 @@ public class SimpleQueueCopy implements Runnable, SessionEventHandler, XMLMessag
     private int windowSize = DEFAULT_WINDOW_SIZE;
     private int waitTimeout = 60000;
     
+    // Indicates if messages should be flagged as DMQ eligible.  
+	private boolean dmqEligible = false;
+
+	private long ttl = 0L;
+
     // Indicates when finished or no more queued messages 
     private boolean stopped = false;
     
@@ -118,6 +123,33 @@ public class SimpleQueueCopy implements Runnable, SessionEventHandler, XMLMessag
 		status = STATUS_INITIALIZING;
 		connectSource();
 		connectTarget();
+	}
+	
+	/**
+	 * Gets if the DMQ eligible flag is set for all the messages which need to be copied / moved. 
+	 * @return
+	 */
+    public boolean isDmqEligible()
+	{
+		return dmqEligible;
+	}
+
+    /**
+     * Sets the DMQ eligible flag for all the messages which need to be copied / moved.  
+     * @param dmqEligible When true, all the messages will be flagged as DMQ eligible. If false, the messages will be moved / copied with their original setting.
+     */
+	public void setDmqEligible(boolean dmqEligible)
+	{
+		this.dmqEligible = dmqEligible;
+	}
+
+    /**
+     * Sets the TTL value for all the messages to be processed.  
+     * @param ttl Time to live in milliseconds
+     */
+	public void setTtl(long ttl)
+	{
+		this.ttl = ttl;
 	}
 	
 	/**
@@ -171,6 +203,12 @@ public class SimpleQueueCopy implements Runnable, SessionEventHandler, XMLMessag
 		}
 		
 		BytesXMLMessage tMsg = JCSMPFactory.onlyInstance().createMessage(msg);
+		
+		if (dmqEligible)
+			tMsg.setDMQEligible(dmqEligible);
+		if (ttl > 0L)
+			tMsg.setTimeToLive(ttl);
+		
 		targetProducer.send(tMsg, targetQueue);
 		if (move)
 			msg.ackMessage();

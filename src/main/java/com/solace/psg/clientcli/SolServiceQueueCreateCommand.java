@@ -22,7 +22,6 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 import com.solace.psg.clientcli.config.ConfigurationManager;
 
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
@@ -65,11 +64,20 @@ public class SolServiceQueueCreateCommand implements Runnable
 	@Parameters(index = "0", arity = "1", description="the queue name")
 	private String queueName;
 
-	@Option(names = {"-e", "-exclusive"} , defaultValue = "false",  description="Indicates the queue should be created as exclusive. Default is non-exlusive")
+	@Option(names = {"-e", "-exclusive"} , defaultValue = "false",  description="Indicates the queue should be created as exclusive. Default is non-exlusive.")
 	private boolean exclusive;	
 
-	@Option(names = {"-q", "-quota"} , defaultValue = "5000",  description="Sets the maximum queue quota in Mb. Default is 5000 Mb")
+	@Option(names = {"-rt", "-respectTtl"} , defaultValue = "false",  description="Indicates if respect TTL should be enabled. Default is false.")
+	private boolean respectTtl;	
+
+	@Option(names = {"-mt", "-maxTtl"} , defaultValue = ClientCliGlobals.DEFAULT_QUEUE_TTL,  description="Sets the queue maximum TTL. Default is 0.")
+	private long maxTtl;	
+
+	@Option(names = {"-q", "-quota"} , defaultValue = ClientCliGlobals.DEFAULT_QUEUE_QUOTA,  description="Sets the maximum queue quota in Mb. Default is 5000 Mb.")
 	private int quota;	
+
+	@Option(names = {"-dmq"} , defaultValue = Option.NULL_VALUE,  description="Sets a specific dead message queue name. Otherwise, the DMQ will be set to the default one. ")
+	private String dmQueueName;	
 
 	/**
 	 * Initialises a new instance of the class.
@@ -87,6 +95,7 @@ public class SolServiceQueueCreateCommand implements Runnable
 	    System.out.println(" create - Creates a queue for a service.");
 
 	    System.out.println(" Example command: sol service queue create <queueName> -exclusive");
+	    System.out.println(" Example command: sol service queue create <queueName> -q=<quota size in Mb> -dmq=<specific DMQ> -rt");
 	}
 	
 	/**
@@ -147,12 +156,17 @@ public class SolServiceQueueCreateCommand implements Runnable
 				request.setQueueName(queueName);
 				request.setMaxMsgSpoolUsage(Long.valueOf(quota));
 				request.setPermission(PermissionEnum.CONSUME);
+				request.setMaxTtl(maxTtl);
+				request.respectTtlEnabled(respectTtl);
 				request.setEgressEnabled(true);
 				request.setIngressEnabled(true);
 				if (exclusive)
 					request.accessType(AccessTypeEnum.EXCLUSIVE);
 				else
 					request.accessType(AccessTypeEnum.NON_EXCLUSIVE);
+	
+				if (dmQueueName != null && !dmQueueName.isBlank())
+					request.setDeadMsgQueue(dmQueueName);
 				
 				boolean result = vf.addQueue(request);
 

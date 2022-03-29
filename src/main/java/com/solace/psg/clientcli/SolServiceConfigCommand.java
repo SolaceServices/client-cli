@@ -57,7 +57,7 @@ public class SolServiceConfigCommand implements Runnable
 	    System.out.println(" sol service config: ");
 	    System.out.println(" backup  - Create a backup config file from for a service.");
 	    System.out.println(" restore - Restores a service form a config file.");
-	    System.out.println(" update  - Updates a service from a backed up config file.");
+	    //System.out.println(" update  - Updates a service from a backed up config file.");
 
 	    System.out.println(" Example command: sol service config backup <params>");
 	}

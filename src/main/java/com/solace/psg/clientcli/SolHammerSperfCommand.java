@@ -79,6 +79,7 @@ public class SolHammerSperfCommand implements Runnable
 	    System.out.println(" sol hammer sperf \n");
 
 	    System.out.println(" Example command: sol hammer sperf <serviceId> | <serviceName>");
+	    System.out.println(" Example SDKPerf command link: https://docs.solace.com/SDKPerf/Example-Commands.htm");
 	}
 	
 	/**

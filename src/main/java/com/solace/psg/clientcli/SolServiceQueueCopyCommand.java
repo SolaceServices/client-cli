@@ -101,7 +101,14 @@ public class SolServiceQueueCopyCommand implements Runnable
 
     @Option(names = {"-r", "-remove"}, description = "Remove messages from the source queue", defaultValue = "false", arity = "0..1") 
     private boolean remove;
-	/**
+
+    @Option(names = {"-dmq"}, description = "Sets DMQ eligible flag to messages. This can be useful when messages are moved back from a DMQ to another queue.", defaultValue = "false", arity = "0..1") 
+    private boolean dmq;
+
+	@Option(names = {"-ttl"}, description = "Sets a TTL value for all messages t be processed.")
+	private long ttl;	
+
+    /**
 	 * Initialises a new instance of the class.
 	 */
 	public SolServiceQueueCopyCommand()
@@ -113,11 +120,13 @@ public class SolServiceQueueCopyCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service queue copy \n");
 	    System.out.println(" copy - Copies / moves messages from one queue to another.");
 
 	    System.out.println(" Example command: sol service queue copy [-ln=<localServiceName>] -lq=<localQueueName> -lu=<local username> -lp=<local password> -rn=<remoteServiceName> -rq=<remoteQueueName> -ru=<remote username> -rp=<remote password> -mn=<message number to copy> [-r]");
+	    System.out.println(" Example command: sol service queue copy -lq=<source queue name> -rq=<target queue name> -mn=<message number>\n");
+	    System.out.println(" Example command: sol service queue copy -lq=<source queue name> -rq=<target queue name> -mn=<message number> -dmq -ttl=<ttl value> \n");
 	    System.out.println(" When -r | -remove is used, messages are removed from the source queue, which makes this a move operation.");
+	    System.out.println(" When -dmq is used, messages' DMQ eligible flag will be set to true.");
 	    System.out.println(" When remote service name or Id is not specified, the copy operation works only on one broker.");
 	}
 	
@@ -216,6 +225,8 @@ public class SolServiceQueueCopyCommand implements Runnable
 				}
 				
 				SimpleQueueCopy sqc = new SimpleQueueCopy(localVpn, remoteVpn, localQueueName, remoteQueueName, messageNumber, remove);
+				sqc.setDmqEligible(dmq);
+				sqc.setTtl(ttl);
 				
 				Thread thread = new Thread(sqc);
 				thread.start();			

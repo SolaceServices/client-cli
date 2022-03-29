@@ -26,10 +26,23 @@ package com.solace.psg.clientcli;
  */
 public class ClientCliGlobals
 {
-	public final static String VERSION = "0.4.0";
+	/**
+	 * Current application version.
+	 */
+	public final static String VERSION = "0.4.1";
 
 	/**
-	 * This class should not be instantiated.
+	 * Default queue allocation quota in Mb.
+	 */
+	public static final String DEFAULT_QUEUE_QUOTA = "5000";
+	
+	/**
+	 * Default queue TTL.
+	 */
+	public static final String DEFAULT_QUEUE_TTL = "0";
+	
+	/**
+	 * This class should not be instantiated
 	 */
 	private ClientCliGlobals()
 	{
