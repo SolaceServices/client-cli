@@ -22,6 +22,8 @@ package com.solace.psg.clientcli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.solace.psg.clientcli.sempv1.SolServiceLogCommand;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -41,6 +43,7 @@ import picocli.CommandLine.Option;
 		SolServiceDeleteCommand.class,
 		SolServiceDetailsCommand.class,
 	    SolServiceListCommand.class,    
+	    SolServiceLogCommand.class,    
 	    SolServiceQueueCommand.class,
 	    SolServiceSetCommand.class,	      
 		SolServiceTypesCommand.class,
@@ -76,6 +79,7 @@ public class SolServiceCommand implements Runnable
 	    System.out.println(" delete   - Deteles a service.");
 	    System.out.println(" details  - Lists all service details for a service.");
 	    System.out.println(" list     - Lists all services for a Solace Cloud Console Account.");
+	    System.out.println(" log      - Shows service logs.");
 	    System.out.println(" queue    - Handles service queues.");
 	    System.out.println(" set      - Sets a service as the default service context by service name or service ID.");
 	    System.out.println(" types    - Displays available service types.");

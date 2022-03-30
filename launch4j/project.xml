@@ -2,7 +2,7 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>console</headerType>
-  <jar>C:\Projects\j2ee\client-cli\target\ClientCli-0.4.1.jar</jar>
+  <jar>C:\Projects\j2ee\client-cli\target\ClientCli-0.4.2.jar</jar>
   <outfile>C:\Projects\j2ee\client-cli\sol.exe</outfile>
   <errTitle>Error occured</errTitle>
   <cmdLine></cmdLine>

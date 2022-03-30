@@ -4,7 +4,7 @@
 
   <groupId>com.solace.psg</groupId>
   <artifactId>ClientCli</artifactId>
-  <version>0.4.1</version>
+  <version>0.4.2</version>
   <packaging>jar</packaging>
 
   <name>ClientCli</name>
@@ -24,7 +24,7 @@
     <dependency>
         <groupId>com.solace.psg</groupId>
         <artifactId>sempv1-interface</artifactId>
-        <version>0.4.0-SNAPSHOT</version>
+        <version>0.4.1-SNAPSHOT</version>
     </dependency>
     <dependency>
         <groupId>com.solace.psg</groupId>

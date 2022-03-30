@@ -7,7 +7,7 @@ Solace Client CLI is an application for handling Solace Cloud operations via the
 The Client CLI can handle multiple cloud accounts by creating different profiles for each account and can also handle multiple organisations under a specified account. 
 
 ## Requirements
-The application requires Java JRE 11+ since version 0.4.1. Prior version is compatible with Java 1.8+
+The application requires Java JRE 11+ since version 0.4.2. Prior version is compatible with Java 1.8+
 
 ## Releases
 The folder /releases/<version> contains a ready compiled release for everyone who doesn't want to build the tool but just to use it directly. It contains the executable file and the required libraries.
@@ -61,7 +61,7 @@ The application can be ingerated with Cli-To-Semp tool to generate and execute c
 The application can be ingerated with SDKPerf by generating connection parameters for it to use for Solace Cloud instances.
 
 ## Integration with SolConfig tool
-Since version 0.4.1, the Client CLI uses a slightly modified SolClient library, which is used for configuration backups and restores. Current implementation is 1.1.5. The repo can be found here:
+Since version 0.4.2, the Client CLI uses a slightly modified SolClient library, which is used for configuration backups and restores. Current implementation is 1.1.5. The repo can be found here:
 https://github.com/flyisland/solconfig   
 
 ## Initialization 
@@ -113,6 +113,7 @@ The following operations on services are currently available:
 - delete   - Deteles a service.
 - details  - Lists all service details for a service.
 - list     - Lists all services for a Solace Cloud Console Account.
+- log      - Shows logs like Event, Command, Debug, System and Rest. 
 - queue    - Handles service queues.
 - set      - Sets a service as the default service context by service name or service ID.
 - types    - Displays available service types.
@@ -137,6 +138,10 @@ for example:
 #### Delete a service
 To delete a service:
 `sol service delete -serviceName=<serviceName> | -serviceId=<serviceId>`
+
+#### Retrieve service logs
+To view a service log:
+`sol service log log_type [lineCount] -serviceName=<serviceName> | -serviceId=<serviceId>`
 
 #### List services
 To list services and apply a search filter:
@@ -232,6 +237,9 @@ To copy queue messages with specific usernames:
 To move queue messages:
 `sol service queue copy -r [-ln=<localServiceName>] -lq=<localQueueName> -rn=<remoteServiceName> -rq=<remoteQueueName> -mn=<message number to move> `
 
+To copy/move queue messages with DMQ and optional TTL:
+`sol service queue copy -r -dmq [-ttl=<millis>] [-ln=<localServiceName>] -lq=<localQueueName> -rn=<remoteServiceName> -rq=<remoteQueueName> -mn=<message number to move> `
+
 To purge messages:
 `sol service queue purge <queueName>` 
 
@@ -267,3 +275,4 @@ Integration with SempConfig tool by Island Chen (https://github.com/flyisland/se
 ## Release history
 0.4.0 Support for configuration backup and restores.
 0.4.1 Support for message copy DMQ eligible flag and TTL for cases when a message is copied from a DMQ back to a normal queue.
+0.4.2 Support for viewing logs.

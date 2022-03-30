@@ -50,7 +50,7 @@ public class SolServiceSetCommand implements Runnable
         @Option(names = {"-serviceId", "-sid"}, required = false, description="the service Id") String serviceId;
     }	
 
-	@Option(names = {"-none"}, fallbackValue = "true", description = "removes the set values")
+	@Option(names = {"-n", "-none"}, fallbackValue = "true", description = "removes the set values")
 	private Boolean none;	
 	
 	@Option(names = {"-h", "-help"})
@@ -95,7 +95,7 @@ public class SolServiceSetCommand implements Runnable
 			ConfigurationManager.getInstance().removeCurrentServiceName();
 			
 			ConfigurationManager.getInstance().store();
-			System.out.println("Default service unset");
+			System.out.println("Default service unset.");
 			
 			return;
 		}
@@ -140,13 +140,13 @@ public class SolServiceSetCommand implements Runnable
 		}
 		catch (ApiException e)
 		{
-			System.out.println("Error occurred while running login command: " + e.getResponseBody());
-			logger.error("Error occurred while running login command: {}", e.getResponseBody());
+			System.out.println("Error occurred while running command: " + e.getResponseBody());
+			logger.error("Error occurred while running command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occurred while running login command: " + e.getMessage());
-			logger.error("Error occurred while running login command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occurred while running command: " + e.getMessage());
+			logger.error("Error occurred while running command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 }

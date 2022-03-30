@@ -20,19 +20,22 @@
 package com.solace.psg.clientcli.sempv1;
 
 import java.io.IOException;
-
+import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import org.apache.http.auth.AuthenticationException;
+import org.apache.http.HttpException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
 
 import com.solace.psg.clientcli.config.ConfigurationManager;
-import com.solace.psg.sempv1.AdminCommands;
 import com.solace.psg.sempv1.HttpSempSession;
+import com.solace.psg.sempv1.LogType;
 import com.solace.psg.sempv1.SempSession;
+import com.solace.psg.sempv1.ShowCommands;
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
 import com.solace.psg.sempv2.admin.model.ServiceManagementContext;
 import com.solace.psg.sempv2.apiclient.ApiException;
@@ -44,21 +47,24 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 /**
- * Command class to handle service lists.
+ * Command class to handle service logs.
  * 
  * @author VictorTsonkov
  *
  */
-@Command(name = "purge",description = "Purge service queue.")
-public class SolServiceQueuePurgeCommand implements Runnable 
+@Command(name = "log", description = "Shows service logs.")
+public class SolServiceLogCommand implements Runnable 
 {
-	private static final Logger logger = LogManager.getLogger(SolServiceQueuePurgeCommand.class);
-	
-	@Option(names = {"-h", "-help"})
+	private static final Logger logger = LogManager.getLogger(SolServiceLogCommand.class);
+
+	@Parameters(index = "0", arity = "1", description="The log type")
+	private LogType logType;
+
+	@Parameters(index = "1", arity = "0..1", defaultValue="20" ,description="The number of lines to fetch from the end of the log. Default is 20.")
+	private int lineCount;
+
+	@Option(names = {"-h", "-help"}, usageHelp = true)
 	private boolean help;
-	
-	@Parameters(index = "0", arity="1", description = "The queue name.")
-	private String queueName;
 	
 	@ArgGroup(exclusive = true, multiplicity = "0..1")
     ExcParam excl;
@@ -67,11 +73,11 @@ public class SolServiceQueuePurgeCommand implements Runnable
         @Option(names = {"-serviceName", "-sn"}, required = true) String serviceName;
         @Option(names = {"-serviceId", "-sid"}, required = true) String serviceId;
     }
-	
+    
 	/**
 	 * Initialises a new instance of the class.
 	 */
-	public SolServiceQueuePurgeCommand()
+	public SolServiceLogCommand()
 	{
 	}
 
@@ -80,10 +86,10 @@ public class SolServiceQueuePurgeCommand implements Runnable
 	 */
 	private void showHelp()
 	{
-	    System.out.println(" sol service queue purge <queueName> [-serviceName=<name>] \n");
+	    System.out.println(" sol service log log_type [line numbers] [-serviceName=<name>] [-serviceId=<id>] \n");
 	    System.out.println(" -serviceName - the name of the service.");
-	    System.out.println(" <queueName> - the name of the queue to be purged.");
-	    System.out.println(" Example command: sol service queue purge testQueue");
+	    System.out.println(" -serviceId - the id of the service.");
+	    System.out.println(" Example command: sol service log event 30");
 	}
 	
 	/**
@@ -91,7 +97,7 @@ public class SolServiceQueuePurgeCommand implements Runnable
 	 */
 	public void run()
 	{
-		logger.debug("Running service purge command.");
+		logger.debug("Retrieving " + logType.toString() + " log...");
 		
 		if (help)
 		{
@@ -137,7 +143,7 @@ public class SolServiceQueuePurgeCommand implements Runnable
 			
 			if (sd != null)
 			{
-				purgeQueue(sd);
+				 displayLog(sd);
 			}
 			else 
 			{
@@ -146,26 +152,41 @@ public class SolServiceQueuePurgeCommand implements Runnable
 		}
 		catch (ApiException e)
 		{
-			System.out.println("Error occurred while running command: " + e.getResponseBody());
-			logger.error("Error occurred while running command: {}", e.getResponseBody());
+			System.out.println("Error occurred while running service details command: " + e.getResponseBody());
+			logger.error("Error occurred while running service details command: {}", e.getResponseBody());
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error occurred while running command: " + e.getMessage());
-			logger.error("Error occurred while running command: {}, {}", e.getMessage(), e.getCause());
+			System.out.println("Error occurred while running service details command: " + e.getMessage());
+			logger.error("Error occurred while running service details command: {}, {}", e.getMessage(), e.getCause());
 		}
 	}
 	
-	private void purgeQueue(ServiceDetails sd) throws AuthenticationException, ClientProtocolException, IOException, JAXBException 
+	private void displayLog(ServiceDetails sd) throws ClientProtocolException, IOException, JAXBException, SAXException, HttpException 
 	{
+		System.out.println("Retrieving " + logType.toString() + " log...");
+		
 		ServiceManagementContext ctx = new ServiceManagementContext(sd);
 		SempSession session = new HttpSempSession(ctx.getSempUsername(), ctx.getSempPassword(), ctx.getSempV1Url());
-		AdminCommands com = new AdminCommands(session);
-		boolean result = com.purgeQueueMessages(ctx.getVpnName(), queueName);
+		ShowCommands com = new ShowCommands(session);
+		List<String> result = com.getLogTail(logType, lineCount);
 		
-		if (result)
-			System.out.println("Messages purged succesfully.");
+		if (result != null && result.size() > 0)
+		{
+			if (logType == LogType.REST)
+			{
+				System.out.println("      Timestamp           |  Message VPN  |              RDP              |      REST Consumer     |  Local Address   |  Remote Address   | Error Response");
+				System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------");					
+				for (String line : result)				
+					System.out.print(line);
+			}
+			else // Other log types don't contain new lines 
+			{
+				for (String line : result)				
+					System.out.println(line);
+			}
+		}
 		else
-			System.out.println("Purging failed for queue: " + queueName);
+			System.out.println("No log entries were retrieved from the service.");
 	}
 }
