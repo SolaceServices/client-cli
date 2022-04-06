@@ -29,7 +29,7 @@ public class ClientCliGlobals
 	/**
 	 * Current application version.
 	 */
-	public final static String VERSION = "0.4.2";
+	public final static String VERSION = "0.4.3";
 
 	/**
 	 * Default queue allocation quota in Mb.

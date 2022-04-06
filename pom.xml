@@ -4,7 +4,7 @@
 
   <groupId>com.solace.psg</groupId>
   <artifactId>ClientCli</artifactId>
-  <version>0.4.2</version>
+  <version>0.4.3</version>
   <packaging>jar</packaging>
 
   <name>ClientCli</name>
@@ -20,7 +20,6 @@
 
 
   <dependencies>
-  
     <dependency>
         <groupId>com.solace.psg</groupId>
         <artifactId>sempv1-interface</artifactId>
@@ -56,13 +55,15 @@
 	  <artifactId>picocli-codegen</artifactId>
 	  <version>4.3.2</version>
 	  <scope>provided</scope>
-	</dependency>    
+	</dependency>   
+	 
     <!-- Jackson YAML -->
 	<dependency>
 	  <groupId>com.fasterxml.jackson.dataformat</groupId>
 	  <artifactId>jackson-dataformat-yaml</artifactId>
 	  <version>2.9.2</version>
 	</dependency>	
+	
     <!-- Logging -->
 	<dependency> 
 	  <groupId>log4j</groupId> 
@@ -99,7 +100,6 @@
 	    <artifactId>solconfig</artifactId>
 	    <version>1.1.5</version>
 	</dependency>
-
   </dependencies>
   
   <build>

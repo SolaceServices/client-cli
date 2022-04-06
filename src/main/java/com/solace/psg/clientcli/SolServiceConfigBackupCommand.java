@@ -26,17 +26,11 @@ import java.text.SimpleDateFormat;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.solace.psg.clientcli.config.ConfigurationManager;
 
 import com.solace.psg.sempv2.admin.model.ServiceDetails;
-import com.solace.psg.sempv2.admin.model.ServiceManagementContext;
 import com.solace.psg.sempv2.apiclient.ApiException;
 
-import com.solace.psg.sempv2.config.model.MsgVpnQueue;
-import com.solace.psg.sempv2.config.model.MsgVpnQueue.AccessTypeEnum;
-import com.solace.psg.sempv2.config.model.MsgVpnQueue.PermissionEnum;
 import com.solace.psg.util.FileUtils;
 import com.solace.tools.solconfig.Commander;
 import com.solace.tools.solconfig.SempClient;
@@ -62,7 +56,10 @@ import picocli.CommandLine.Parameters;
 public class SolServiceConfigBackupCommand implements Runnable 
 {
 	private static final Logger logger = LogManager.getLogger(SolServiceConfigBackupCommand.class);
-	
+
+	@Parameters(index = "0", arity = "0..1", defaultValue=Option.NULL_VALUE, description="the file name")
+	private String filename;
+
 	@Option(names = {"-h", "-help"})
 	private boolean help;
 	
@@ -77,13 +74,13 @@ public class SolServiceConfigBackupCommand implements Runnable
 	@Option(names = {"-d", "-default"} , defaultValue = "false",  description="Indicates whether to Keep attributes with a default value. Default is false")
 	private boolean keepDefault;	
 
-	@Option(names = {"-o", "-opaquePassword"} , defaultValue = Option.NULL_VALUE,  description="Sets a custom opaque password for the password encryption.")
+	@Option(names = {"-o", "-opaquePassword"} , defaultValue = Option.NULL_VALUE,  description="Sets a custom opaque password for the password encryption. Length should be at least 8 characters.")
 	private String opaquePassword;	
 
     @Option(names = {"-k", "--insecure"}, description = "Allow insecure server connections when using SSL")
     private boolean insecure = false;
 
-    @Option(names = "--cacert", description = "CA certificate file to verify peer against when using SSL")
+    @Option(names = "--cacert", description = "CA certificate file to verify peer when using SSL")
     private Path cacert;
 
 	/**
@@ -102,6 +99,7 @@ public class SolServiceConfigBackupCommand implements Runnable
 	    System.out.println(" backup - Creates a service backup config file <service_name.json>");
 
 	    System.out.println(" Example command: sol service config backup");
+	    System.out.println(" Example command: sol service config backup <filename>");
 	}
 	
 	/**
@@ -192,8 +190,13 @@ public class SolServiceConfigBackupCommand implements Runnable
 		        }
 		        configBroker.checkAttributeCombinations(); // keep requires attribute for backup
 
-		        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(System.currentTimeMillis());
-		        printFile(configBroker, vpns[0] + "_" + timeStamp+ ".json");
+		        if (filename == null)
+		        {
+		        	String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(System.currentTimeMillis());
+		        	filename = vpns[0] + "_" + timeStamp+ ".json";
+		        }
+		        
+		        printFile(configBroker, filename);
 		        
 		        System.out.println("Config backup created successfully.");
 			}
@@ -222,11 +225,7 @@ public class SolServiceConfigBackupCommand implements Runnable
 	 */
 	private void printFile(ConfigBroker configBroker, String filename) throws IOException
 	{
-		//Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
-		//String outgoingRequest = gson.toJson(configBroker);
 		FileUtils.writeReponseToFile(filename, configBroker.toString().getBytes());
-		
-		//FileUtils.writeReponseToFile(filename, outgoingRequest.getBytes());
 	}
 	
 	
