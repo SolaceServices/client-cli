@@ -27,8 +27,8 @@ Use the following command to compile (with *-DskipTests* as optional parameter):
 mvn clean compile package
 
 ## Generating command autocpletion script
-Picocli library supports autocmpletion (refer to https://picocli.info/autocomplete.html). To create a script run:
-`java -cp "lib/picocli-<version>.jar;target/ClientCli-<version>.jar" picocli.AutoComplete -n sol com.solace.psg.clientcli.SolCommand`
+Picocli library supports autocmpletion (refer to https://picocli.info/autocomplete.html). To create an autocompletetion script, go to the project dirrectory and run:
+`java -cp "target/ClientCli-<version>.jar;target/lib/picocli-4.6.1.jar" picocli.AutoComplete -n sol com.solace.psg.clientcli.SolCommand`
 The above command will generate a command script called *sol_completion*.
 For Linux autocompletion run:
 `source sol_completion`

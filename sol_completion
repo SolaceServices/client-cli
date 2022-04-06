@@ -159,141 +159,145 @@ function _complete_sol() {
   local cmds41=(service delete)
   local cmds42=(service details)
   local cmds43=(service list)
-  local cmds44=(service queue)
-  local cmds45=(service set)
-  local cmds46=(service types)
-  local cmds47=(service username)
-  local cmds48=(service bridge create)
-  local cmds49=(service bridge delete)
-  local cmds50=(service bridge list)
-  local cmds51=(service ca add)
-  local cmds52=(service ca delete)
-  local cmds53=(service ca list)
-  local cmds54=(service cp create)
-  local cmds55=(service cp delete)
-  local cmds56=(service cp details)
-  local cmds57=(service cp list)
-  local cmds58=(service config backup)
-  local cmds59=(service config restore)
-  local cmds60=(service queue copy)
-  local cmds61=(service queue create)
-  local cmds62=(service queue delete)
-  local cmds63=(service queue details)
-  local cmds64=(service queue list)
-  local cmds65=(service queue purge)
-  local cmds66=(service queue stats)
-  local cmds67=(service username create)
-  local cmds68=(service bridge)
-  local cmds69=(service ca)
-  local cmds70=(service create)
-  local cmds71=(service classes)
-  local cmds72=(service cp)
-  local cmds73=(service config)
-  local cmds74=(service delete)
-  local cmds75=(service details)
-  local cmds76=(service list)
-  local cmds77=(service queue)
-  local cmds78=(service set)
-  local cmds79=(service types)
-  local cmds80=(service username)
-  local cmds81=(service bridge create)
-  local cmds82=(service bridge delete)
-  local cmds83=(service bridge list)
-  local cmds84=(service ca add)
-  local cmds85=(service ca delete)
-  local cmds86=(service ca list)
-  local cmds87=(service cp create)
-  local cmds88=(service cp delete)
-  local cmds89=(service cp details)
-  local cmds90=(service cp list)
-  local cmds91=(service config backup)
-  local cmds92=(service config restore)
-  local cmds93=(service queue copy)
-  local cmds94=(service queue create)
-  local cmds95=(service queue delete)
-  local cmds96=(service queue details)
-  local cmds97=(service queue list)
-  local cmds98=(service queue purge)
-  local cmds99=(service queue stats)
-  local cmds100=(service username create)
-  local cmds101=(user create)
-  local cmds102=(user delete)
-  local cmds103=(user list)
-  local cmds104=(user roles)
-  local cmds105=(user roles)
-  local cmds106=(user create)
-  local cmds107=(user delete)
-  local cmds108=(user list)
-  local cmds109=(user roles)
-  local cmds110=(user roles)
+  local cmds44=(service log)
+  local cmds45=(service queue)
+  local cmds46=(service set)
+  local cmds47=(service types)
+  local cmds48=(service username)
+  local cmds49=(service bridge create)
+  local cmds50=(service bridge delete)
+  local cmds51=(service bridge list)
+  local cmds52=(service ca add)
+  local cmds53=(service ca delete)
+  local cmds54=(service ca list)
+  local cmds55=(service cp create)
+  local cmds56=(service cp delete)
+  local cmds57=(service cp details)
+  local cmds58=(service cp list)
+  local cmds59=(service config backup)
+  local cmds60=(service config restore)
+  local cmds61=(service queue copy)
+  local cmds62=(service queue create)
+  local cmds63=(service queue delete)
+  local cmds64=(service queue details)
+  local cmds65=(service queue list)
+  local cmds66=(service queue purge)
+  local cmds67=(service queue stats)
+  local cmds68=(service username create)
+  local cmds69=(service bridge)
+  local cmds70=(service ca)
+  local cmds71=(service create)
+  local cmds72=(service classes)
+  local cmds73=(service cp)
+  local cmds74=(service config)
+  local cmds75=(service delete)
+  local cmds76=(service details)
+  local cmds77=(service list)
+  local cmds78=(service log)
+  local cmds79=(service queue)
+  local cmds80=(service set)
+  local cmds81=(service types)
+  local cmds82=(service username)
+  local cmds83=(service bridge create)
+  local cmds84=(service bridge delete)
+  local cmds85=(service bridge list)
+  local cmds86=(service ca add)
+  local cmds87=(service ca delete)
+  local cmds88=(service ca list)
+  local cmds89=(service cp create)
+  local cmds90=(service cp delete)
+  local cmds91=(service cp details)
+  local cmds92=(service cp list)
+  local cmds93=(service config backup)
+  local cmds94=(service config restore)
+  local cmds95=(service queue copy)
+  local cmds96=(service queue create)
+  local cmds97=(service queue delete)
+  local cmds98=(service queue details)
+  local cmds99=(service queue list)
+  local cmds100=(service queue purge)
+  local cmds101=(service queue stats)
+  local cmds102=(service username create)
+  local cmds103=(user create)
+  local cmds104=(user delete)
+  local cmds105=(user list)
+  local cmds106=(user roles)
+  local cmds107=(user roles)
+  local cmds108=(user create)
+  local cmds109=(user delete)
+  local cmds110=(user list)
+  local cmds111=(user roles)
+  local cmds112=(user roles)
 
-  if CompWordsContainsArray "${cmds110[@]}"; then _picocli_sol_user_r; return $?; fi
-  if CompWordsContainsArray "${cmds109[@]}"; then _picocli_sol_user_roles; return $?; fi
-  if CompWordsContainsArray "${cmds108[@]}"; then _picocli_sol_user_list; return $?; fi
-  if CompWordsContainsArray "${cmds107[@]}"; then _picocli_sol_user_delete; return $?; fi
-  if CompWordsContainsArray "${cmds106[@]}"; then _picocli_sol_user_create; return $?; fi
-  if CompWordsContainsArray "${cmds105[@]}"; then _picocli_sol_user_r; return $?; fi
-  if CompWordsContainsArray "${cmds104[@]}"; then _picocli_sol_user_roles; return $?; fi
-  if CompWordsContainsArray "${cmds103[@]}"; then _picocli_sol_user_list; return $?; fi
-  if CompWordsContainsArray "${cmds102[@]}"; then _picocli_sol_user_delete; return $?; fi
-  if CompWordsContainsArray "${cmds101[@]}"; then _picocli_sol_user_create; return $?; fi
-  if CompWordsContainsArray "${cmds100[@]}"; then _picocli_sol_service_username_create; return $?; fi
-  if CompWordsContainsArray "${cmds99[@]}"; then _picocli_sol_service_queue_stats; return $?; fi
-  if CompWordsContainsArray "${cmds98[@]}"; then _picocli_sol_service_queue_purge; return $?; fi
-  if CompWordsContainsArray "${cmds97[@]}"; then _picocli_sol_service_queue_list; return $?; fi
-  if CompWordsContainsArray "${cmds96[@]}"; then _picocli_sol_service_queue_details; return $?; fi
-  if CompWordsContainsArray "${cmds95[@]}"; then _picocli_sol_service_queue_delete; return $?; fi
-  if CompWordsContainsArray "${cmds94[@]}"; then _picocli_sol_service_queue_create; return $?; fi
-  if CompWordsContainsArray "${cmds93[@]}"; then _picocli_sol_service_queue_copy; return $?; fi
-  if CompWordsContainsArray "${cmds92[@]}"; then _picocli_sol_service_config_restore; return $?; fi
-  if CompWordsContainsArray "${cmds91[@]}"; then _picocli_sol_service_config_backup; return $?; fi
-  if CompWordsContainsArray "${cmds90[@]}"; then _picocli_sol_service_cp_list; return $?; fi
-  if CompWordsContainsArray "${cmds89[@]}"; then _picocli_sol_service_cp_details; return $?; fi
-  if CompWordsContainsArray "${cmds88[@]}"; then _picocli_sol_service_cp_delete; return $?; fi
-  if CompWordsContainsArray "${cmds87[@]}"; then _picocli_sol_service_cp_create; return $?; fi
-  if CompWordsContainsArray "${cmds86[@]}"; then _picocli_sol_service_ca_list; return $?; fi
-  if CompWordsContainsArray "${cmds85[@]}"; then _picocli_sol_service_ca_delete; return $?; fi
-  if CompWordsContainsArray "${cmds84[@]}"; then _picocli_sol_service_ca_add; return $?; fi
-  if CompWordsContainsArray "${cmds83[@]}"; then _picocli_sol_service_bridge_list; return $?; fi
-  if CompWordsContainsArray "${cmds82[@]}"; then _picocli_sol_service_bridge_delete; return $?; fi
-  if CompWordsContainsArray "${cmds81[@]}"; then _picocli_sol_service_bridge_create; return $?; fi
-  if CompWordsContainsArray "${cmds80[@]}"; then _picocli_sol_service_username; return $?; fi
-  if CompWordsContainsArray "${cmds79[@]}"; then _picocli_sol_service_types; return $?; fi
-  if CompWordsContainsArray "${cmds78[@]}"; then _picocli_sol_service_set; return $?; fi
-  if CompWordsContainsArray "${cmds77[@]}"; then _picocli_sol_service_queue; return $?; fi
-  if CompWordsContainsArray "${cmds76[@]}"; then _picocli_sol_service_list; return $?; fi
-  if CompWordsContainsArray "${cmds75[@]}"; then _picocli_sol_service_details; return $?; fi
-  if CompWordsContainsArray "${cmds74[@]}"; then _picocli_sol_service_delete; return $?; fi
-  if CompWordsContainsArray "${cmds73[@]}"; then _picocli_sol_service_config; return $?; fi
-  if CompWordsContainsArray "${cmds72[@]}"; then _picocli_sol_service_cp; return $?; fi
-  if CompWordsContainsArray "${cmds71[@]}"; then _picocli_sol_service_classes; return $?; fi
-  if CompWordsContainsArray "${cmds70[@]}"; then _picocli_sol_service_create; return $?; fi
-  if CompWordsContainsArray "${cmds69[@]}"; then _picocli_sol_service_ca; return $?; fi
-  if CompWordsContainsArray "${cmds68[@]}"; then _picocli_sol_service_bridge; return $?; fi
-  if CompWordsContainsArray "${cmds67[@]}"; then _picocli_sol_service_username_create; return $?; fi
-  if CompWordsContainsArray "${cmds66[@]}"; then _picocli_sol_service_queue_stats; return $?; fi
-  if CompWordsContainsArray "${cmds65[@]}"; then _picocli_sol_service_queue_purge; return $?; fi
-  if CompWordsContainsArray "${cmds64[@]}"; then _picocli_sol_service_queue_list; return $?; fi
-  if CompWordsContainsArray "${cmds63[@]}"; then _picocli_sol_service_queue_details; return $?; fi
-  if CompWordsContainsArray "${cmds62[@]}"; then _picocli_sol_service_queue_delete; return $?; fi
-  if CompWordsContainsArray "${cmds61[@]}"; then _picocli_sol_service_queue_create; return $?; fi
-  if CompWordsContainsArray "${cmds60[@]}"; then _picocli_sol_service_queue_copy; return $?; fi
-  if CompWordsContainsArray "${cmds59[@]}"; then _picocli_sol_service_config_restore; return $?; fi
-  if CompWordsContainsArray "${cmds58[@]}"; then _picocli_sol_service_config_backup; return $?; fi
-  if CompWordsContainsArray "${cmds57[@]}"; then _picocli_sol_service_cp_list; return $?; fi
-  if CompWordsContainsArray "${cmds56[@]}"; then _picocli_sol_service_cp_details; return $?; fi
-  if CompWordsContainsArray "${cmds55[@]}"; then _picocli_sol_service_cp_delete; return $?; fi
-  if CompWordsContainsArray "${cmds54[@]}"; then _picocli_sol_service_cp_create; return $?; fi
-  if CompWordsContainsArray "${cmds53[@]}"; then _picocli_sol_service_ca_list; return $?; fi
-  if CompWordsContainsArray "${cmds52[@]}"; then _picocli_sol_service_ca_delete; return $?; fi
-  if CompWordsContainsArray "${cmds51[@]}"; then _picocli_sol_service_ca_add; return $?; fi
-  if CompWordsContainsArray "${cmds50[@]}"; then _picocli_sol_service_bridge_list; return $?; fi
-  if CompWordsContainsArray "${cmds49[@]}"; then _picocli_sol_service_bridge_delete; return $?; fi
-  if CompWordsContainsArray "${cmds48[@]}"; then _picocli_sol_service_bridge_create; return $?; fi
-  if CompWordsContainsArray "${cmds47[@]}"; then _picocli_sol_service_username; return $?; fi
-  if CompWordsContainsArray "${cmds46[@]}"; then _picocli_sol_service_types; return $?; fi
-  if CompWordsContainsArray "${cmds45[@]}"; then _picocli_sol_service_set; return $?; fi
-  if CompWordsContainsArray "${cmds44[@]}"; then _picocli_sol_service_queue; return $?; fi
+  if CompWordsContainsArray "${cmds112[@]}"; then _picocli_sol_user_r; return $?; fi
+  if CompWordsContainsArray "${cmds111[@]}"; then _picocli_sol_user_roles; return $?; fi
+  if CompWordsContainsArray "${cmds110[@]}"; then _picocli_sol_user_list; return $?; fi
+  if CompWordsContainsArray "${cmds109[@]}"; then _picocli_sol_user_delete; return $?; fi
+  if CompWordsContainsArray "${cmds108[@]}"; then _picocli_sol_user_create; return $?; fi
+  if CompWordsContainsArray "${cmds107[@]}"; then _picocli_sol_user_r; return $?; fi
+  if CompWordsContainsArray "${cmds106[@]}"; then _picocli_sol_user_roles; return $?; fi
+  if CompWordsContainsArray "${cmds105[@]}"; then _picocli_sol_user_list; return $?; fi
+  if CompWordsContainsArray "${cmds104[@]}"; then _picocli_sol_user_delete; return $?; fi
+  if CompWordsContainsArray "${cmds103[@]}"; then _picocli_sol_user_create; return $?; fi
+  if CompWordsContainsArray "${cmds102[@]}"; then _picocli_sol_service_username_create; return $?; fi
+  if CompWordsContainsArray "${cmds101[@]}"; then _picocli_sol_service_queue_stats; return $?; fi
+  if CompWordsContainsArray "${cmds100[@]}"; then _picocli_sol_service_queue_purge; return $?; fi
+  if CompWordsContainsArray "${cmds99[@]}"; then _picocli_sol_service_queue_list; return $?; fi
+  if CompWordsContainsArray "${cmds98[@]}"; then _picocli_sol_service_queue_details; return $?; fi
+  if CompWordsContainsArray "${cmds97[@]}"; then _picocli_sol_service_queue_delete; return $?; fi
+  if CompWordsContainsArray "${cmds96[@]}"; then _picocli_sol_service_queue_create; return $?; fi
+  if CompWordsContainsArray "${cmds95[@]}"; then _picocli_sol_service_queue_copy; return $?; fi
+  if CompWordsContainsArray "${cmds94[@]}"; then _picocli_sol_service_config_restore; return $?; fi
+  if CompWordsContainsArray "${cmds93[@]}"; then _picocli_sol_service_config_backup; return $?; fi
+  if CompWordsContainsArray "${cmds92[@]}"; then _picocli_sol_service_cp_list; return $?; fi
+  if CompWordsContainsArray "${cmds91[@]}"; then _picocli_sol_service_cp_details; return $?; fi
+  if CompWordsContainsArray "${cmds90[@]}"; then _picocli_sol_service_cp_delete; return $?; fi
+  if CompWordsContainsArray "${cmds89[@]}"; then _picocli_sol_service_cp_create; return $?; fi
+  if CompWordsContainsArray "${cmds88[@]}"; then _picocli_sol_service_ca_list; return $?; fi
+  if CompWordsContainsArray "${cmds87[@]}"; then _picocli_sol_service_ca_delete; return $?; fi
+  if CompWordsContainsArray "${cmds86[@]}"; then _picocli_sol_service_ca_add; return $?; fi
+  if CompWordsContainsArray "${cmds85[@]}"; then _picocli_sol_service_bridge_list; return $?; fi
+  if CompWordsContainsArray "${cmds84[@]}"; then _picocli_sol_service_bridge_delete; return $?; fi
+  if CompWordsContainsArray "${cmds83[@]}"; then _picocli_sol_service_bridge_create; return $?; fi
+  if CompWordsContainsArray "${cmds82[@]}"; then _picocli_sol_service_username; return $?; fi
+  if CompWordsContainsArray "${cmds81[@]}"; then _picocli_sol_service_types; return $?; fi
+  if CompWordsContainsArray "${cmds80[@]}"; then _picocli_sol_service_set; return $?; fi
+  if CompWordsContainsArray "${cmds79[@]}"; then _picocli_sol_service_queue; return $?; fi
+  if CompWordsContainsArray "${cmds78[@]}"; then _picocli_sol_service_log; return $?; fi
+  if CompWordsContainsArray "${cmds77[@]}"; then _picocli_sol_service_list; return $?; fi
+  if CompWordsContainsArray "${cmds76[@]}"; then _picocli_sol_service_details; return $?; fi
+  if CompWordsContainsArray "${cmds75[@]}"; then _picocli_sol_service_delete; return $?; fi
+  if CompWordsContainsArray "${cmds74[@]}"; then _picocli_sol_service_config; return $?; fi
+  if CompWordsContainsArray "${cmds73[@]}"; then _picocli_sol_service_cp; return $?; fi
+  if CompWordsContainsArray "${cmds72[@]}"; then _picocli_sol_service_classes; return $?; fi
+  if CompWordsContainsArray "${cmds71[@]}"; then _picocli_sol_service_create; return $?; fi
+  if CompWordsContainsArray "${cmds70[@]}"; then _picocli_sol_service_ca; return $?; fi
+  if CompWordsContainsArray "${cmds69[@]}"; then _picocli_sol_service_bridge; return $?; fi
+  if CompWordsContainsArray "${cmds68[@]}"; then _picocli_sol_service_username_create; return $?; fi
+  if CompWordsContainsArray "${cmds67[@]}"; then _picocli_sol_service_queue_stats; return $?; fi
+  if CompWordsContainsArray "${cmds66[@]}"; then _picocli_sol_service_queue_purge; return $?; fi
+  if CompWordsContainsArray "${cmds65[@]}"; then _picocli_sol_service_queue_list; return $?; fi
+  if CompWordsContainsArray "${cmds64[@]}"; then _picocli_sol_service_queue_details; return $?; fi
+  if CompWordsContainsArray "${cmds63[@]}"; then _picocli_sol_service_queue_delete; return $?; fi
+  if CompWordsContainsArray "${cmds62[@]}"; then _picocli_sol_service_queue_create; return $?; fi
+  if CompWordsContainsArray "${cmds61[@]}"; then _picocli_sol_service_queue_copy; return $?; fi
+  if CompWordsContainsArray "${cmds60[@]}"; then _picocli_sol_service_config_restore; return $?; fi
+  if CompWordsContainsArray "${cmds59[@]}"; then _picocli_sol_service_config_backup; return $?; fi
+  if CompWordsContainsArray "${cmds58[@]}"; then _picocli_sol_service_cp_list; return $?; fi
+  if CompWordsContainsArray "${cmds57[@]}"; then _picocli_sol_service_cp_details; return $?; fi
+  if CompWordsContainsArray "${cmds56[@]}"; then _picocli_sol_service_cp_delete; return $?; fi
+  if CompWordsContainsArray "${cmds55[@]}"; then _picocli_sol_service_cp_create; return $?; fi
+  if CompWordsContainsArray "${cmds54[@]}"; then _picocli_sol_service_ca_list; return $?; fi
+  if CompWordsContainsArray "${cmds53[@]}"; then _picocli_sol_service_ca_delete; return $?; fi
+  if CompWordsContainsArray "${cmds52[@]}"; then _picocli_sol_service_ca_add; return $?; fi
+  if CompWordsContainsArray "${cmds51[@]}"; then _picocli_sol_service_bridge_list; return $?; fi
+  if CompWordsContainsArray "${cmds50[@]}"; then _picocli_sol_service_bridge_delete; return $?; fi
+  if CompWordsContainsArray "${cmds49[@]}"; then _picocli_sol_service_bridge_create; return $?; fi
+  if CompWordsContainsArray "${cmds48[@]}"; then _picocli_sol_service_username; return $?; fi
+  if CompWordsContainsArray "${cmds47[@]}"; then _picocli_sol_service_types; return $?; fi
+  if CompWordsContainsArray "${cmds46[@]}"; then _picocli_sol_service_set; return $?; fi
+  if CompWordsContainsArray "${cmds45[@]}"; then _picocli_sol_service_queue; return $?; fi
+  if CompWordsContainsArray "${cmds44[@]}"; then _picocli_sol_service_log; return $?; fi
   if CompWordsContainsArray "${cmds43[@]}"; then _picocli_sol_service_list; return $?; fi
   if CompWordsContainsArray "${cmds42[@]}"; then _picocli_sol_service_details; return $?; fi
   if CompWordsContainsArray "${cmds41[@]}"; then _picocli_sol_service_delete; return $?; fi
@@ -383,7 +387,7 @@ function _picocli_sol_account() {
   local curr_word=${COMP_WORDS[COMP_CWORD]}
 
   local commands="list switch s"
-  local flag_opts="h help"
+  local flag_opts="-h -help"
   local arg_opts=""
 
   if [[ "${curr_word}" == -* ]]; then
@@ -400,7 +404,7 @@ function _picocli_sol_a() {
   local curr_word=${COMP_WORDS[COMP_CWORD]}
 
   local commands="list switch s"
-  local flag_opts="h help"
+  local flag_opts="-h -help"
   local arg_opts=""
 
   if [[ "${curr_word}" == -* ]]; then
@@ -520,7 +524,7 @@ function _picocli_sol_login() {
   local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands=""
-  local flag_opts="-n -h -help"
+  local flag_opts="-s -h -help"
   local arg_opts="-u -username -p -password -o -org -t -token"
 
   compopt +o default
@@ -604,7 +608,7 @@ function _picocli_sol_service() {
   # Get completion data
   local curr_word=${COMP_WORDS[COMP_CWORD]}
 
-  local commands="bridge ca create classes cp config delete details list queue set types username"
+  local commands="bridge ca create classes cp config delete details list log queue set types username"
   local flag_opts="-h -help"
   local arg_opts=""
 
@@ -621,7 +625,7 @@ function _picocli_sol_s() {
   # Get completion data
   local curr_word=${COMP_WORDS[COMP_CWORD]}
 
-  local commands="bridge ca create classes cp config delete details list queue set types username"
+  local commands="bridge ca create classes cp config delete details list log queue set types username"
   local flag_opts="-h -help"
   local arg_opts=""
 
@@ -1249,6 +1253,41 @@ function _picocli_sol_service_list() {
   fi
 }
 
+# Generates completions for the options and subcommands of the `log` subcommand.
+function _picocli_sol_service_log() {
+  # Get completion data
+  local curr_word=${COMP_WORDS[COMP_CWORD]}
+  local prev_word=${COMP_WORDS[COMP_CWORD-1]}
+
+  local commands=""
+  local flag_opts="-h -help"
+  local arg_opts="-serviceName -sn -serviceId -sid"
+
+  compopt +o default
+
+  case ${prev_word} in
+    -serviceName|-sn)
+      return
+      ;;
+    -serviceId|-sid)
+      return
+      ;;
+  esac
+  local logType_pos_param_args="debug system rest event command" # 0-0 values
+
+  if [[ "${curr_word}" == -* ]]; then
+    COMPREPLY=( $(compgen -W "${flag_opts} ${arg_opts}" -- "${curr_word}") )
+  else
+    local positionals=""
+    local currIndex
+    currIndex=$(currentPositionalIndex "log" "${arg_opts}" "${flag_opts}")
+    if (( currIndex >= 0 && currIndex <= 0 )); then
+      positionals=$( compgen -W "$logType_pos_param_args" -- "${curr_word}" )
+    fi
+    COMPREPLY=( $(compgen -W "${commands} ${positionals}" -- "${curr_word}") )
+  fi
+}
+
 # Generates completions for the options and subcommands of the `queue` subcommand.
 function _picocli_sol_service_queue() {
   # Get completion data
@@ -1273,7 +1312,7 @@ function _picocli_sol_service_set() {
   local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands=""
-  local flag_opts="-none -h -help"
+  local flag_opts="-n -none -h -help"
   local arg_opts="-serviceName -sn -serviceId -sid"
 
   compopt +o default
@@ -1736,8 +1775,8 @@ function _picocli_sol_service_queue_copy() {
   local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands=""
-  local flag_opts="-h -help -s -secure -r -remove"
-  local arg_opts="-localServiceName -ln -localServiceId -lid -remoteServiceName -rn -remoteServiceId -rid -lq -localQueue -lu -localUsername -lp -localPassword -rq -remoteQueue -ru -remoteUsername -rp -remotePassword -mn -messageNumber"
+  local flag_opts="-h -help -s -secure -r -remove -dmq"
+  local arg_opts="-localServiceName -ln -localServiceId -lid -remoteServiceName -rn -remoteServiceId -rid -lq -localQueue -lu -localUsername -lp -localPassword -rq -remoteQueue -ru -remoteUsername -rp -remotePassword -mn -messageNumber -ttl"
 
   compopt +o default
 
@@ -1775,6 +1814,9 @@ function _picocli_sol_service_queue_copy() {
     -mn|-messageNumber)
       return
       ;;
+    -ttl)
+      return
+      ;;
   esac
 
   if [[ "${curr_word}" == -* ]]; then
@@ -1792,8 +1834,8 @@ function _picocli_sol_service_queue_create() {
   local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands=""
-  local flag_opts="-h -help -e -exclusive"
-  local arg_opts="-serviceName -sn -serviceId -sid -q -quota"
+  local flag_opts="-h -help -e -exclusive -rt -respectTtl"
+  local arg_opts="-serviceName -sn -serviceId -sid -mt -maxTtl -q -quota -dmq"
 
   compopt +o default
 
@@ -1804,7 +1846,13 @@ function _picocli_sol_service_queue_create() {
     -serviceId|-sid)
       return
       ;;
+    -mt|-maxTtl)
+      return
+      ;;
     -q|-quota)
+      return
+      ;;
+    -dmq)
       return
       ;;
   esac
@@ -1912,12 +1960,15 @@ function _picocli_sol_service_queue_purge() {
 
   local commands=""
   local flag_opts="-h -help"
-  local arg_opts="-serviceName"
+  local arg_opts="-serviceName -sn -serviceId -sid"
 
   compopt +o default
 
   case ${prev_word} in
-    -serviceName)
+    -serviceName|-sn)
+      return
+      ;;
+    -serviceId|-sid)
       return
       ;;
   esac
@@ -2201,6 +2252,41 @@ function _picocli_sol_service_list() {
   fi
 }
 
+# Generates completions for the options and subcommands of the `log` subcommand.
+function _picocli_sol_service_log() {
+  # Get completion data
+  local curr_word=${COMP_WORDS[COMP_CWORD]}
+  local prev_word=${COMP_WORDS[COMP_CWORD-1]}
+
+  local commands=""
+  local flag_opts="-h -help"
+  local arg_opts="-serviceName -sn -serviceId -sid"
+
+  compopt +o default
+
+  case ${prev_word} in
+    -serviceName|-sn)
+      return
+      ;;
+    -serviceId|-sid)
+      return
+      ;;
+  esac
+  local logType_pos_param_args="debug system rest event command" # 0-0 values
+
+  if [[ "${curr_word}" == -* ]]; then
+    COMPREPLY=( $(compgen -W "${flag_opts} ${arg_opts}" -- "${curr_word}") )
+  else
+    local positionals=""
+    local currIndex
+    currIndex=$(currentPositionalIndex "log" "${arg_opts}" "${flag_opts}")
+    if (( currIndex >= 0 && currIndex <= 0 )); then
+      positionals=$( compgen -W "$logType_pos_param_args" -- "${curr_word}" )
+    fi
+    COMPREPLY=( $(compgen -W "${commands} ${positionals}" -- "${curr_word}") )
+  fi
+}
+
 # Generates completions for the options and subcommands of the `queue` subcommand.
 function _picocli_sol_service_queue() {
   # Get completion data
@@ -2225,7 +2311,7 @@ function _picocli_sol_service_set() {
   local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands=""
-  local flag_opts="-none -h -help"
+  local flag_opts="-n -none -h -help"
   local arg_opts="-serviceName -sn -serviceId -sid"
 
   compopt +o default
@@ -2688,8 +2774,8 @@ function _picocli_sol_service_queue_copy() {
   local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands=""
-  local flag_opts="-h -help -s -secure -r -remove"
-  local arg_opts="-localServiceName -ln -localServiceId -lid -remoteServiceName -rn -remoteServiceId -rid -lq -localQueue -lu -localUsername -lp -localPassword -rq -remoteQueue -ru -remoteUsername -rp -remotePassword -mn -messageNumber"
+  local flag_opts="-h -help -s -secure -r -remove -dmq"
+  local arg_opts="-localServiceName -ln -localServiceId -lid -remoteServiceName -rn -remoteServiceId -rid -lq -localQueue -lu -localUsername -lp -localPassword -rq -remoteQueue -ru -remoteUsername -rp -remotePassword -mn -messageNumber -ttl"
 
   compopt +o default
 
@@ -2727,6 +2813,9 @@ function _picocli_sol_service_queue_copy() {
     -mn|-messageNumber)
       return
       ;;
+    -ttl)
+      return
+      ;;
   esac
 
   if [[ "${curr_word}" == -* ]]; then
@@ -2744,8 +2833,8 @@ function _picocli_sol_service_queue_create() {
   local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands=""
-  local flag_opts="-h -help -e -exclusive"
-  local arg_opts="-serviceName -sn -serviceId -sid -q -quota"
+  local flag_opts="-h -help -e -exclusive -rt -respectTtl"
+  local arg_opts="-serviceName -sn -serviceId -sid -mt -maxTtl -q -quota -dmq"
 
   compopt +o default
 
@@ -2756,7 +2845,13 @@ function _picocli_sol_service_queue_create() {
     -serviceId|-sid)
       return
       ;;
+    -mt|-maxTtl)
+      return
+      ;;
     -q|-quota)
+      return
+      ;;
+    -dmq)
       return
       ;;
   esac
@@ -2864,12 +2959,15 @@ function _picocli_sol_service_queue_purge() {
 
   local commands=""
   local flag_opts="-h -help"
-  local arg_opts="-serviceName"
+  local arg_opts="-serviceName -sn -serviceId -sid"
 
   compopt +o default
 
   case ${prev_word} in
-    -serviceName)
+    -serviceName|-sn)
+      return
+      ;;
+    -serviceId|-sid)
       return
       ;;
   esac
