@@ -13,7 +13,7 @@
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>C:\Projects\j2ee\client-cli\launch4j\corona.ico</icon>
+  <icon>C:\Projects\j2ee\client-cli\launch4j\clientcli.ico</icon>
   <classPath>
     <mainClass>com.solace.psg.clientcli.ClientCliApp</mainClass>
   </classPath>

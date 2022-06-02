@@ -1,13 +1,15 @@
 # Solace Client CLI 
 
-![Logo](CoronaCLI.png)
+![Logo](ClientCLI.png)
 
 ## Description
-Solace Client CLI is an application for handling Solace Cloud operations via the command line.
-The Client CLI can handle multiple cloud accounts by creating different profiles for each account and can also handle multiple organisations under a specified account. 
+Solace Client CLI is an application for handling Solace Cloud operations via command line interface (CLI). 
+Typically, Solace Cloud manages broker services under different organization accounts (organization IDs). The Client CLI can handle multiple such accounts by creating different CLI profiles for each cloud account. It can also handle multiple organisations under a specified cloud account. 
+The Client CLI application can use an existing account username or a provided token to gain access to the solace cloud accounts available for the user. 
+After a successful login, the Client CLI can be used for handling various tasks and commands related to the broker services inside the account.   
 
 ## Requirements
-The application requires Java JRE 11+ since version 0.4.0. Prior version is compatible with Java 1.8+
+The application requires Java JRE 11+ since version 0.4.0. 
 
 ## Releases
 The folder /releases/<version> contains a ready compiled release for everyone who doesn't want to build the tool but just to use it directly. It contains the executable file and the required libraries.
@@ -271,9 +273,3 @@ Integration with SempConfig tool by Island Chen (https://github.com/flyisland/se
 
 ### Version
 `sol version` | `sol -v`
-
-## Release history
-0.4.0 Support for configuration backup and restores.
-0.4.1 Support for message copy DMQ eligible flag and TTL for cases when a message is copied from a DMQ back to a normal queue.
-0.4.2 Support for viewing logs.
-0.4.3 Support for backup custom filenames.
