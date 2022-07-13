@@ -29,7 +29,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle dc operations.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "dc", description = "Handles data center operations.", subcommands = {

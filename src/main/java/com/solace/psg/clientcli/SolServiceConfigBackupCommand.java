@@ -49,7 +49,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle configuration backup.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "backup", description = "Creates a service backup config.")

@@ -34,7 +34,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle service set.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "set",description = "Sets a service as the default context.")

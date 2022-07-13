@@ -38,7 +38,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle service lists.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "details",description = "Lists service details.")

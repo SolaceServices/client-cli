@@ -39,7 +39,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle SDKPerf tasks.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "sperf", description = "Returns an SDKPerf connection string for a service.")

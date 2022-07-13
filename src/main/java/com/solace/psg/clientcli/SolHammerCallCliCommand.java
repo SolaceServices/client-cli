@@ -42,7 +42,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle SDKPerf tasks.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "callCli", description = "Executes a cli command on a service via Semp v1.")

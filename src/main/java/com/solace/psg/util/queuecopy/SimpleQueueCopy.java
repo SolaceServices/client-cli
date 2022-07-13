@@ -30,7 +30,7 @@ import com.solacesystems.jcsmp.XMLMessageProducer;
 
 /**
  * A small class to copy messages from one queue to another.
- * @author VictorTsonkov
+ * 
  *
  */
 public class SimpleQueueCopy implements Runnable, SessionEventHandler, XMLMessageListener, FlowEventHandler, JCSMPProducerEventHandler, JCSMPStreamingPublishEventHandler

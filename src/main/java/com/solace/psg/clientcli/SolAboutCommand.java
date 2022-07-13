@@ -24,7 +24,7 @@ import picocli.CommandLine.Command;
 /**
  * Command class to display about.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "about",description = "About this library.")

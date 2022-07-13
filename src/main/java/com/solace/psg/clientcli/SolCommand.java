@@ -23,7 +23,7 @@ import picocli.CommandLine.Command;
 
 /**
  * Sol Command base class.
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "sol", subcommands = {

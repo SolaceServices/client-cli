@@ -24,7 +24,7 @@ import picocli.CommandLine.Command;
 /**
  * Command class to display version.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "version", aliases = "-v", description = "Displays the library version.")

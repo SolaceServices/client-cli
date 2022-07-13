@@ -28,7 +28,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle configuration operations.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "config", description = "Handles config operations.", subcommands = {

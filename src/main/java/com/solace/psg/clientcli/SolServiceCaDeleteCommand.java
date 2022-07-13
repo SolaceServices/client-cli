@@ -39,7 +39,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle certificate authority delete.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "delete", description = "Deletes certificate authority.")

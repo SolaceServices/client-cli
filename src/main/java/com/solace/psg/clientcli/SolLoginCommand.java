@@ -33,7 +33,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle login.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "login",description = "Login to a solace cloud account.")

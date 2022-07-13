@@ -34,7 +34,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle service lists.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "create",description = "Creates a service.")

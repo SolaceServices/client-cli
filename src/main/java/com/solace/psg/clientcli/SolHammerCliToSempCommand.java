@@ -38,7 +38,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle SDKPerf tasks.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "cliToSemp", description = "Generates a cli command using Cli-to-semp tool.")

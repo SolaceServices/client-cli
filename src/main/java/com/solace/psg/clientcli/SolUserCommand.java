@@ -29,7 +29,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle user operations.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "user", aliases = "u", description = "Handles user operations.", subcommands = {

@@ -43,7 +43,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle user name create.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "create", description = "Creates username.")

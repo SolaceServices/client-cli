@@ -33,7 +33,7 @@ import com.solace.psg.clientcli.ClientCliApp;
 /**
  * Simple file utilities class.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 public class FileUtils

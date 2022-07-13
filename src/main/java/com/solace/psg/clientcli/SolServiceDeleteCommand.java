@@ -36,7 +36,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle service lists.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "delete",description = "Deletes a service.")

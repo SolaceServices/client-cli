@@ -28,7 +28,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle certificate authority operations.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "ca", description = "Handles certificate authority operations.", subcommands = {

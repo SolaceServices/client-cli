@@ -43,7 +43,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle queue copy.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "copy", description = "Copy queue.")

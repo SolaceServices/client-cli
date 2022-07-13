@@ -48,7 +48,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle organisation account lists.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "list",description = "Lists all organization accounts for the current user.")

@@ -43,7 +43,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle user lists.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "list",description = "Lists user details.")

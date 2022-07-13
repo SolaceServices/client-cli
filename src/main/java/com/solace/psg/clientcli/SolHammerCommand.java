@@ -28,7 +28,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle various common tasks.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "hammer", aliases = "h", description = "Handles various common tasks.", subcommands = {

@@ -28,7 +28,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle bridge operations.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "bridge", description = "Handles bridge operations.", subcommands = {

@@ -28,7 +28,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle client profile operations.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "cp", description = "Handles client profile operations.", subcommands = {

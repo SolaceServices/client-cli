@@ -42,7 +42,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle bridge delete.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "delete", description = "Deletes bridge.")

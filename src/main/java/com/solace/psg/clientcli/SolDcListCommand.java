@@ -46,7 +46,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle DC lists.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "list",description = "Lists dc details.")

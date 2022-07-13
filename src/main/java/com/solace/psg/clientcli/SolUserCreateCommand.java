@@ -43,7 +43,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle user create.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "create", description = "Creates a user and sends an invitation to his email address to join.")

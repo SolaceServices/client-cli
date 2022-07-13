@@ -38,7 +38,7 @@ import com.solace.psg.util.AES;
 
 /**
  * Class to handle application's configuration.
- * @author VictorTsonkov
+ * 
  *
  */
 public class ConfigurationManager

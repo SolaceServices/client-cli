@@ -54,7 +54,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle configuration restore.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "restore", description = "restores a service config from a backup config file.")

@@ -41,7 +41,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle client profile delete.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "delete", description = "deletes client profile.")

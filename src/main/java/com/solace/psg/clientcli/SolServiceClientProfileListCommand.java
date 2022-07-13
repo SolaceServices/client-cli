@@ -48,7 +48,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle client profile lists.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "list", description = "Lists service client profile details.")

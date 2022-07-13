@@ -49,7 +49,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle service logs.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "log", description = "Shows service logs.")

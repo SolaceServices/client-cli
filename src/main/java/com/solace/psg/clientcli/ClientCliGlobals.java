@@ -21,7 +21,7 @@ package com.solace.psg.clientcli;
 
 /**
  * Class to hold global constants.
- * @author VictorTsonkov
+ * 
  *
  */
 public class ClientCliGlobals

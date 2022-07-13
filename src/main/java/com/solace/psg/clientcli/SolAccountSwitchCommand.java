@@ -49,7 +49,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle organisation account lists.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "switch", aliases = "s", description = "Changes and organization account by provided organization ID.")

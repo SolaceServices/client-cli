@@ -32,7 +32,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle login.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "config", aliases = "c", description = "Config settings.")

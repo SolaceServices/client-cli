@@ -13,7 +13,7 @@ import picocli.CommandLine.ITypeConverter;
 
 /**
  * Class to convert subscription inputs.
- * @author VictorTsonkov
+ * 
  *
  */
 public class SubscriptionConverter implements ITypeConverter<Subscription>

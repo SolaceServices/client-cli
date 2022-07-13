@@ -12,7 +12,7 @@ import com.squareup.okhttp.Response;
 
 /**
  * Simple HTTP interface.
- * @author VictorTsonkov
+ * 
  *
  */
 public class HttpClient

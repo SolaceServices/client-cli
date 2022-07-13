@@ -47,7 +47,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle certificate authority lists.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "list", description = "Lists service certificate authority details.")

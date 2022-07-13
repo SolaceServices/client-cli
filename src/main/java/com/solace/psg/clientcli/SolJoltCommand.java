@@ -31,7 +31,7 @@ import picocli.CommandLine.Command;
 /**
  * Random jolt of joy.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "jolt",description = "Random jolt of joy.")

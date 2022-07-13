@@ -21,7 +21,7 @@ package com.solace.psg.util;
 
 /**
  * Class to hold various String utilities.
- * @author VictorTsonkov
+ * 
  *
  */
 public class StringHelper

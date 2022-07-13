@@ -30,7 +30,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle username operations.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "username", description = "Handles username operations.", subcommands = {

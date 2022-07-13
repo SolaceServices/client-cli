@@ -41,7 +41,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle client profile create.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "create", description = "Creates client profile.")

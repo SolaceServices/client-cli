@@ -48,7 +48,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle queue list.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "list", description = "Lists service queue details.")

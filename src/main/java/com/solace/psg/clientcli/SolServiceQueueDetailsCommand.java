@@ -45,7 +45,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle queue details.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "details", description = "Service queue details.")

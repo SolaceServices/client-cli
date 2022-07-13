@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 /**
  * Class to handle input streams.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 public class StreamGobbler implements Runnable

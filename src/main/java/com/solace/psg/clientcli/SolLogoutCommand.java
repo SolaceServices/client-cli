@@ -32,7 +32,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle logout.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "logout", description = "Log out from a solace cloud account.")

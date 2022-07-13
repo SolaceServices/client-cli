@@ -31,7 +31,7 @@ import picocli.CommandLine.Command;
 /**
  * Command class to handle service lists.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "classes",description = "Displays all service classes available.")

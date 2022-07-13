@@ -21,7 +21,7 @@ package com.solace.psg.util.queuecopy;
 
 /**
  * Class to encapsulate properties of SubSub VPN.
- * @author VictorTsonkov
+ * 
  *
  */
 public class VPN

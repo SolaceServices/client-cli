@@ -40,7 +40,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle certificate authority add.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "add", description = "Adds certificate authority.")

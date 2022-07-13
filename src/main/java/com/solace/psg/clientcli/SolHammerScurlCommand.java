@@ -39,7 +39,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle SEMP v1 curl tasks.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "scurl", description = "Returns an SEMP v1 curl connection string for a service.")

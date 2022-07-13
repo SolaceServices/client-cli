@@ -41,7 +41,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle queue create.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "delete", description = "Deletes a queue.")

@@ -47,7 +47,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle bridge list.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "list", description = "Lists service bridge details.")

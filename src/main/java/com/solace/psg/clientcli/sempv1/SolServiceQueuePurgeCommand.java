@@ -46,7 +46,7 @@ import picocli.CommandLine.Parameters;
 /**
  * Command class to handle service lists.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "purge",description = "Purge service queue.")

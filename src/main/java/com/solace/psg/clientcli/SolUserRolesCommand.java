@@ -42,7 +42,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle roles.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "roles",  aliases = "r",description = "Lists user roles.")

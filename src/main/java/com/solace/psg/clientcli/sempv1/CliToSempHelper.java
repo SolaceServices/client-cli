@@ -16,7 +16,7 @@ import com.solace.psg.sempv1.SempSession;
 
 /**
  * Class to be used for Cli-To-Semp tool. 
- * @author VictorTsonkov
+ * 
  *
  */
 public class CliToSempHelper

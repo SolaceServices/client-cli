@@ -30,7 +30,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle service operations.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "service", aliases = "s", description = "Handles service operations.", subcommands = {

@@ -30,7 +30,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle queue operations.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "queue", description = "Handles queue operations.", subcommands = {

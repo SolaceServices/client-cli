@@ -42,7 +42,7 @@ import picocli.CommandLine.Option;
 /**
  * Command class to handle bridge create.
  * 
- * @author VictorTsonkov
+ * 
  *
  */
 @Command(name = "create", description = "Creates bridge.")
