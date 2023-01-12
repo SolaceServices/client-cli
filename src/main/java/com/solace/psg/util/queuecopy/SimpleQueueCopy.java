@@ -259,6 +259,32 @@ public class SimpleQueueCopy implements Runnable, SessionEventHandler, XMLMessag
 	}
 
 	/**
+	 * Gets processing status as text.
+	 * @return
+	 */
+	public String getStatusText()
+	{
+		String result = "Copying not started.";
+		switch(status)
+		{
+			case STATUS_ERRORED:
+				result = "Error occured during copying.";
+				break;
+			case STATUS_COMPLETED:
+				result = "Copying completed.";
+				break;
+			case STATUS_INITIALIZING:
+				result = "Copying initializing.";
+				break;		
+			case STATUS_PROCESSING:
+				result = "Copying initializing.";
+				break;		
+		}
+
+		return result;
+	}
+	
+	/**
 	 * Gets message number copied.
 	 * @return
 	 */

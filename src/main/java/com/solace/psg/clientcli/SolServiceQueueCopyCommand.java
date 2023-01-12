@@ -105,7 +105,7 @@ public class SolServiceQueueCopyCommand implements Runnable
     @Option(names = {"-dmq"}, description = "Sets DMQ eligible flag to messages. This can be useful when messages are moved back from a DMQ to another queue.", defaultValue = "false", arity = "0..1") 
     private boolean dmq;
 
-	@Option(names = {"-ttl"}, description = "Sets a TTL value for all messages t be processed.")
+	@Option(names = {"-ttl"}, description = "Sets a TTL value for all messages to be processed.")
 	private long ttl;	
 
     /**
@@ -230,11 +230,16 @@ public class SolServiceQueueCopyCommand implements Runnable
 				
 				Thread thread = new Thread(sqc);
 				thread.start();			
+
 				
 				while (sqc.getStatus() != SimpleQueueCopy.STATUS_COMPLETED && sqc.getStatus() != SimpleQueueCopy.STATUS_ERRORED)
 				{
+					if (sqc.getStatus() == SimpleQueueCopy.STATUS_INITIALIZING)
+						System.out.print("Initializing the copy process.");
+
 					Thread.sleep(1000);
-					System.out.print(".");
+					if (sqc.getStatus() == SimpleQueueCopy.STATUS_PROCESSING)
+						System.out.print(".");
 				}
 				
 				System.out.println("");

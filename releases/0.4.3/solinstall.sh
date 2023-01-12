@@ -1,1 +1,0 @@
-alias sol="java -jar /mnt/c/Projects/j2ee/clientcli/ClientCli-<version>.jar"
