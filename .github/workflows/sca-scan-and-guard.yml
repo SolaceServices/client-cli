@@ -3,15 +3,7 @@ on:
   pull_request:
     branches: [master]
   push:
-    branches:
-      - master
-      # TEMPORARY: a push here runs with no PR number, which takes the workflow's
-      # Manual path -- registering the scan in FOSSA under the repo's default branch
-      # with the commit SHA as the revision. The pull_request path instead records
-      # branch "PR" and the branch name as the revision, which Guardian cannot match
-      # (it looks up refs[]=<trunk_branch> and requires a hex SHA). Remove once the
-      # scan has landed.
-      - cra-onboard-sca-scan
+    branches: [master]
   # Allows the scan to be re-run against trunk without waiting for a push, which
   # matters when a merge commit carries [skip ci] and produces no run at all.
   workflow_dispatch:
@@ -19,6 +11,9 @@ on:
 permissions:
   contents: read
   id-token: write
+  # Required by the shared SCA workflow, which declares it. A called workflow
+  # cannot be granted a permission the caller lacks, so removing this fails the
+  # whole run at startup with zero jobs and no annotation.
   packages: read
   actions: read
   statuses: write
@@ -30,47 +25,27 @@ jobs:
     uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@main
     with:
       setup_actions: '["setup-java"]'
-      # Required: the shared workflow forwards this to actions/setup-java and its own
-      # default is empty, which fails with "Input required and not supplied: distribution".
-      java_distribution: temurin
     secrets:
       FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
 
+  # The reusable workflow owns the default-branch check, so a pull request run
+  # scans without writing and a run on trunk writes. squad is prof-services:
+  # this repo is in the Professional Services inventory, and "cto" would route
+  # its findings into the wrong collection and file Jiras in the wrong project.
   update_manifest:
     needs: sca_scan
-    # The manifest records what landed on the default branch, so it must never be
-    # written from a PR run -- the scan still runs, the write does not.
-    # workflow_dispatch is accepted so a [skip ci] merge can be registered after
-    # the fact; the default-branch check still gates the write.
-    if: >-
-      needs.sca_scan.result == 'success'
-      && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-      && github.ref_name == github.event.repository.default_branch
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-      packages: read
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4
-        with:
-          role-to-assume: ${{ secrets.MANIFEST_AWS_ROLE }}
-          aws-region: us-east-1
-
-      - name: Update solace-cloud-manifest
-        uses: SolaceDev/solace-public-workflows/.github/actions/cicd-helper@main
-        with:
-          rc_step: add_item_from_json_to_dynamodb_table
-          ddb_table_name: solace-cloud-manifest
-          ddb_partition_key: squad
-          ddb_sort_key: repository
-          ddb_item_to_be_added: |
-            {
-              "squad": "prof-services",
-              "repository": "${{ github.event.repository.name }}",
-              "dev": {
-                "sha": "${{ github.sha }}",
-                "version": "${{ github.ref_name }}"
-              }
-            }
+    if: needs.sca_scan.result == 'success'
+    uses: SolaceDev/solace-public-workflows/.github/workflows/update-manifest.yaml@main
+    with:
+      table_name: solace-cloud-manifest
+      item: |
+        {
+          "squad": "prof-services",
+          "repository": "${{ github.event.repository.name }}",
+          "dev": {
+            "sha": "${{ github.sha }}",
+            "version": "${{ github.ref_name }}"
+          }
+        }
+    secrets:
+      MANIFEST_AWS_ROLE: ${{ secrets.MANIFEST_AWS_ROLE }}
