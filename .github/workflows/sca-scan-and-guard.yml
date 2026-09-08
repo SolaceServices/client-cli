@@ -1,0 +1,51 @@
+name: SCA Scan
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+  # Allows the scan to be re-run against trunk without waiting for a push, which
+  # matters when a merge commit carries [skip ci] and produces no run at all.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  # Required by the shared SCA workflow, which declares it. A called workflow
+  # cannot be granted a permission the caller lacks, so removing this fails the
+  # whole run at startup with zero jobs and no annotation.
+  packages: read
+  actions: read
+  statuses: write
+  checks: write
+  pull-requests: write
+
+jobs:
+  sca_scan:
+    uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@main
+    with:
+      setup_actions: '["setup-java"]'
+    secrets:
+      FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+
+  # The reusable workflow owns the default-branch check, so a pull request run
+  # scans without writing and a run on trunk writes. squad is prof-services:
+  # this repo is in the Professional Services inventory, and "cto" would route
+  # its findings into the wrong collection and file Jiras in the wrong project.
+  update_manifest:
+    needs: sca_scan
+    if: needs.sca_scan.result == 'success'
+    uses: SolaceDev/solace-public-workflows/.github/workflows/update-manifest.yaml@main
+    with:
+      table_name: solace-cloud-manifest
+      item: |
+        {
+          "squad": "prof-services",
+          "repository": "${{ github.event.repository.name }}",
+          "dev": {
+            "sha": "${{ github.sha }}",
+            "version": "${{ github.ref_name }}"
+          }
+        }
+    secrets:
+      MANIFEST_AWS_ROLE: ${{ secrets.MANIFEST_AWS_ROLE }}

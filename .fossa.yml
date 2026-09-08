@@ -1,0 +1,25 @@
+version: 3
+
+project:
+  locator: solaceservices_client-cli
+  id: solaceservices_client-cli
+  name: client-cli
+  teams: []
+  labels:
+    - java
+
+vendoredDependencies:
+  forceRescans: false
+  scanMethod: CLILicenseScan
+  licenseScanPathFilters:
+    exclude:
+      - "./.git"
+      - "./.github"
+
+paths:
+  exclude:
+    - ./.git
+    - ./.github
+
+telemetry:
+  scope: full
