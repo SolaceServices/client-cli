@@ -3,7 +3,15 @@ on:
   pull_request:
     branches: [master]
   push:
-    branches: [master]
+    branches:
+      - master
+      # TEMPORARY: a push here runs with no PR number, which takes the workflow's
+      # Manual path -- registering the scan in FOSSA under the repo's default branch
+      # with the commit SHA as the revision. The pull_request path instead records
+      # branch "PR" and the branch name as the revision, which Guardian cannot match
+      # (it looks up refs[]=<trunk_branch> and requires a hex SHA). Remove once the
+      # scan has landed.
+      - cra-onboard-sca-scan
   # Allows the scan to be re-run against trunk without waiting for a push, which
   # matters when a merge commit carries [skip ci] and produces no run at all.
   workflow_dispatch:
